@@ -41,12 +41,12 @@ The operations are:
 User interface
 The application provides the user with web-based interface. The interface consists of the following views:
 - Homepage: it is the main page presented by the application when a user accesses it through her preferredbrowser.
-  The homepage presents an overview over the application by listing, linking and describing theother available views effectively;
+- The homepage presents an overview over the application by listing, linking and describing theother available views effectively;
 - Active operations: a list of active operations is presented. If a user selects an active operation, then such anoperation is executed over the dataset;
 - Operation: onse a user selects an operation from the previous view and such an operation is executed,then the result of the execution is presented in a different view;
 - Project document: it contains the description of the project in terms of software analysis, design andimplementation.
-  CRC cards and UML class diagrams must be used for software analysis and desing,respecitvely. Diagrams are not self-explainable. Hence, they must be extensively
-  described in the text.
+- CRC cards and UML class diagrams must be used for software analysis and desing,respecitvely. Diagrams are not self-explainable.
+Hence, they must be extensively described in the text.
 
 Softare modularisation
 It is preferrable that the application is implemented in different python files (aka modules) by aggregating differentclasses or function coherently.

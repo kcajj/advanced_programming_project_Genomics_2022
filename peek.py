@@ -1,30 +1,3 @@
-
-#import pandas as pd
-
-""" traffic_station_df = pd.read_csv('input\Homo_sapiens.GRCh38.85.gff3.gz', compression='gzip',
-                                 header=1, sep='\t', quotechar='"')
-
-#traffic_station_df['Address'] = 'address'
-
-#traffic_station_df.append(traffic_station_df)
-print(traffic_station_df) """
-
-#pd.read_csv("input\Homo_sapiens.GRCh38.85.gff3.gz",compression='gzip')
-#df = pd.read_csv('input\Homo_sapiens.GRCh38.85.gff3.gz', compression='gzip', header=0, sep=' ', quotechar='"', error_bad_lines=False)
-
-""" import gffpandas.gffpandas as gffpd
-
-annotation = gffpd.read_gff3('input\Homo_sapiens.GRCh38.85.gff3')
-print(annotation.header)
-print(annotation.df)
- """
-
-""" import fromgit
-filepath = "input\Homo_sapiens.GRCh38.85.gff3"
-just_tabular = fromgit.parse_gff3(filepath, verbose = True, parse_attributes = False)
-
-just_tabular.head() """
-
 import numpy as np
 import pandas as pd
 
@@ -37,7 +10,7 @@ df = pd.read_csv(filepath,
                 quotechar='"',
                 #on_bad_lines='skip', #this is the main problem
                 skiprows=200,
-                #nrows=1000,
+                nrows=1000, #only 100 lines, to test the script on a limited dataset
                 #lineterminator='\r',
                 engine='python'
                 )
@@ -45,7 +18,6 @@ df = pd.read_csv(filepath,
 print(df.head())
 print("Type-", type(df))
 print(df.shape)
-
 
 print(df.describe()) #useless
 
