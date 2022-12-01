@@ -16,8 +16,7 @@ to the GENCODE gene set.
 GFF3 flat file format dumping provides all the sequence features known by
 Ensembl, including protein coding genes, ncRNA, repeat features etc.
 Annotation is based on alignments of biological evidence (eg. proteins,
-cDNAs, RNA-seq) to a genome assembly. Annotation is based on alignments of
-biological evidence (eg. proteins, cDNAs, RNA-seq) to a genome assembly.
+cDNAs, RNA-seq) to a genome assembly.
 The annotation dumped here is transcribed and translated from the
 genome assembly and is not the original input sequence data that
 we used for alignment. Therefore, the sequences provided by Ensembl
