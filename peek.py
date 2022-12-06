@@ -10,7 +10,7 @@ df = pd.read_csv(filepath,
                 compression='gzip',
                 header=None, #there is no header in our input data, we have to make it manually (next line)
                 names = header, #to give a name to each column
-                #nrows = 100, #only 100 lines, to test the script on a limited dataset
+                nrows = 100, #only 100 lines, to test the script on a limited dataset
                 comment = '#' #lines that start with hashtag are considered comments; so easy in this way
                 )
 
@@ -19,6 +19,11 @@ print("Type ", type(df))
 print(df.shape)
 
 print(df.describe()) #useless
+for i in header:
+    print()
+    print()
+    print(i)
+    print(df[i].describe())
 
 #to figure out the type of each column
 #we retrive the set of all the possible elements of each column (for some of them they will be many)
