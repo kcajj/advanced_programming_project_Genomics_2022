@@ -1,6 +1,3 @@
-# Advanced programming project Genomics 2022
-final project of the advanced programming classes, course of Genomics bachelor degree - UniBo.
-
 ## Project specification
 From an high-level point of view the software should address some questions about the human genome.
 
