@@ -1,4 +1,4 @@
-## Project specification
+# Project specification
 From an high-level point of view the software should address some questions about the human genome.
 
 ### Input
