@@ -7,8 +7,7 @@ The file is about 37 MB, which is very small if compared to the informationconte
 That’s because the GFF3 file only contains theannotation of the sequences, while the sequence data is usually stored in another file format called FASTA.
 
 ### Data access
-Taking a look at the head of the GFF file, you will see many metadata/pragmas/directives lines starting with "##" or "#!". According to the "input-file-README",
-"##" means the metadata is stable, while "#!" means it’s experimental. Later on youwill also see "###", which is another directive with yet more subtle meaning based on the specification.
+Taking a look at the head of the GFF file, you will see many metadata/pragmas/directives lines starting with "##" or "#!". According to the [input_file_README](input_file_README.txt), "##" means the metadata is stable, while "#!" means it’s experimental. Later on youwill also see "###", which is another directive with yet more subtle meaning based on the specification.
 Humanreadable comments are supposed to be after a single #.
 For simplicity, we will treat all lines starting with # as comments, and simply ignore them during our analysis.
 The data must be read by a dataset reader that relies on Pandas.
