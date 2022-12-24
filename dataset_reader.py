@@ -1,8 +1,9 @@
 from abc import ABC,abstractmethod
 import numpy as np
 import pandas as pd
+from dataset import GFF3Dataset
 
-class superclassofdatasetreaders(ABC):
+class DatasetReader(ABC):
     '''
     general abstract interface that defines the procedure that a datasetreader is provided with
     '''
@@ -10,25 +11,26 @@ class superclassofdatasetreaders(ABC):
     def read(self, filepath):
         pass
 
-class Dataset():
-    '''
-    output object of GFF3reader
-    it is a wrapper around a pandas dataframe
-    '''
-    def __init__(self, df: pd.DataFrame) -> None:
-        self.df = df
-
-class gff3reader(superclassofdatasetreaders):
+class GFF3DatasetReader(DatasetReader):
     '''
     specific for GFF3 files, it should be compliant with a general abstract interface
     returns a dataset object as output that is a wrapper around a Pandas DataFrame
     '''
-    def read(self, filepath) -> Dataset:
-        self.filepath = filepath
-        df = pd.read_csv(filepath) #pd.DataFrame
-        return Dataset(df)
+    def read(self, filepath) -> GFF3Dataset:
+        if not filepath.endswith('.gff3.gz'):
+            raise ValueError('Invalid file type. Expected .gff3.gz file.')
+        df = pd.read_csv(filepath,
+                        sep='\t',
+                        compression='gzip',
+                        header=None, #there is no header in our input data, we have to make it manually (next line)
+                        names = ['Seqid','Source','Type','Start','End','Score','Strand','Phase','Attribute'], #to give a name to each column
+                        #nrows = 100, #only 100 lines, to test the script on a limited dataset
+                        comment = '#' #lines that start with hashtag are considered comments; so easy in this way
+                        )
+        return GFF3Dataset(df)
 
 filepath='Homo_sapiens.GRCh38.85.gff3.gz'
-reader = gff3reader()
+reader = GFF3DatasetReader()
 ds = reader.read(filepath)
 print(ds.df.head())
+print(ds.df.shape)

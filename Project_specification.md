@@ -12,16 +12,16 @@ According to the [input_file_README](input_file_README.txt), "##" means the meta
 Humanreadable comments are supposed to be after a single "#".
 For simplicity, we will treat all lines starting with "#" as comments, and simply ignore them during our analysis.  
 The data must be read by a dataset reader that relies on Pandas.
-The dataset reader is specific to the GFF3 format, however it should be compliant with a general abstract interface that defines the procedure that a datasetreader is provided with.
+The dataset reader is specific to the GFF3 format, however it should be compliant with a general abstract interface that defines the procedure that a dataset reader is provided with.
 When a dataset reader reads the data it returns a dataset object as output that is a wrapper around a Pandas DataFrame.
 
 ### Dataset operations
 A dataset is the view over the data. As for the reader the software must distinguish between a generic tabular data and GFF3 data, which is a peculiar case.
-By means of a dataset object a number of insights over data can beobtained. Each insight is called an operation.
+By means of a dataset object a number of insights over data can be obtained; each insight is called an operation.
 An operation is executed over a dataset object and the result of an execution is another dataset object.
 There are multiple operation types that can be executed. A dataset object accesses and executes those operations regardless to the specific operation type.
 The operations can be executed only by means of a dataset object and only if they are marked as active.
-For an operation being active means it isloaded within a registry of active operations that the dataset object can query to check whether or not a certainoperation can be executed.
+For an operation being active means it is loaded within a registry of active operations that the dataset object can query to check whether or not a certainoperation can be executed.
 Hint: Define a decorator for managing the activation of operations.
 The operations are:
 - getting the some basic information about the dataset. The basic information are the name and data type ofeach column;
@@ -30,17 +30,17 @@ The operations are:
 - counting the number of features provided by the same source;
 - counting the number of entries for each type of operation;
 - deriving a new dataset containing only the information about entire chromosomes. Entries with entirechromosomes comes from source GRCh38;
-- calculating the fraction of unassembled sequences from source GRCh38. Hint: unassembled sequences areof type supercontig while the others are of chromosome;
+- calculating the fraction of unassembled sequences from source GRCh38. Hint: unassembled sequences are of type supercontig while the others are of type chromosome;
 - obtaining a new dataset containing only entries from source ensembl, havana and ensembl_havana;
-- counting the number of entries for each type of operation for the dataset containing containing onlyentries from source ensembl, havana and ensembl_havana;
+- counting the number of entries for each type of operation for the dataset containing only entries from source ensembl, havana and ensembl_havana;
 - returning the gene names from the dataset containing containing only entries from source ensembl, havana and ensembl_havana.
 
 ### User interface
 The application provides the user with web-based interface. The interface consists of the following views:
-- Homepage: it is the main page presented by the application when a user accesses it through her preferredbrowser.
+- Homepage: it is the main page presented by the application when user access it through their preferred browser.
 The homepage presents an overview over the application by listing, linking and describing theother available views effectively;
-- Active operations: a list of active operations is presented. If a user selects an active operation, then such anoperation is executed over the dataset;
-- Operation: onse a user selects an operation from the previous view and such an operation is executed,then the result of the execution is presented in a different view;
+- Active operations: a list of active operations is presented. If a user selects an active operation, then such operation is executed over the dataset;
+- Operation: only if a user selects an operation from the previous view and such an operation is executed, then the result of the execution is presented in a different view;
 - Project document: it contains the description of the project in terms of software analysis, design and implementation.
 - CRC cards and UML class diagrams must be used for software analysis and desing, respecitvely.
 Diagrams are not self-explainable; hence, they must be extensively described in the text.
