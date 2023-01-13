@@ -21,10 +21,10 @@ By means of a dataset object a number of insights over data can be obtained; eac
 An operation is executed over a dataset object and the result of an execution is another dataset object.
 There are multiple operation types that can be executed. A dataset object accesses and executes those operations regardless to the specific operation type.
 The operations can be executed only by means of a dataset object and only if they are marked as active.
-For an operation being active means it is loaded within a registry of active operations that the dataset object can query to check whether or not a certainoperation can be executed.
-Hint: Define a decorator for managing the activation of operations.
+For an operation being active means it is loaded within a registry of active operations that the dataset object can query to check whether or not a certain operation can be executed.
+Hint: Define a decorator for managing the activation of operations.  
 The operations are:
-- getting the some basic information about the dataset. The basic information are the name and data type ofeach column;
+- getting some basic information about the dataset. The basic information are the name and data type ofeach column;
 - obtaining the list of unique sequence IDs available in the dataset;
 - obtaining the list of unique type of operations available in the dataset;
 - counting the number of features provided by the same source;
@@ -37,8 +37,7 @@ The operations are:
 
 ### User interface
 The application provides the user with web-based interface. The interface consists of the following views:
-- Homepage: it is the main page presented by the application when user access it through their preferred browser.
-The homepage presents an overview over the application by listing, linking and describing theother available views effectively;
+- Homepage: it is the main page presented by the application when user access it through their preferred browser. The homepage presents an overview over the application by listing, linking and describing the other available views effectively;
 - Active operations: a list of active operations is presented. If a user selects an active operation, then such operation is executed over the dataset;
 - Operation: only if a user selects an operation from the previous view and such an operation is executed, then the result of the execution is presented in a different view;
 - Project document: it contains the description of the project in terms of software analysis, design and implementation.
