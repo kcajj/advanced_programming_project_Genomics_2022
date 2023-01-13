@@ -26,6 +26,7 @@ class GFF3DatasetReader(DatasetReader):
                         names = ['Seqid','Source','Type','Start','End','Score','Strand','Phase','Attribute'], #to give a name to each column
                         #nrows = 100, #only 100 lines, to test the script on a limited dataset
                         comment = '#' #lines that start with hashtag are considered comments; so easy in this way
+                        #na_values='.'
                         )
         return GFF3Dataset(df)
 
