@@ -25,3 +25,7 @@ for i in sources:
 chromosomes = human_genome.get_chromosomes()
 print(chromosomes.df.head())
 print(chromosomes.df.shape)
+
+subset = human_genome.some_entries()
+print(subset.df.head())
+print(subset.df.shape)

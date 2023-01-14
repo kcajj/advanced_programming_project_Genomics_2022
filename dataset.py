@@ -39,7 +39,12 @@ class GFF3Dataset(Dataset):
         return NormalDataset(pd.DataFrame({'columns':result.keys(), 'data_type':result.values()}))
 
     def unique_seq_IDs(self) -> NormalDataset:
-        #960,851 ids, 1,640,998 without an id
+        #probably there is a smarter way
+        '''
+        obtaining the list of unique sequence IDs available in the dataset
+        '''
+        # 960,851 ids of which 350,631 unique
+        # 1,640,998 without an id
         result = {}
         for row in self.df.Attribute:
             attributes = get_attributes(row)
@@ -56,21 +61,55 @@ class GFF3Dataset(Dataset):
         return NormalDataset(pd.DataFrame({'ID':result.keys(),'type':result.values()}))
     
     def type_of_operations(self) -> NormalDataset:
+        '''
+        obtaining the list of unique type of operations available in the dataset
+        '''
         pass
 
     def features_with_same_source(self, source) -> NormalDataset:
-        counter=0
-        for row in self.df.Source:
-            if row == source:
-                counter+=1
-        return NormalDataset(pd.DataFrame({'source':source,'features':counter},index=[0]))
+        '''
+        counting the number of features provided by the same source
+        '''
+        n = len(self.df[self.df.Source == source].index) #faster than other methods s.a. len(df) and df.shape[0]
+        return NormalDataset(pd.DataFrame({'source':source,'features':n},index=[0]))
 
     def number_of_entries_for_each_type_of_operation(self):
+        '''
+        counting the number of entries for each type of operation
+        '''
         pass
 
     def get_chromosomes(self) -> 'GFF3Dataset':
-        return GFF3Dataset(self.df[self.df['Source']=='GRCh38'])
+        '''
+        deriving a new dataset containing only the information about entire chromosomes. Entries with entirechromosomes comes from source GRCh38
+        '''
+        return GFF3Dataset(self.df[self.df.Source == 'GRCh38'])
 
+    def fraction_of_unassembled_seq(self):
+        '''
+        calculating the fraction of unassembled sequences from source GRCh38. Hint: unassembled sequences are of type supercontig while the others are of type chromosome
+        '''
+        #how to arrange the output?
+        pass
+
+    def some_entries(self) -> 'GFF3Dataset':
+        '''
+        obtaining a new dataset containing only entries from source ensembl, havana and ensembl_havana
+        '''
+        return GFF3Dataset(self.df[(self.df.Source == 'ensembl') | (self.df.Source == 'havana') | (self.df.Source == 'ensembl_havana')])
+
+    def boh(self):
+        '''
+        counting the number of entries for each type of operation for the dataset containing only entries from source ensembl, havana and ensembl_havana
+        '''
+        pass
+
+    def get_gene_names(self):
+        '''
+        returning the gene names from the dataset containing containing only entries from source ensembl, havana and ensembl_havana
+        '''
+        pass
+    
 def get_attributes(row):
     '''
     allows to get a dictionary containing all the attributes of a row
