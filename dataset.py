@@ -68,8 +68,8 @@ class GFF3Dataset(Dataset):
     def number_of_entries_for_each_type_of_operation(self):
         pass
 
-    def get_chromosome(self, chromosome_number) -> GFF3Dataset:
-        pass
+    def get_chromosomes(self) -> 'GFF3Dataset':
+        return GFF3Dataset(self.df[self.df['Source']=='GRCh38'])
 
 def get_attributes(row):
     '''

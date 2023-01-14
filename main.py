@@ -12,7 +12,7 @@ general_info = human_genome.get_information()
 print(general_info.df.head(9))
 
 sequence_IDs = human_genome.unique_seq_IDs()
-print(sequence_IDs.df.head(27))
+print(sequence_IDs.df.head())
 print(sequence_IDs.df.shape)
 
 sources=['GRCh38', 'havana', 'mirbase', 'ensembl_havana', 'ensembl', 'insdc']
@@ -21,3 +21,7 @@ for i in sources:
     print(same_source.df.head())
     print()
     print()
+
+chromosomes = human_genome.get_chromosomes()
+print(chromosomes.df.head())
+print(chromosomes.df.shape)
