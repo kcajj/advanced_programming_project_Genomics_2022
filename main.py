@@ -14,3 +14,10 @@ print(general_info.df.head(9))
 sequence_IDs = human_genome.unique_seq_IDs()
 print(sequence_IDs.df.head(27))
 print(sequence_IDs.df.shape)
+
+sources=['GRCh38', 'havana', 'mirbase', 'ensembl_havana', 'ensembl', 'insdc']
+for i in sources:
+    same_source = human_genome.features_with_same_source(i)
+    print(same_source.df.head())
+    print()
+    print()

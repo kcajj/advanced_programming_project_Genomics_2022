@@ -28,7 +28,7 @@ class GFF3Dataset(Dataset):
     is called an operation.
     '''
     #operations down here
-    def get_information(self):
+    def get_information(self) -> NormalDataset:
         '''
         getting some basic information about the dataset. The basic information are the name and data type ofeach column
         '''
@@ -38,16 +38,39 @@ class GFF3Dataset(Dataset):
 
         return NormalDataset(pd.DataFrame({'columns':result.keys(), 'data_type':result.values()}))
 
-    def unique_seq_IDs(self):
-        result = []
-        for i in self.df.Attribute:
-            attributes = get_attributes(i)
+    def unique_seq_IDs(self) -> NormalDataset:
+        #960,851 ids, 1,640,998 without an id
+        result = {}
+        for row in self.df.Attribute:
+            attributes = get_attributes(row)
             try:
-                result.append(attributes['ID'])
+                id = attributes['ID'].split(':')
             except:
-                pass
-        return NormalDataset(pd.Series(result))
+                continue
+
+            if id[1] not in result.keys():
+                    result[id[1]] = id[0]
+            else:
+                result[id[1]] += ','+id[0]
+
+        return NormalDataset(pd.DataFrame({'ID':result.keys(),'type':result.values()}))
     
+    def type_of_operations(self) -> NormalDataset:
+        pass
+
+    def features_with_same_source(self, source) -> NormalDataset:
+        counter=0
+        for row in self.df.Source:
+            if row == source:
+                counter+=1
+        return NormalDataset(pd.DataFrame({'source':source,'features':counter},index=[0]))
+
+    def number_of_entries_for_each_type_of_operation(self):
+        pass
+
+    def get_chromosome(self, chromosome_number) -> GFF3Dataset:
+        pass
+
 def get_attributes(row):
     '''
     allows to get a dictionary containing all the attributes of a row
@@ -57,7 +80,5 @@ def get_attributes(row):
     attributes = {}
     for attribute in row:
         attribute = attribute.split('=')
-        if len(attribute)>2:
-            raise Exception('wrong attribute')
         attributes[attribute[0]] = attribute [1]
     return attributes

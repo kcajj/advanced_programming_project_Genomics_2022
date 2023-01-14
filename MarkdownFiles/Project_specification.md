@@ -29,7 +29,7 @@ The operations are:
 - obtaining the list of unique type of operations available in the dataset;
 - counting the number of features provided by the same source;
 - counting the number of entries for each type of operation;
-- deriving a new dataset containing only the information about entire chromosomes. Entries with entirechromosomes comes from source GRCh38;
+- deriving a new dataset containing only the information about entire chromosomes. Entries with entire chromosomes comes from source GRCh38;
 - calculating the fraction of unassembled sequences from source GRCh38. Hint: unassembled sequences are of type supercontig while the others are of type chromosome;
 - obtaining a new dataset containing only entries from source ensembl, havana and ensembl_havana;
 - counting the number of entries for each type of operation for the dataset containing only entries from source ensembl, havana and ensembl_havana;
