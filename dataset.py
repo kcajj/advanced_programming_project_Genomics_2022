@@ -108,8 +108,10 @@ class GFF3Dataset(Dataset):
         '''
         returning the gene names from the dataset containing containing only entries from source ensembl, havana and ensembl_havana
         '''
-        IDs = self.ensembl_havana().unique_seq_IDs()
-        return NormalDataset(IDs.df[IDs.df.type=='gene'])
+        ensembl_havana = self.ensembl_havana()
+        genes = 
+        names = 
+        return NormalDataset(pd.DataFrame({'Name':names}))
     
 def get_attributes(row):
     '''
