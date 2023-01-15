@@ -92,7 +92,7 @@ class GFF3Dataset(Dataset):
         #how to arrange the output?
         pass
 
-    def some_entries(self) -> 'GFF3Dataset':
+    def ensembl_havana(self) -> 'GFF3Dataset':
         '''
         obtaining a new dataset containing only entries from source ensembl, havana and ensembl_havana
         '''
@@ -104,11 +104,12 @@ class GFF3Dataset(Dataset):
         '''
         pass
 
-    def get_gene_names(self):
+    def get_gene_names(self) -> NormalDataset:
         '''
         returning the gene names from the dataset containing containing only entries from source ensembl, havana and ensembl_havana
         '''
-        pass
+        IDs = self.ensembl_havana().unique_seq_IDs()
+        return NormalDataset(IDs.df[IDs.df.type=='gene'])
     
 def get_attributes(row):
     '''
