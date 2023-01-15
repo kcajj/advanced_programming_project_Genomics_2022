@@ -90,8 +90,9 @@ class GFF3Dataset(Dataset):
         '''
         calculating the fraction of unassembled sequences from source GRCh38. Hint: unassembled sequences are of type supercontig while the others are of type chromosome
         '''
-        #how to arrange the output?
-        pass
+        chromosomes = self.get_chromosomes()
+        fraction = len(chromosomes.df[chromosomes.df.Type == 'supercontig'].index) / len(chromosomes.df.index)
+        return NormalDataset(pd.DataFrame({'fraction of unassembled sequences': fraction},index=[0]))
 
     def ensembl_havana(self) -> 'GFF3Dataset':
         '''

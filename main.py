@@ -28,10 +28,14 @@ for i in sources:
     print()
 
 chromosomes = human_genome.get_chromosomes()
-print(chromosomes.df.head())
+print(chromosomes.df.head(100))
 print(chromosomes.df.shape)
 print()
 print()
+
+fraction = human_genome.fraction_of_unassembled_seq()
+print(fraction.df.head())
+print(fraction.df.shape)
 
 subset = human_genome.ensembl_havana()
 print(subset.df.head())
@@ -42,3 +46,4 @@ print()
 gene_names = human_genome.get_gene_names()
 print(gene_names.df.head())
 print(gene_names.df.shape)
+
