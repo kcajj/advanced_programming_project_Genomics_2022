@@ -51,7 +51,8 @@ class GFF3Dataset(Dataset):
             try:
                 id = attributes['ID'].split(':')
             except:
-                continue
+                if KeyError:
+                    continue
 
             if id[1] not in result.keys():
                     result[id[1]] = id[0]
@@ -108,9 +109,15 @@ class GFF3Dataset(Dataset):
         '''
         returning the gene names from the dataset containing containing only entries from source ensembl, havana and ensembl_havana
         '''
-        ensembl_havana = self.ensembl_havana()
-        genes = 
-        names = 
+        names = []
+        for row in self.ensembl_havana().df.Attribute:
+            attributes = get_attributes(row)
+            try:
+                if 'gene' in attributes['ID']:
+                    names.append(attributes['Name'])
+            except:
+                if KeyError:
+                    continue
         return NormalDataset(pd.DataFrame({'Name':names}))
     
 def get_attributes(row):
