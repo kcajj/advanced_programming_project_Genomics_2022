@@ -9,12 +9,13 @@ class Dataset():
     def __init__(self, df: pd.DataFrame) -> None:
         self.__df = df
         self.is_gff3 = False
-        __registry_of_active_operations = {}
         if self.__df.columns.format() == ['Seqid','Source','Type','Start','End','Score','Strand','Phase','Attribute']:
             self.is_gff3=True
-            __registry_of_active_operations = {}
         #if a the dataset is gff3 a lot of operations will be active in the register, otherwise the class is just a wrapper and the operations are not active
         #still don't know how to implement this
+        active_operations = ['get_information','unique_seq_IDs','type_of_operations','features_with_same_source',
+                            'entries_for_each_type_of_operation','get_chromosomes','fraction_of_unassembled_seq',
+                            'ensembl_havana','entries_for_each_type_of_operation_ensemblhavana','get_gene_names']
 
     def get_df(self) -> pd.DataFrame:#from the other modules, this has to be the only way to access the pandas dataframe that is inside the dataset class
         return self.__df
@@ -41,6 +42,9 @@ class Dataset():
         '''
         # 960,851 ids of which 350,631 unique
         # 1,640,998 without an id
+
+        # if it refers to ids of column Attribute
+        '''
         result = {}
         for row in self.__df.Attribute:
             attributes = get_attributes(row)
@@ -56,7 +60,11 @@ class Dataset():
                 result[id[1]] += ','+id[0]
 
         return Dataset(pd.DataFrame({'ID':result.keys(),'type':result.values()}))
-    
+        '''
+
+        #if it refers to column seq id
+        return Dataset(pd.DataFrame({'unique_IDs':self.__df.Seqid.unique()}))
+
     def type_of_operations(self) -> 'Dataset':
         '''
         obtaining the list of unique type of operations available in the dataset
@@ -83,7 +91,7 @@ class Dataset():
         n = len(self.__df[self.__df.Source == source].index) #faster than other methods s.a. len(df) and df.shape[0]
         return Dataset(pd.DataFrame({'source':source,'features':n},index=[0]))
 
-    def number_of_entries_for_each_type_of_operation(self):
+    def entries_for_each_type_of_operation(self):
         '''
         counting the number of entries for each type of operation
         '''
@@ -109,7 +117,7 @@ class Dataset():
         '''
         return Dataset(self.__df[(self.__df.Source == 'ensembl') | (self.__df.Source == 'havana') | (self.__df.Source == 'ensembl_havana')])
 
-    def boh(self):
+    def entries_for_each_type_of_operation_ensemblhavana(self):
         '''
         counting the number of entries for each type of operation for the dataset containing only entries from source ensembl, havana and ensembl_havana
         '''
@@ -129,7 +137,6 @@ class Dataset():
                 if KeyError:
                     continue
         return Dataset(pd.DataFrame({'Name':names}))
-    
 
 
 
@@ -148,5 +155,9 @@ def get_attributes(row):
     return attributes
 
 
-def decorator():
-    pass
+def is_active(operation):
+    def check(**kwargs):
+        if operation in active_operations:
+            return operation()
+        else: 
+    return check
