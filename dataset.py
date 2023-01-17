@@ -13,17 +13,46 @@ class Dataset():
             self.is_gff3=True
         #if a the dataset is gff3 a lot of operations will be active in the register, otherwise the class is just a wrapper and the operations are not active
         #still don't know how to implement this
-        active_operations = ['get_information','unique_seq_IDs','type_of_operations','features_with_same_source',
-                            'entries_for_each_type_of_operation','get_chromosomes','fraction_of_unassembled_seq',
-                            'ensembl_havana','entries_for_each_type_of_operation_ensemblhavana','get_gene_names']
-
+        self.__active_operations = {'get_information': self.get_information,
+                                    'unique_seq_IDs': self.unique_seq_IDs,
+                                    'type_of_operations': self.type_of_operations,
+                                    'features_with_same_source': self.features_with_same_source,
+                                    'entries_for_each_type_of_operation': self.entries_for_each_type_of_operation,
+                                    'get_chromosomes': self.get_chromosomes,
+                                    'fraction_of_unassembled_seq': self.fraction_of_unassembled_seq,
+                                    'ensembl_havana': self.ensembl_havana,
+                                    'entries_for_each_type_of_operation_ensemblhavana': self.entries_for_each_type_of_operation_ensemblhavana,
+                                    'get_gene_names': self.get_gene_names}
+        '''
+        for operation in self.__active_operations.values():
+            try:
+                #take the output of each operation
+                output = operation()
+                #if the output is empty it means that the operations is useless, we have to deactivate it
+            except:
+                #if the execution of the function returns an error it means that the dataset on which the function
+                #has been called is not suitable for the function. the operation has to be deactivated.
+                raise Exception('the operation has to be deactivated')
+        '''
     def get_df(self) -> pd.DataFrame:#from the other modules, this has to be the only way to access the pandas dataframe that is inside the dataset class
         return self.__df
     '''
     By means of a dataset object a number of insights over data can be obtained; each insight
     is called an operation.
     '''
+
+    def is_active(operation):
+        def check(self):
+            if operation.__name__ in self.__active_operations.keys():
+                print('here')
+                return operation(self)
+            else:
+                raise Exception('the operation is not active')
+        return check
+
+
     #operations down here
+    @is_active
     def get_information(self) -> 'Dataset':
         '''
         getting some basic information about the dataset. The basic information are the name and data type ofeach column
@@ -35,6 +64,7 @@ class Dataset():
 
         return Dataset(pd.DataFrame({'columns':result.keys(), 'data_type':result.values()}))
 
+    @is_active
     def unique_seq_IDs(self) -> 'Dataset':
         #probably there is a smarter way, also i don't know to which IDs is it referring
         '''
@@ -65,6 +95,7 @@ class Dataset():
         #if it refers to column seq id
         return Dataset(pd.DataFrame({'unique_IDs':self.__df.Seqid.unique()}))
 
+    @is_active
     def type_of_operations(self) -> 'Dataset':
         '''
         obtaining the list of unique type of operations available in the dataset
@@ -84,6 +115,7 @@ class Dataset():
             #maybe it is better to stick with the first classfication.
         pass
 
+    @is_active
     def features_with_same_source(self, source: str) -> 'Dataset':
         '''
         counting the number of features provided by the same source
@@ -91,18 +123,21 @@ class Dataset():
         n = len(self.__df[self.__df.Source == source].index) #faster than other methods s.a. len(df) and df.shape[0]
         return Dataset(pd.DataFrame({'source':source,'features':n},index=[0]))
 
+    @is_active
     def entries_for_each_type_of_operation(self):
         '''
         counting the number of entries for each type of operation
         '''
         pass
 
+    @is_active
     def get_chromosomes(self) -> 'Dataset':
         '''
         deriving a new dataset containing only the information about entire chromosomes. Entries with entirechromosomes comes from source GRCh38
         '''
         return Dataset(self.__df[self.__df.Source == 'GRCh38'])
 
+    @is_active
     def fraction_of_unassembled_seq(self) -> 'Dataset':
         '''
         calculating the fraction of unassembled sequences from source GRCh38. Hint: unassembled sequences are of type supercontig while the others are of type chromosome
@@ -111,18 +146,21 @@ class Dataset():
         fraction = len(chromosomes[chromosomes.Type == 'supercontig'].index) / len(chromosomes.index)
         return Dataset(pd.DataFrame({'fraction of unassembled sequences': fraction},index=[0]))
 
+    @is_active
     def ensembl_havana(self) -> 'Dataset':
         '''
         obtaining a new dataset containing only entries from source ensembl, havana and ensembl_havana
         '''
         return Dataset(self.__df[(self.__df.Source == 'ensembl') | (self.__df.Source == 'havana') | (self.__df.Source == 'ensembl_havana')])
 
+    @is_active
     def entries_for_each_type_of_operation_ensemblhavana(self):
         '''
         counting the number of entries for each type of operation for the dataset containing only entries from source ensembl, havana and ensembl_havana
         '''
         pass
 
+    @is_active
     def get_gene_names(self) -> 'Dataset':
         '''
         returning the gene names from the dataset containing containing only entries from source ensembl, havana and ensembl_havana
@@ -155,9 +193,7 @@ def get_attributes(row):
     return attributes
 
 
-def is_active(operation):
-    def check(**kwargs):
-        if operation in active_operations:
-            return operation()
-        else: 
-    return check
+
+dataset = Dataset(pd.DataFrame({'first_col':[1,2,3],'second_col':[4,5,6]}))
+info=dataset.get_information()
+print(info.get_df().head())
