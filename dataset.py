@@ -56,33 +56,9 @@ class Dataset():
 
     @activate
     def unique_seq_IDs(self) -> 'Dataset':
-        #probably there is a smarter way, also i don't know to which IDs is it referring
         '''
         obtaining the list of unique sequence IDs available in the dataset
         '''
-        # 960,851 ids of which 350,631 unique
-        # 1,640,998 without an id
-
-        # if it refers to ids of column Attribute
-        '''
-        result = {}
-        for row in self.__df.Attribute:
-            attributes = get_attributes(row)
-            try:
-                id = attributes['ID'].split(':')
-            except:
-                if KeyError:
-                    continue
-
-            if id[1] not in result.keys():
-                    result[id[1]] = id[0]
-            else:
-                result[id[1]] += ','+id[0]
-
-        return Dataset(pd.DataFrame({'ID':result.keys(),'type':result.values()}))
-        '''
-
-        #if it refers to column seq id
         return Dataset(pd.DataFrame({'unique_IDs':self.__df.Seqid.unique()}))
 
     @activate
