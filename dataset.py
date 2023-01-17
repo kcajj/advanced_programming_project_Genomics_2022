@@ -6,6 +6,7 @@ class Dataset():
     A dataset is the view over the data. As for the reader the software must distinguish
     between a generic tabular data and GFF3 data, which is a peculiar case.
     '''
+
     def __init__(self, df: pd.DataFrame) -> None:
         self.__df = df
         self.is_gff3 = False
@@ -14,10 +15,19 @@ class Dataset():
         #if a the dataset is gff3 a lot of operations will be active in the register, otherwise the class is just a wrapper and the operations are not active
         #still don't know how to implement this
         self.__active_operations = {}
-
+        self.__operations = {'get_information': [self.get_information,'description'],
+                            'unique_seq_IDs': [self.unique_seq_IDs,'description'],
+                            'type_of_operations': [self.type_of_operations,'description'],
+                            'same_source': [self.same_source,'description'],
+                            'entries_for_each_type_of_operation': [self.entries_for_each_type_of_operation,'description'],
+                            'get_chromosomes': [self.get_chromosomes,'filter'],
+                            'fraction_of_unassembled_seq': [self.fraction_of_unassembled_seq,'statistic'],
+                            'ensembl_havana': [self.ensembl_havana,'filter'],
+                            'entries_for_each_type_of_operation_ensemblhavana': [self.entries_for_each_type_of_operation_ensemblhavana,'description'],
+                            'get_gene_names': [self.get_gene_names,'description']}
+                    
     def get_df(self) -> pd.DataFrame:#from the other modules, this has to be the only way to access the pandas dataframe that is inside the dataset class
         return self.__df
-
 
     #decorator
     def activate(operation):
@@ -26,7 +36,7 @@ class Dataset():
                 try:
                     output = operation(self,*args,**kwargs)
                     if not output.__df.empty:
-                        self.__active_operations[operation.__name__] = operation
+                        self.__active_operations[operation.__name__] = self.__operations[operation.__name__]
                     return output
                 except:
                     pass
@@ -35,7 +45,10 @@ class Dataset():
                 return output
         return check
 
-
+    def get_active_operations(self):
+        for operation in self.__operations.values():
+            operation[0]()
+        return self.__active_operations.keys()
     '''
     By means of a dataset object a number of insights over data can be obtained; each insight
     is called an operation.
@@ -48,6 +61,7 @@ class Dataset():
         getting some basic information about the dataset. The basic information are the name and data type ofeach column
         '''
         #this function gives almost the same output: self.__df.info()
+        print(self.__df.info())
         result = {}
         for i in self.__df.columns:
             result[i] = self.__df[i].dtype
@@ -140,21 +154,6 @@ class Dataset():
                 if KeyError:
                     continue
         return Dataset(pd.DataFrame({'Name':names}))
-
-    def get_active_operations(self):
-        self.__operations = {'get_information': self.get_information,
-                            'unique_seq_IDs': self.unique_seq_IDs,
-                            'type_of_operations': self.type_of_operations,
-                            'same_source': self.same_source,
-                            'entries_for_each_type_of_operation': self.entries_for_each_type_of_operation,
-                            'get_chromosomes': self.get_chromosomes,
-                            'fraction_of_unassembled_seq': self.fraction_of_unassembled_seq,
-                            'ensembl_havana': self.ensembl_havana,
-                            'entries_for_each_type_of_operation_ensemblhavana': self.entries_for_each_type_of_operation_ensemblhavana,
-                            'get_gene_names': self.get_gene_names}
-        for operation in self.__operations.values():
-            operation()
-        return self.__active_operations.keys()
 
 def get_attributes(row):
     '''

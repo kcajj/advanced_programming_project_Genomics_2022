@@ -55,3 +55,11 @@ print(gene_names.get_df().shape)
 print()
 print(gene_names.get_active_operations())
 print()
+'''
+types = human_genome.type_of_operations()
+print(types.get_df().head())
+print(types.get_df().shape)
+print()
+print(types.get_active_operations())
+print()
+'''
