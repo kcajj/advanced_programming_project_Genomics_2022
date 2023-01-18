@@ -55,11 +55,24 @@ print(gene_names.get_df().shape)
 print()
 print(gene_names.get_active_operations())
 print()
-'''
+
 types = human_genome.type_of_operations()
 print(types.get_df().head())
 print(types.get_df().shape)
 print()
 print(types.get_active_operations())
 print()
-'''
+
+entries_for_types = human_genome.entries_for_each_type_of_operation()
+print(entries_for_types.get_df().head())
+print(entries_for_types.get_df().shape)
+print()
+print(entries_for_types.get_active_operations())
+print()
+
+entries_for_types_ensemblehavana = subset.entries_for_each_type_of_operation_ensemblhavana()
+print(entries_for_types_ensemblehavana.get_df().head())
+print(entries_for_types_ensemblehavana.get_df().shape)
+print()
+print(entries_for_types_ensemblehavana.get_active_operations())
+print()

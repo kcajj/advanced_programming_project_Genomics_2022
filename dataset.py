@@ -93,7 +93,8 @@ class Dataset():
             #it is similar to the one above, but, since we have always to return a dataset object
             #and the dataset class accepts only a pd.dataframe object (it is a wrapper around it)
             #maybe it is better to stick with the first classfication.
-        pass
+        operation_types = list(set([value[1] for value in list(self.__active_operations.values())]))
+        return Dataset(pd.DataFrame({'operation_types':operation_types}))
 
     @activate
     def same_source(self) -> 'Dataset':
@@ -103,11 +104,17 @@ class Dataset():
         return Dataset(self.__df.Source.value_counts().to_frame())
 
     @activate
-    def entries_for_each_type_of_operation(self):
+    def entries_for_each_type_of_operation(self) -> 'Dataset':
         '''
         counting the number of entries for each type of operation
         '''
-        pass
+        entries_for_op_types = {}
+        for operation_name, list in self.__active_operations.items():
+            if list[1] in entries_for_op_types.keys():
+                entries_for_op_types[list[1]].append(operation_name)
+            else:
+                entries_for_op_types[list[1]] = [operation_name]
+        return Dataset(pd.DataFrame({'operation_types':entries_for_op_types.keys(),'entries':entries_for_op_types.values()}))
 
     @activate
     def get_chromosomes(self) -> 'Dataset':
@@ -133,11 +140,11 @@ class Dataset():
         return Dataset(self.__df[(self.__df.Source == 'ensembl') | (self.__df.Source == 'havana') | (self.__df.Source == 'ensembl_havana')])
 
     @activate
-    def entries_for_each_type_of_operation_ensemblhavana(self):
+    def entries_for_each_type_of_operation_ensemblhavana(self) -> 'Dataset':
         '''
         counting the number of entries for each type of operation for the dataset containing only entries from source ensembl, havana and ensembl_havana
         '''
-        pass
+        return self.entries_for_each_type_of_operation()
 
     @activate
     def get_gene_names(self) -> 'Dataset':
