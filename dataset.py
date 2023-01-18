@@ -6,7 +6,6 @@ class Dataset():
     A dataset is the view over the data. As for the reader the software must distinguish
     between a generic tabular data and GFF3 data, which is a peculiar case.
     '''
-
     def __init__(self, df: pd.DataFrame) -> None:
         self.__df = df
         self.is_gff3 = False
@@ -32,7 +31,7 @@ class Dataset():
     #decorator
     def activate(operation):
         def check(self,*args,**kwargs):
-            if operation.__name__ not in self.__active_operations.keys():
+            if (self.is_gff3) and (operation.__name__ not in self.__active_operations.keys()):
                 try:
                     output = operation(self,*args,**kwargs)
                     if not output.__df.empty:
@@ -40,9 +39,11 @@ class Dataset():
                     return output
                 except:
                     pass
-            else:
+            elif self.is_gff3:
                 output = operation(self,*args,**kwargs)
                 return output
+            else:
+                pass
         return check
 
     def get_active_operations(self):
@@ -60,8 +61,7 @@ class Dataset():
         '''
         getting some basic information about the dataset. The basic information are the name and data type ofeach column
         '''
-        #this function gives almost the same output: self.__df.info()
-        print(self.__df.info())
+        #!!!!!!!!!!!!!!!there is an error in the input that prevents to correctly label the types
         result = {}
         for i in self.__df.columns:
             result[i] = self.__df[i].dtype
