@@ -6,13 +6,42 @@ class Dataset():
     A dataset is the view over the data. As for the reader the software must distinguish
     between a generic tabular data and GFF3 data, which is a peculiar case.
     '''
-    def __init__(self, df: pd.DataFrame) -> None:
+    def __new__(self, df: pd.DataFrame):
         self.__df = df
-        self.is_gff3 = False
         if self.__df.columns.format() == ['Seqid','Source','Type','Start','End','Score','Strand','Phase','Attribute']:
-            self.is_gff3=True
+            return GFF3Dataset(self.__df)
         #if a the dataset is gff3 a lot of operations will be active in the register, otherwise the class is just a wrapper and the operations are not active
         #still don't know how to implement this
+        self.__active_operations = {}
+        self.__operations = {}
+                    
+    def get_df(self) -> pd.DataFrame:#from the other modules, this has to be the only way to access the pandas dataframe that is inside the dataset class
+        return self.__df
+
+    #decorator
+    def activate(operation):
+        def check(self,*args,**kwargs):
+            if operation.__name__ not in self.__active_operations.keys():
+                try:
+                    output = operation(self,*args,**kwargs)
+                    if not output.__df.empty:
+                        self.__active_operations[operation.__name__] = self.__operations[operation.__name__]
+                    return output
+                except:
+                    pass
+            else:
+                output = operation(self,*args,**kwargs)
+                return output
+        return check
+
+    def get_active_operations(self):
+        for operation in self.__operations.values():
+            operation[0]()
+        return self.__active_operations.keys()
+
+class GFF3Dataset(Dataset):
+    def __init__(self, df: pd.DataFrame):
+        self.__df = df
         self.__active_operations = {}
         self.__operations = {'get_information': [self.get_information,'description'],
                             'unique_seq_IDs': [self.unique_seq_IDs,'description'],
@@ -25,13 +54,12 @@ class Dataset():
                             'entries_for_each_type_of_operation_ensemblhavana': [self.entries_for_each_type_of_operation_ensemblhavana,'description'],
                             'get_gene_names': [self.get_gene_names,'description']}
                     
-    def get_df(self) -> pd.DataFrame:#from the other modules, this has to be the only way to access the pandas dataframe that is inside the dataset class
-        return self.__df
-
-    #decorator
+    def get_df(self) -> pd.DataFrame:
+        return super().get_df()
+    
     def activate(operation):
         def check(self,*args,**kwargs):
-            if (self.is_gff3) and (operation.__name__ not in self.__active_operations.keys()):
+            if operation.__name__ not in self.__active_operations.keys():
                 try:
                     output = operation(self,*args,**kwargs)
                     if not output.__df.empty:
@@ -39,17 +67,15 @@ class Dataset():
                     return output
                 except:
                     pass
-            elif self.is_gff3:
+            else:
                 output = operation(self,*args,**kwargs)
                 return output
-            else:
-                pass
         return check
 
+    
     def get_active_operations(self):
-        for operation in self.__operations.values():
-            operation[0]()
-        return self.__active_operations.keys()
+        return super().get_active_operations()
+
     '''
     By means of a dataset object a number of insights over data can be obtained; each insight
     is called an operation.
@@ -154,6 +180,8 @@ class Dataset():
                 if KeyError:
                     continue
         return Dataset(pd.DataFrame({'Name':names}))
+
+
 
 def get_attributes(row):
     '''
