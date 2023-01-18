@@ -6,25 +6,27 @@ class Dataset():
     A dataset is the view over the data. As for the reader the software must distinguish
     between a generic tabular data and GFF3 data, which is a peculiar case.
     '''
-    def __new__(self, df: pd.DataFrame):
+    def create(df: pd.DataFrame):
+        if df.columns.format() == ['Seqid','Source','Type','Start','End','Score','Strand','Phase','Attribute']:
+            return GFF3Dataset(df)
+        else:
+            return NormalDataset(df)
+
+class NormalDataset(Dataset):
+    def __init__(self, df: pd.DataFrame):
         self.__df = df
-        if self.__df.columns.format() == ['Seqid','Source','Type','Start','End','Score','Strand','Phase','Attribute']:
-            return GFF3Dataset(self.__df)
-        #if a the dataset is gff3 a lot of operations will be active in the register, otherwise the class is just a wrapper and the operations are not active
-        #still don't know how to implement this
         self.__active_operations = {}
         self.__operations = {}
-                    
+    
     def get_df(self) -> pd.DataFrame:#from the other modules, this has to be the only way to access the pandas dataframe that is inside the dataset class
         return self.__df
 
-    #decorator
     def activate(operation):
         def check(self,*args,**kwargs):
             if operation.__name__ not in self.__active_operations.keys():
                 try:
                     output = operation(self,*args,**kwargs)
-                    if not output.__df.empty:
+                    if not output.get_df().empty:
                         self.__active_operations[operation.__name__] = self.__operations[operation.__name__]
                     return output
                 except:
@@ -33,12 +35,12 @@ class Dataset():
                 output = operation(self,*args,**kwargs)
                 return output
         return check
-
+    
     def get_active_operations(self):
         for operation in self.__operations.values():
             operation[0]()
         return self.__active_operations.keys()
-
+    
 class GFF3Dataset(Dataset):
     def __init__(self, df: pd.DataFrame):
         self.__df = df
@@ -55,14 +57,14 @@ class GFF3Dataset(Dataset):
                             'get_gene_names': [self.get_gene_names,'description']}
                     
     def get_df(self) -> pd.DataFrame:
-        return super().get_df()
+        return self.__df
     
     def activate(operation):
         def check(self,*args,**kwargs):
             if operation.__name__ not in self.__active_operations.keys():
                 try:
                     output = operation(self,*args,**kwargs)
-                    if not output.__df.empty:
+                    if not output.get_df().empty:
                         self.__active_operations[operation.__name__] = self.__operations[operation.__name__]
                     return output
                 except:
@@ -74,7 +76,9 @@ class GFF3Dataset(Dataset):
 
     
     def get_active_operations(self):
-        return super().get_active_operations()
+        for operation in self.__operations.values():
+            operation[0]()
+        return self.__active_operations.keys()
 
     '''
     By means of a dataset object a number of insights over data can be obtained; each insight
@@ -83,7 +87,7 @@ class GFF3Dataset(Dataset):
 
     #operations down here
     @activate
-    def get_information(self) -> 'Dataset':
+    def get_information(self):
         '''
         getting some basic information about the dataset. The basic information are the name and data type ofeach column
         '''
@@ -92,14 +96,14 @@ class GFF3Dataset(Dataset):
         for i in self.__df.columns:
             result[i] = self.__df[i].dtype
 
-        return Dataset(pd.DataFrame({'columns':result.keys(), 'data_type':result.values()}))
+        return Dataset.create(pd.DataFrame({'columns':result.keys(), 'data_type':result.values()}))
 
     @activate
     def unique_seq_IDs(self) -> 'Dataset':
         '''
         obtaining the list of unique sequence IDs available in the dataset
         '''
-        return Dataset(pd.DataFrame({'unique_IDs':self.__df.Seqid.unique()}))
+        return Dataset.create(pd.DataFrame({'unique_IDs':self.__df.Seqid.unique()}))
 
     @activate
     def type_of_operations(self) -> 'Dataset':
@@ -126,7 +130,7 @@ class GFF3Dataset(Dataset):
         '''
         counting the number of features provided by the same source
         '''
-        return Dataset(self.__df.Source.value_counts().to_frame())
+        return Dataset.create(self.__df.Source.value_counts().to_frame())
 
     @activate
     def entries_for_each_type_of_operation(self):
@@ -140,7 +144,7 @@ class GFF3Dataset(Dataset):
         '''
         deriving a new dataset containing only the information about entire chromosomes. Entries with entirechromosomes comes from source GRCh38
         '''
-        return Dataset(self.__df[self.__df.Source == 'GRCh38'])
+        return Dataset.create(self.__df[self.__df.Source == 'GRCh38'])
 
     @activate
     def fraction_of_unassembled_seq(self) -> 'Dataset':
@@ -149,14 +153,14 @@ class GFF3Dataset(Dataset):
         '''
         chromosomes = self.get_chromosomes().__df
         fraction = len(chromosomes[chromosomes.Type == 'supercontig'].index) / len(chromosomes.index)
-        return Dataset(pd.DataFrame({'fraction of unassembled sequences': fraction},index=[0]))
+        return Dataset.create(pd.DataFrame({'fraction of unassembled sequences': fraction},index=[0]))
 
     @activate
     def ensembl_havana(self) -> 'Dataset':
         '''
         obtaining a new dataset containing only entries from source ensembl, havana and ensembl_havana
         '''
-        return Dataset(self.__df[(self.__df.Source == 'ensembl') | (self.__df.Source == 'havana') | (self.__df.Source == 'ensembl_havana')])
+        return Dataset.create(self.__df[(self.__df.Source == 'ensembl') | (self.__df.Source == 'havana') | (self.__df.Source == 'ensembl_havana')])
 
     @activate
     def entries_for_each_type_of_operation_ensemblhavana(self):
@@ -179,7 +183,7 @@ class GFF3Dataset(Dataset):
             except:
                 if KeyError:
                     continue
-        return Dataset(pd.DataFrame({'Name':names}))
+        return Dataset.create(pd.DataFrame({'Name':names}))
 
 
 
@@ -194,3 +198,6 @@ def get_attributes(row):
         attribute = attribute.split('=')
         attributes[attribute[0]] = attribute [1]
     return attributes
+
+data = Dataset.create(pd.DataFrame({'a':[1,2,3],'b':[4,5,6]}))
+print(type(data))
