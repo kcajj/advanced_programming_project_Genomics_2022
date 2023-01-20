@@ -33,4 +33,4 @@ class GFF3DatasetReader(DatasetReader):
             print(f"{filepath} not found")
         except:
             print(f"An error occured while reading the file")
-        return Dataset.create(df)
+        return Dataset(df).create()

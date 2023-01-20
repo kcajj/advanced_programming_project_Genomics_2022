@@ -6,21 +6,23 @@ class Dataset():
     A dataset is the view over the data. As for the reader the software must distinguish
     between a generic tabular data and GFF3 data, which is a peculiar case.
     '''
-    def create(df: pd.DataFrame):
-        if df.columns.format() == ['Seqid','Source','Type','Start','End','Score','Strand','Phase','Attribute']:
-            return GFF3Dataset(df)
+    def __init__(self, df: pd.DataFrame):
+        self._df = df
+    def create(self):
+        if self._df.columns.format() == ['Seqid','Source','Type','Start','End','Score','Strand','Phase','Attribute']:
+            return GFF3Dataset(self._df)
         else:
-            return NormalDataset(df)
+            return NormalDataset(self._df)
+
+    def get_df(self) -> pd.DataFrame:#from the other modules, this has to be the only way to access the pandas dataframe that is inside the dataset class
+        return self._df
 
 class NormalDataset(Dataset):
     def __init__(self, df: pd.DataFrame):
-        self.__df = df
+        self._df = df
         self.__active_operations = {}
         self.__operations = {}
     
-    def get_df(self) -> pd.DataFrame:#from the other modules, this has to be the only way to access the pandas dataframe that is inside the dataset class
-        return self.__df
-
     def activate(operation):
         def check(self,*args,**kwargs):
             if operation.__name__ not in self.__active_operations.keys():
@@ -43,7 +45,7 @@ class NormalDataset(Dataset):
     
 class GFF3Dataset(Dataset):
     def __init__(self, df: pd.DataFrame):
-        self.__df = df
+        self._df = df
         self.__active_operations = {}
         self.__operations = {'get_information': [self.get_information,'description'],
                             'unique_seq_IDs': [self.unique_seq_IDs,'description'],
@@ -55,9 +57,6 @@ class GFF3Dataset(Dataset):
                             'ensembl_havana': [self.ensembl_havana,'filter'],
                             'entries_for_each_type_of_operation_ensemblhavana': [self.entries_for_each_type_of_operation_ensemblhavana,'description'],
                             'get_gene_names': [self.get_gene_names,'description']}
-                    
-    def get_df(self) -> pd.DataFrame:
-        return self.__df
     
     def activate(operation):
         def check(self,*args,**kwargs):
@@ -93,17 +92,17 @@ class GFF3Dataset(Dataset):
         '''
         #!!!!!!!!!!!!!!!there is an error in the input that prevents to correctly label the types
         result = {}
-        for i in self.__df.columns:
-            result[i] = self.__df[i].dtype
+        for i in self._df.columns:
+            result[i] = self._df[i].dtype
 
-        return Dataset.create(pd.DataFrame({'columns':result.keys(), 'data_type':result.values()}))
+        return Dataset(pd.DataFrame({'columns':result.keys(), 'data_type':result.values()})).create()
 
     @activate
     def unique_seq_IDs(self) -> 'Dataset':
         '''
         obtaining the list of unique sequence IDs available in the dataset
         '''
-        return Dataset.create(pd.DataFrame({'unique_IDs':self.__df.Seqid.unique()}))
+        return Dataset(pd.DataFrame({'unique_IDs':self._df.Seqid.unique()})).create()
 
     @activate
     def type_of_operations(self) -> 'Dataset':
@@ -130,7 +129,7 @@ class GFF3Dataset(Dataset):
         '''
         counting the number of features provided by the same source
         '''
-        return Dataset.create(self.__df.Source.value_counts().to_frame())
+        return Dataset(self._df.Source.value_counts().to_frame()).create()
 
     @activate
     def entries_for_each_type_of_operation(self):
@@ -144,23 +143,23 @@ class GFF3Dataset(Dataset):
         '''
         deriving a new dataset containing only the information about entire chromosomes. Entries with entirechromosomes comes from source GRCh38
         '''
-        return Dataset.create(self.__df[self.__df.Source == 'GRCh38'])
+        return Dataset(self._df[self._df.Source == 'GRCh38']).create()
 
     @activate
     def fraction_of_unassembled_seq(self) -> 'Dataset':
         '''
         calculating the fraction of unassembled sequences from source GRCh38. Hint: unassembled sequences are of type supercontig while the others are of type chromosome
         '''
-        chromosomes = self.get_chromosomes().__df
+        chromosomes = self.get_chromosomes()._df
         fraction = len(chromosomes[chromosomes.Type == 'supercontig'].index) / len(chromosomes.index)
-        return Dataset.create(pd.DataFrame({'fraction of unassembled sequences': fraction},index=[0]))
+        return Dataset(pd.DataFrame({'fraction of unassembled sequences': fraction},index=[0])).create()
 
     @activate
     def ensembl_havana(self) -> 'Dataset':
         '''
         obtaining a new dataset containing only entries from source ensembl, havana and ensembl_havana
         '''
-        return Dataset.create(self.__df[(self.__df.Source == 'ensembl') | (self.__df.Source == 'havana') | (self.__df.Source == 'ensembl_havana')])
+        return Dataset(self._df[(self._df.Source == 'ensembl') | (self._df.Source == 'havana') | (self._df.Source == 'ensembl_havana')]).create()
 
     @activate
     def entries_for_each_type_of_operation_ensemblhavana(self):
@@ -175,7 +174,7 @@ class GFF3Dataset(Dataset):
         returning the gene names from the dataset containing containing only entries from source ensembl, havana and ensembl_havana
         '''
         names = []
-        for row in self.ensembl_havana().__df.Attribute:
+        for row in self.ensembl_havana()._df.Attribute:
             attributes = get_attributes(row)
             try:
                 if 'gene' in attributes['ID']:
@@ -183,7 +182,7 @@ class GFF3Dataset(Dataset):
             except:
                 if KeyError:
                     continue
-        return Dataset.create(pd.DataFrame({'Name':names}))
+        return Dataset(pd.DataFrame({'Name':names})).create()
 
 
 
@@ -199,5 +198,5 @@ def get_attributes(row):
         attributes[attribute[0]] = attribute [1]
     return attributes
 
-data = Dataset.create(pd.DataFrame({'a':[1,2,3],'b':[4,5,6]}))
+data = Dataset(pd.DataFrame({'a':[1,2,3],'b':[4,5,6]})).create()
 print(type(data))
