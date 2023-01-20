@@ -12,16 +12,15 @@ class Dataset():
         self.__is_gff3 = False
         if self.__df.columns.format() == ['Seqid','Source','Type','Start','End','Score','Strand','Phase','Attribute']:
             self.__is_gff3 = True
-        self.__active_operations = {}
+        self.__active_operations = {'type_of_operations': [self.type_of_operations,'description'],
+                                    'entries_for_each_type_of_operation': [self.entries_for_each_type_of_operation,'description'],
+                                    'entries_for_each_type_of_operation_ensemblhavana': [self.entries_for_each_type_of_operation_ensemblhavana,'description']}
         self.__operations = {'get_information': [self.get_information,'description'],
                             'unique_seq_IDs': [self.unique_seq_IDs,'description'],
-                            'type_of_operations': [self.type_of_operations,'description'],
                             'same_source': [self.same_source,'description'],
-                            'entries_for_each_type_of_operation': [self.entries_for_each_type_of_operation,'description'],
                             'get_chromosomes': [self.get_chromosomes,'filter'],
                             'fraction_of_unassembled_seq': [self.fraction_of_unassembled_seq,'statistic'],
                             'ensembl_havana': [self.ensembl_havana,'filter'],
-                            'entries_for_each_type_of_operation_ensemblhavana': [self.entries_for_each_type_of_operation_ensemblhavana,'description'],
                             'get_gene_names': [self.get_gene_names,'description']}
     
     def get_df(self) -> pd.DataFrame: #from the other modules, this has to be the only way to access the pandas dataframe that is inside the dataset class
@@ -52,6 +51,7 @@ class Dataset():
                 return output
             else:
                 pass #if the dataset is not a GFF3 file we are not interested in performing operations
+                #actually the get_information and operation types could be available
         return check
 
     def get_active_operations(self):
@@ -121,7 +121,7 @@ class Dataset():
             #and the dataset class accepts only a pd.dataframe object (it is a wrapper around it)
             #maybe it is better to stick with the first classfication.
 
-        #self.get_active_operations() #to update self.__active_operations
+        self.get_active_operations() #to update self.__active_operations
         operation_types = list(set([value[1] for value in list(self.__active_operations.values())]))
         return Dataset(pd.DataFrame({'operation_types':operation_types}))
 
@@ -137,7 +137,7 @@ class Dataset():
         '''
         counting the number of entries for each type of operation
         '''
-        #self.get_active_operations() #to update self.__active_operations
+        self.get_active_operations() #to update self.__active_operations
         entries_for_op_types = {}
         for operation_name, operation_and_type in self.__active_operations.items():
             type_ = operation_and_type[1]
