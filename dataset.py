@@ -8,28 +8,25 @@ class Dataset():
     '''
     def __init__(self, df: pd.DataFrame):
         self._df = df
+        self._active_operations = {}
+        self._operations = {}
+
     def create(self):
         if self._df.columns.format() == ['Seqid','Source','Type','Start','End','Score','Strand','Phase','Attribute']:
             return GFF3Dataset(self._df)
         else:
-            return NormalDataset(self._df)
+            return self
 
     def get_df(self) -> pd.DataFrame:#from the other modules, this has to be the only way to access the pandas dataframe that is inside the dataset class
         return self._df
 
-class NormalDataset(Dataset):
-    def __init__(self, df: pd.DataFrame):
-        self._df = df
-        self.__active_operations = {}
-        self.__operations = {}
-    
     def activate(operation):
         def check(self,*args,**kwargs):
-            if operation.__name__ not in self.__active_operations.keys():
+            if operation.__name__ not in self._active_operations.keys():
                 try:
                     output = operation(self,*args,**kwargs)
                     if not output.get_df().empty:
-                        self.__active_operations[operation.__name__] = self.__operations[operation.__name__]
+                        self._active_operations[operation.__name__] = self._operations[operation.__name__]
                     return output
                 except:
                     pass
@@ -39,15 +36,15 @@ class NormalDataset(Dataset):
         return check
     
     def get_active_operations(self):
-        for operation in self.__operations.values():
+        for operation in self._operations.values():
             operation[0]()
-        return self.__active_operations.keys()
+        return self._active_operations.keys()
     
 class GFF3Dataset(Dataset):
     def __init__(self, df: pd.DataFrame):
         self._df = df
-        self.__active_operations = {}
-        self.__operations = {'get_information': [self.get_information,'description'],
+        self._active_operations = {}
+        self._operations = {'get_information': [self.get_information,'description'],
                             'unique_seq_IDs': [self.unique_seq_IDs,'description'],
                             'type_of_operations': [self.type_of_operations,'description'],
                             'same_source': [self.same_source,'description'],
@@ -60,11 +57,11 @@ class GFF3Dataset(Dataset):
     
     def activate(operation):
         def check(self,*args,**kwargs):
-            if operation.__name__ not in self.__active_operations.keys():
+            if operation.__name__ not in self._active_operations.keys():
                 try:
                     output = operation(self,*args,**kwargs)
                     if not output.get_df().empty:
-                        self.__active_operations[operation.__name__] = self.__operations[operation.__name__]
+                        self._active_operations[operation.__name__] = self._operations[operation.__name__]
                     return output
                 except:
                     pass
@@ -72,12 +69,6 @@ class GFF3Dataset(Dataset):
                 output = operation(self,*args,**kwargs)
                 return output
         return check
-
-    
-    def get_active_operations(self):
-        for operation in self.__operations.values():
-            operation[0]()
-        return self.__active_operations.keys()
 
     '''
     By means of a dataset object a number of insights over data can be obtained; each insight
