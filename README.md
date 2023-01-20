@@ -6,10 +6,6 @@ you can find the project specification [here](MarkdownFiles/Project_specificatio
 you can find the documentation [here](MarkdownFiles/Documentation.md)
 
 
-we could add metaprogramming instructions: we allow users to download our class modules on their machine and then they can add operations to our class to make it suitable to their needs.
-this can be done with the "types" module of python.
-to make it available on pip, we have to upload the package on python package index (PyPI)
 
-però le operazioni che possono aggiungere devono essere senza input... ne vale la pena?
-
-idea di merda, skip
+we could make our modules available for download on pip, in this way users can use our code on other datasets.
+to do so we have to upload our packages on python package index(PyPI)

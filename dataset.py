@@ -120,6 +120,8 @@ class Dataset():
             #it is similar to the one above, but, since we have always to return a dataset object
             #and the dataset class accepts only a pd.dataframe object (it is a wrapper around it)
             #maybe it is better to stick with the first classfication.
+
+        self.get_active_operations() #to update self.__active_operations
         operation_types = list(set([value[1] for value in list(self.__active_operations.values())]))
         return Dataset(pd.DataFrame({'operation_types':operation_types}))
 
@@ -135,6 +137,7 @@ class Dataset():
         '''
         counting the number of entries for each type of operation
         '''
+        self.get_active_operations() #to update self.__active_operations
         entries_for_op_types = {}
         for operation_name, operation_and_type in self.__active_operations.items():
             type_ = operation_and_type[1]
