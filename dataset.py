@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 from unittest.mock import patch
-from functions import get_attributes
+from functions import get_attributes, activate
 
 class Dataset():
     '''
@@ -22,24 +22,16 @@ class Dataset():
     def get_df(self) -> pd.DataFrame:#from the other modules, this has to be the only way to access the pandas dataframe that is inside the dataset class
         return self._df
 
-    def activate(operation):
-        def check(self,*args,**kwargs):
-            if operation.__name__ not in self._active_operations.keys():
-                try:
-                    output = operation(self,*args,**kwargs)
-                    if not output.get_df().empty:
-                        self._active_operations[operation.__name__] = self._operations[operation.__name__]
-                        return output
-                    else:
-                        print(f'The operation {operation.__name__} has produced no results')
-                except:
-                    print(f'The operation {operation.__name__} operation is not active on this object')
-            else:
-                output = operation(self,*args,**kwargs)
-                return output
-        return check
+    
     
     def get_active_operations(self):
+        '''
+        returns all the active operations; it is used to show the user the operation that he can use
+        '''
+        # the active operations can be called by other python files (but not by out UI) even if they are
+        # inactive, so i added the prints in the decorator to show possible errors or empty output
+        # to not show those prints after the activation of this function i used this patch method 
+        # found it randomly online
         for operation in self._operations.values():
             with patch('builtins.print'):
                 operation[0]()
@@ -58,23 +50,6 @@ class GFF3Dataset(Dataset):
                             'fraction_of_unassembled_seq': [self.fraction_of_unassembled_seq,'statistic'],
                             'ensembl_havana': [self.ensembl_havana,'filter'],
                             'get_gene_names': [self.get_gene_names,'description']}
-    
-    def activate(operation):
-        def check(self,*args,**kwargs):
-            if operation.__name__ not in self._active_operations.keys():
-                try:
-                    output = operation(self,*args,**kwargs)
-                    if not output.get_df().empty:
-                        self._active_operations[operation.__name__] = self._operations[operation.__name__]
-                        return output
-                    else:
-                        print(f'The operation {operation.__name__} has produced no results')
-                except:
-                    print(f'The operation {operation.__name__} operation is not active on this object')
-            else:
-                output = operation(self,*args,**kwargs)
-                return output
-        return check
 
     '''
     By means of a dataset object a number of insights over data can be obtained; each insight
@@ -174,6 +149,7 @@ class GFF3Dataset(Dataset):
         '''
         counting the number of entries for each type of operation for the dataset containing only entries from source ensembl, havana and ensembl_havana
         '''
+        #this operation is useless in our program because the active operations are checked depending on the input
         return self.entries_for_each_type_of_operation()
 
     @activate
