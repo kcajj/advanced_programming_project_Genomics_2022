@@ -12,9 +12,9 @@ class Dataset():
         self.__is_gff3 = False
         if self.__df.columns.format() == ['Seqid','Source','Type','Start','End','Score','Strand','Phase','Attribute']:
             self.__is_gff3 = True
-        self.__active_operations = {'type_of_operations': [self.type_of_operations,'description'],
-                                    'entries_for_each_type_of_operation': [self.entries_for_each_type_of_operation,'description'],
-                                    'entries_for_each_type_of_operation_ensemblhavana': [self.entries_for_each_type_of_operation_ensemblhavana,'description']}
+            self.__active_operations = {'type_of_operations': [self.type_of_operations,'description'],
+                                        'entries_for_each_type_of_operation': [self.entries_for_each_type_of_operation,'description'],
+                                        'entries_for_each_type_of_operation_ensemblhavana': [self.entries_for_each_type_of_operation_ensemblhavana,'description']}
         self.__operations = {'get_information': [self.get_information,'description'],
                             'unique_seq_IDs': [self.unique_seq_IDs,'description'],
                             'same_source': [self.same_source,'description'],
@@ -73,10 +73,12 @@ class Dataset():
         #soluzione:
         #ho aggiunto dei print che avvisano che la funzione è disattivata.
         #vengono mostrati solo se la funzione è chiamata da un altro file di python senza che sia attiva.
-        for operation in self.__operations.values():
-            with patch('builtins.print'):
-                operation[0]()
-        return list(self.__active_operations.keys())
+        if self.__is_gff3:
+            for operation in self.__operations.values():
+                with patch('builtins.print'):
+                    operation[0]()
+            return list(self.__active_operations.keys())
+        else: print('no active operation')
     
     '''
     By means of a dataset object a number of insights over data can be obtained; each insight
