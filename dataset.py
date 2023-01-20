@@ -1,5 +1,7 @@
 import numpy as np
 import pandas as pd
+from unittest.mock import patch
+from functions import get_attributes
 
 class Dataset():
     '''
@@ -27,9 +29,11 @@ class Dataset():
                     output = operation(self,*args,**kwargs)
                     if not output.get_df().empty:
                         self._active_operations[operation.__name__] = self._operations[operation.__name__]
-                    return output
+                        return output
+                    else:
+                        print(f'The operation {operation.__name__} has produced no results')
                 except:
-                    pass
+                    print(f'The operation {operation.__name__} operation is not active on this object')
             else:
                 output = operation(self,*args,**kwargs)
                 return output
@@ -37,22 +41,22 @@ class Dataset():
     
     def get_active_operations(self):
         for operation in self._operations.values():
-            operation[0]()
-        return self._active_operations.keys()
+            with patch('builtins.print'):
+                operation[0]()
+        return list(self._active_operations.keys())
     
 class GFF3Dataset(Dataset):
     def __init__(self, df: pd.DataFrame):
-        self._df = df
-        self._active_operations = {}
+        super().__init__(df)
+        self._active_operations = {'type_of_operations': [self.type_of_operations,'description'],
+                                    'entries_for_each_type_of_operation': [self.entries_for_each_type_of_operation,'description'],
+                                    'entries_for_each_type_of_operation_ensemblhavana': [self.entries_for_each_type_of_operation_ensemblhavana,'description']}
         self._operations = {'get_information': [self.get_information,'description'],
                             'unique_seq_IDs': [self.unique_seq_IDs,'description'],
-                            'type_of_operations': [self.type_of_operations,'description'],
                             'same_source': [self.same_source,'description'],
-                            'entries_for_each_type_of_operation': [self.entries_for_each_type_of_operation,'description'],
                             'get_chromosomes': [self.get_chromosomes,'filter'],
                             'fraction_of_unassembled_seq': [self.fraction_of_unassembled_seq,'statistic'],
                             'ensembl_havana': [self.ensembl_havana,'filter'],
-                            'entries_for_each_type_of_operation_ensemblhavana': [self.entries_for_each_type_of_operation_ensemblhavana,'description'],
                             'get_gene_names': [self.get_gene_names,'description']}
     
     def activate(operation):
@@ -62,9 +66,11 @@ class GFF3Dataset(Dataset):
                     output = operation(self,*args,**kwargs)
                     if not output.get_df().empty:
                         self._active_operations[operation.__name__] = self._operations[operation.__name__]
-                    return output
+                        return output
+                    else:
+                        print(f'The operation {operation.__name__} has produced no results')
                 except:
-                    pass
+                    print(f'The operation {operation.__name__} operation is not active on this object')
             else:
                 output = operation(self,*args,**kwargs)
                 return output
@@ -82,11 +88,11 @@ class GFF3Dataset(Dataset):
         getting some basic information about the dataset. The basic information are the name and data type ofeach column
         '''
         #!!!!!!!!!!!!!!!there is an error in the input that prevents to correctly label the types
-        result = {}
-        for i in self._df.columns:
-            result[i] = self._df[i].dtype
+        information = {}
+        for column_name in self._df.columns:
+            information[column_name] = self._df[column_name].dtype
 
-        return Dataset(pd.DataFrame({'columns':result.keys(), 'data_type':result.values()})).create()
+        return Dataset(pd.DataFrame({'columns':information.keys(), 'data_type':information.values()})).create()
 
     @activate
     def unique_seq_IDs(self) -> 'Dataset':
@@ -113,7 +119,10 @@ class GFF3Dataset(Dataset):
             #it is similar to the one above, but, since we have always to return a dataset object
             #and the dataset class accepts only a pd.dataframe object (it is a wrapper around it)
             #maybe it is better to stick with the first classfication.
-        pass
+        
+        self.get_active_operations() #to update self.__active_operations
+        operation_types = list(set([value[1] for value in list(self._active_operations.values())]))
+        return Dataset(pd.DataFrame({'operation_types':operation_types})).create()
 
     @activate
     def same_source(self) -> 'Dataset':
@@ -127,7 +136,15 @@ class GFF3Dataset(Dataset):
         '''
         counting the number of entries for each type of operation
         '''
-        pass
+        self.get_active_operations() #to update self.__active_operations
+        entries = {}
+        for operation_name, operation_and_type in self._active_operations.items():
+            type_ = operation_and_type[1]
+            if type_ in entries.keys():
+                entries[type_].append(operation_name)
+            else:
+                entries[type_] = [operation_name]
+        return Dataset(pd.DataFrame({'operation_types':entries.keys(),'entries':entries.values()})).create()
 
     @activate
     def get_chromosomes(self) -> 'Dataset':
@@ -157,7 +174,7 @@ class GFF3Dataset(Dataset):
         '''
         counting the number of entries for each type of operation for the dataset containing only entries from source ensembl, havana and ensembl_havana
         '''
-        pass
+        return self.entries_for_each_type_of_operation()
 
     @activate
     def get_gene_names(self) -> 'Dataset':
@@ -174,20 +191,3 @@ class GFF3Dataset(Dataset):
                 if KeyError:
                     continue
         return Dataset(pd.DataFrame({'Name':names})).create()
-
-
-
-def get_attributes(row):
-    '''
-    allows to get a dictionary containing all the attributes of a row
-    '''
-    #maybe it is better if it returns a pandas dataframe
-    row = row.split(';')
-    attributes = {}
-    for attribute in row:
-        attribute = attribute.split('=')
-        attributes[attribute[0]] = attribute [1]
-    return attributes
-
-data = Dataset(pd.DataFrame({'a':[1,2,3],'b':[4,5,6]})).create()
-print(type(data))
