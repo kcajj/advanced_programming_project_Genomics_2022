@@ -22,8 +22,6 @@ class Dataset():
     def get_df(self) -> pd.DataFrame:#from the other modules, this has to be the only way to access the pandas dataframe that is inside the dataset class
         return self._df
 
-    
-    
     def get_active_operations(self):
         '''
         returns all the active operations; it is used to show the user the operation that he can use
