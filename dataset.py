@@ -42,12 +42,12 @@ class GFF3Dataset(Dataset):
                                     'entries_for_each_type_of_operation': [self.entries_for_each_type_of_operation,'description'],
                                     'entries_for_each_type_of_operation_ensemblhavana': [self.entries_for_each_type_of_operation_ensemblhavana,'description']}
         self._operations = {'get_information': [self.get_information,'description'],
-                            'unique_seq_IDs': [self.unique_seq_IDs,'description'],
-                            'same_source': [self.same_source,'description'],
+                            'unique_seq_IDs': [self.unique_seq_IDs,'selection'],
+                            'same_source': [self.same_source,'selection'],
                             'get_chromosomes': [self.get_chromosomes,'filter'],
                             'fraction_of_unassembled_seq': [self.fraction_of_unassembled_seq,'statistic'],
                             'ensembl_havana': [self.ensembl_havana,'filter'],
-                            'get_gene_names': [self.get_gene_names,'description']}
+                            'get_gene_names': [self.get_gene_names,'selection']}
 
     '''
     By means of a dataset object a number of insights over data can be obtained; each insight
@@ -63,6 +63,7 @@ class GFF3Dataset(Dataset):
         #!!!!!!!!!!!!!!!there is an error in the input that prevents to correctly label the types
         information = {}
         for column_name in self._df.columns:
+            # iteration on columns of the df
             information[column_name] = self._df[column_name].dtype
 
         return Dataset(pd.DataFrame({'columns':information.keys(), 'data_type':information.values()})).create()
@@ -73,7 +74,7 @@ class GFF3Dataset(Dataset):
         obtaining the list of unique sequence IDs available in the dataset
         '''
         return Dataset(pd.DataFrame({'unique_IDs':self._df.Seqid.unique()})).create()
-
+        #self._df['Seqid']
     @activate
     def type_of_operations(self) -> 'Dataset':
         '''
@@ -95,6 +96,7 @@ class GFF3Dataset(Dataset):
         
         self.get_active_operations() #to update self.__active_operations
         operation_types = list(set([value[1] for value in list(self._active_operations.values())]))
+
         return Dataset(pd.DataFrame({'operation_types':operation_types})).create()
 
     @activate
@@ -148,7 +150,7 @@ class GFF3Dataset(Dataset):
         counting the number of entries for each type of operation for the dataset containing only entries from source ensembl, havana and ensembl_havana
         '''
         #this operation is useless in our program because the active operations are checked depending on the input
-        return self.entries_for_each_type_of_operation()
+        return self.ensembl_havana().entries_for_each_type_of_operation()
 
     @activate
     def get_gene_names(self) -> 'Dataset':
