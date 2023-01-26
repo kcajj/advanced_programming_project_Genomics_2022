@@ -29,7 +29,3 @@ todo:
 - flask
 - html
 - css
-
-documentation to deploy:
-https://www.rahulvk.com/how-to-host-your-flask-app-website-for-free/#:~:text=We%20have%20successfully%20deployed%20a,root%20of%20your%20project%20directory.
-https://vercel.com/docs/concepts/functions/serverless-functions/runtimes/python
