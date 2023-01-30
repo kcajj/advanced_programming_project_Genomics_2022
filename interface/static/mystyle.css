@@ -10,3 +10,18 @@ h1 {
   font-size: 2.5em;
   color: FireBrick;
   }
+
+.container {
+  width: 80%;
+  margin: 0 auto;
+  background-color: crimson;
+  }
+
+/*operation page*/
+.panel-group { /*  words that describes the different ops  */
+  color:rgb(255, 255, 255);
+}
+
+.panel-title a { /* operation */
+  color: rgb(255, 255, 255);
+}
