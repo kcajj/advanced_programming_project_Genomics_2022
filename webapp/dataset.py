@@ -32,22 +32,23 @@ class Dataset():
         # found it randomly online
         for operation in self._operations.values():
             with patch('builtins.print'):
-                operation[0]()
+                operation()
         return list(self._active_operations.keys())
     
 class GFF3Dataset(Dataset):
     def __init__(self, df: pd.DataFrame):
         super().__init__(df)
-        self._active_operations = {'type_of_operations': [self.type_of_operations,'description'],
-                                    'entries_for_each_type_of_operation': [self.entries_for_each_type_of_operation,'description'],
-                                    'entries_for_each_type_of_operation_ensemblhavana': [self.entries_for_each_type_of_operation_ensemblhavana,'description']}
-        self._operations = {'get_information': [self.get_information,'description'],
-                            'unique_seq_IDs': [self.unique_seq_IDs,'selection'],
-                            'same_source': [self.same_source,'selection'],
-                            'get_chromosomes': [self.get_chromosomes,'filter'],
-                            'fraction_of_unassembled_seq': [self.fraction_of_unassembled_seq,'statistic'],
-                            'ensembl_havana': [self.ensembl_havana,'filter'],
-                            'get_gene_names': [self.get_gene_names,'selection']}
+        self._active_operations = {}
+        self._operations = {'get_information': self.get_information,
+                            'unique_seq_IDs': self.unique_seq_IDs,
+                            'type_of_operations': self.type_of_operations,
+                            'same_source': self.same_source,
+                            'entries_for_each_type_of_operation': self.entries_for_each_type_of_operation,
+                            'get_chromosomes': self.get_chromosomes,
+                            'fraction_of_unassembled_seq': self.fraction_of_unassembled_seq,
+                            'ensembl_havana': self.ensembl_havana,
+                            'entries_for_each_type_of_operation_ensemblhavana': self.entries_for_each_type_of_operation_ensemblhavana,
+                            'get_gene_names': self.get_gene_names,}
 
     '''
     By means of a dataset object a number of insights over data can be obtained; each insight
@@ -75,15 +76,13 @@ class GFF3Dataset(Dataset):
         '''
         return Dataset(pd.DataFrame({'unique_IDs':self._df.Seqid.unique()})).create()
         #self._df['Seqid']
+
     @activate
     def type_of_operations(self) -> 'Dataset':
         '''
         obtaining the list of unique type of operations available in the dataset
         '''
-        self.get_active_operations() #to update self.__active_operations
-        operation_types = list(set([value[1] for value in list(self._active_operations.values())]))
-
-        return Dataset(pd.DataFrame({'operation_types':operation_types})).create()
+        return Dataset(pd.DataFrame({'unique_types':self._df.Type.unique()})).create()
 
     @activate
     def same_source(self) -> 'Dataset':
@@ -97,15 +96,7 @@ class GFF3Dataset(Dataset):
         '''
         counting the number of entries for each type of operation
         '''
-        self.get_active_operations() #to update self.__active_operations
-        entries = {}
-        for operation_name, operation_and_type in self._active_operations.items():
-            type_ = operation_and_type[1]
-            if type_ in entries.keys():
-                entries[type_].append(operation_name)
-            else:
-                entries[type_] = [operation_name]
-        return Dataset(pd.DataFrame({'operation_types':entries.keys(),'entries':entries.values()})).create()
+        return Dataset(self._df.Type.value_counts().to_frame()).create()
 
     @activate
     def get_chromosomes(self) -> 'Dataset':

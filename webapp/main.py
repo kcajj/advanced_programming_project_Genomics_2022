@@ -18,11 +18,11 @@ def home():
 
 @app.route('/active_operations')
 def active_operations():
-    return render_template('active_operations.html')
+    return render_template('active_operations.html', active_op = active_op)
 
-@app.route('/operation')
-def operation():
-    return render_template('operation.html')
+@app.route('/operation/<operation_name>')
+def operation(operation_name):
+    return render_template('operation.html', operation_name = operation_name)
 
 @app.route('/documentation')
 def documentation():

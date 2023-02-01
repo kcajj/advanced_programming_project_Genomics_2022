@@ -12,6 +12,12 @@
   quick view over the dataset
 </p>
 
+  {% for operation_name in active_op %}
+    <h4>
+      <a href="/operation/{{operation_name}}">{{ operation_name }}</a>
+    </h4>
+  {% endfor %}
+
 <div class="panel-group" id="accordion">
     <div class="panel panel-default">
       <div class="panel-heading">
