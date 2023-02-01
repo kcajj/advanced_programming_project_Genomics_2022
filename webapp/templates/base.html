@@ -38,9 +38,6 @@
                   <a class="nav-link" href="{{ url_for('active_operations')}}"> Active operations </a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="{{ url_for('operation')}}">Operation</a>
-                </li>
-                <li class="nav-item">
                   <a class="nav-link" href="{{ url_for('documentation')}}"> Project documentation</a>
                 </li>
               </ul>
@@ -51,7 +48,7 @@
 
 <!--        <h1> This heading is common in all webpages </h1> -->
       <div class="container">
-
+        
         <!-- Your HTML content goes here -->
         {% block content %}
         {% endblock %}
