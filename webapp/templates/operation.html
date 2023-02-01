@@ -3,4 +3,15 @@
   
 <h1>result of {{ operation_name }}</h1>
 
+<p>
+    index, {{ df.columns[0] }}
+</p>
+
+
+{% for index,row in df.iterrows() %}
+    <p>
+        {{ index, row[0] }}
+    </p>
+{% endfor %}
+
 {% endblock %}

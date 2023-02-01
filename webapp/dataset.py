@@ -33,7 +33,7 @@ class Dataset():
         for operation in self._operations.values():
             with patch('builtins.print'):
                 operation()
-        return list(self._active_operations.keys())
+        return self._active_operations
     
 class GFF3Dataset(Dataset):
     def __init__(self, df: pd.DataFrame):
@@ -67,7 +67,7 @@ class GFF3Dataset(Dataset):
             # iteration on columns of the df
             information[column_name] = self._df[column_name].dtype
 
-        return Dataset(pd.DataFrame({'columns':information.keys(), 'data_type':information.values()})).create()
+        return Dataset(pd.DataFrame({'data_type':information.values()}, index = information.keys())).create()
 
     @activate
     def unique_seq_IDs(self) -> 'Dataset':
