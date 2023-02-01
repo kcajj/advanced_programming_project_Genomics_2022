@@ -1,16 +1,23 @@
 {%extends "base.html" %}
 {%block content%}
 
-    
-<h1>Active operations</h1>
+<h1>you are currently working on the {{ dataset_name }} dataset</h1>
 
 <p>
-  you are currently working on the human genome dataset
+  here we will display the dataset on which we are doing the operations, it can be the standard
+  one (human genome) or a filtered result coming from another operation
 </p>
 
 <p>
-  quick view over the dataset
+  we can show just a bunch of lines and then set two buttons, one to see the whole database
+  on the browser (bad idea) and one to download the csv file of the database (also bad idea)
 </p>
+
+<p>
+  <a href="/download/{{dataset_name}}"> Download the csv file </a>
+</p>
+
+<h2>Active operations</h2>
 
   {% for operation_name in active_op %}
     <h4>
