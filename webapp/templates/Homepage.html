@@ -1,8 +1,22 @@
 {%extends "base.html" %}
 {%block content%}
 
-    <h1>Homepage</h1>
-    <h2> Test picture </h2>
+    <h1>Human genome</h1>
     <img src="{{ url_for('static', filename='image.jpeg') }}" alt="test">
 
+    <p>
+        this is an app created by genomics students
+    </p>
+
+    <h2>you can:</h2>
+
+    <ul>
+        <li>
+            <a href="{{ url_for('active_operations')}}">view available operations</a>
+        </li>
+        <li>
+            <a href="{{ url_for('documentation')}}">view the documentation</a>
+        </li>
+    </ul>
+    
 {% endblock %}
