@@ -80,20 +80,6 @@ class GFF3Dataset(Dataset):
         '''
         obtaining the list of unique type of operations available in the dataset
         '''
-        #how can we classify the operations?
-        #multiple options:
-        #1: classification on the basis of the purpose
-            # data filtering: filter the data based on specific criteria
-            # statistics: return a value representing a measure over the dataset
-            # data selection: return a column
-        #2: classification on the basis of the output
-            # dataframe
-            # scalar
-            # series
-            #it is similar to the one above, but, since we have always to return a dataset object
-            #and the dataset class accepts only a pd.dataframe object (it is a wrapper around it)
-            #maybe it is better to stick with the first classfication.
-        
         self.get_active_operations() #to update self.__active_operations
         operation_types = list(set([value[1] for value in list(self._active_operations.values())]))
 
@@ -149,7 +135,6 @@ class GFF3Dataset(Dataset):
         '''
         counting the number of entries for each type of operation for the dataset containing only entries from source ensembl, havana and ensembl_havana
         '''
-        #this operation is useless in our program because the active operations are checked depending on the input
         return self.ensembl_havana().entries_for_each_type_of_operation()
 
     @activate

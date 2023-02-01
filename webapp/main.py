@@ -6,6 +6,8 @@ filepath='Homo_sapiens.GRCh38.85.gff3.gz'
 reader = GFF3DatasetReader()
 human_genome = reader.read(filepath)
 
+active_op = human_genome.get_active_operations()
+
 # Setting up the application
 app = Flask(__name__, static_folder='static')
 
