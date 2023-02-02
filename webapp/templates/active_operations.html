@@ -14,12 +14,25 @@
       <th> {{ column_name }} </th>
     {% endfor %}
   </tr>
+  {% for index,row in dataset.get_df().head().iterrows() %}
+    <tr>
+        {% for e in row %}
+            <td> {{ e }} </td>
+        {% endfor %}
+    </tr>
+  {% endfor %}
   <tr>
-    <td> initial rows</td>
+    <td>
+      ---
+    </td>
   </tr>
-  <tr>
-    <td> final rows</td>
-  </tr>
+  {% for index,row in dataset.get_df().tail().iterrows() %}
+    <tr>
+        {% for e in row %}
+          <td> {{ e }} </td>
+        {% endfor %}
+    </tr>
+  {% endfor %}
 </table>
 
 </br>

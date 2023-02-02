@@ -53,14 +53,20 @@ def GFF3view(dataset_name):
         df = human_genome.get_df()
     if dataset_name == 'get_chromosomes':
         df = human_genome.get_chromosomes().get_df()
+    if dataset_name == 'ensembl_havana':
+        df = human_genome.ensembl_havana().get_df()
     return render_template('GFF3view.html', dataset_name = dataset_name, dataset=df)
 
 @app.route('/download/<dataset_name>')
 def download(dataset_name): #fatto con chatgpt, c'è da controllare un minimo la documentazione e capire
                             #la funzione make response e io.StringIO
                             #se è roba troppo complicata concelliamo tutto
-    if dataset_name == "human_genome":
+    if dataset_name == 'human_genome':
         df = human_genome.get_df()
+    elif dataset_name == 'get_chromosomes':
+        df = human_genome.get_chromosomes().get_df()
+    elif dataset_name == 'ensembl_havana':
+        df = human_genome.ensembl_havana().get_df()
     # Create a buffer
     buffer = io.StringIO()
     
