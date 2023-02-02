@@ -7,10 +7,12 @@ filepath='Homo_sapiens.GRCh38.85.gff3.gz'
 reader = GFF3DatasetReader()
 human_genome = reader.read(filepath)
 
-global global_active_op, current_dataset
+global global_active_op, current_dataset_name
 global_active_op = human_genome.get_active_operations()
-current_dataset = 'human_genome'
+current_dataset_name = 'human_genome'
 
+#the filter operations are handled differently, we want to make the user able to perform operations
+#on a filtered dataset
 datasets = {'human_genome': human_genome,
             'get_chromosomes': human_genome.get_chromosomes(),
             'ensembl_havana': human_genome.ensembl_havana()}
@@ -25,11 +27,11 @@ def homepage():
 
 @app.route('/active_operations/<dataset_name>')
 def active_operations(dataset_name):
-    global global_active_op, current_dataset
+    global global_active_op, current_dataset_name
 
-    if current_dataset != dataset_name:
+    if current_dataset_name != dataset_name:
         global_active_op = datasets[dataset_name].get_active_operations()
-        current_dataset = dataset_name
+        current_dataset_name = dataset_name
 
     return render_template('active_operations.html', active_op = global_active_op, dataset = datasets[dataset_name], dataset_name = dataset_name)
 
