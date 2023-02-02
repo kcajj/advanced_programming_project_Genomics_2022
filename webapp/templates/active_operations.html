@@ -43,7 +43,7 @@
 </p>
 
 <p>
-  <a href="/download/{{dataset_name}}"> Download the csv file </a>
+  <a href="/download/{{dataset_name}}/"> Download the csv file </a>
 </p>
 <p>
   <a href="/GFF3view/{{dataset_name}}" target="_blank"> see the full dataset </a>
@@ -53,7 +53,7 @@
 
   {% for operation_name in active_op %}
     <h4>
-      <a href="/operation/{{operation_name}}">{{ operation_name }}</a>
+      <a href="/operation/{{dataset_name}}/{{operation_name}}">{{ operation_name }}</a>
     </h4>
   {% endfor %}
 
