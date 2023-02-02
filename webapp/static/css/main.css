@@ -24,3 +24,10 @@ h1 {
 .panel-title a { /* operation */
     color: rgb(255, 255, 255);
     }
+
+.table td {
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    }
