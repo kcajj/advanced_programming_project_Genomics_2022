@@ -62,9 +62,10 @@ def GFF3view(dataset_name):
     return render_template('GFF3view.html', dataset_name = dataset_name, dataset = df)
 
 @app.route('/download/<dataset_name>/<operation_name>')
-def download(dataset_name,operation_name): #fatto con chatgpt, c'è da controllare un minimo la documentazione e capire
-                            #la funzione make response e io.StringIO
-                            #se è roba troppo complicata concelliamo tutto
+def download(dataset_name,operation_name):
+    #fatto con chatgpt, c'è da controllare un minimo la documentazione e capire
+    #la funzione make response e io.StringIO
+    #se è roba troppo complicata concelliamo tutto
     global global_active_op
 
     if operation_name == '':
