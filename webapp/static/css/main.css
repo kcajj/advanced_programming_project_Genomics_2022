@@ -25,9 +25,36 @@ h1 {
     color: rgb(255, 255, 255);
     }
 
-.table td {
+/*.table td {
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    }*/
+
+table {
+    font-family: Arial, sans-serif;
+    color: white;
+    background-color: #333;
+    text-align: left;
     max-width: 100px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     }
+
+th, td {
+    padding: 10px;
+    text-align: left;
+    background-color: #333;
+    max-width: 445px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    }
+
+th {
+    background-color: #555;
+    max-width: 10px;
+    }
+
