@@ -63,30 +63,17 @@ def GFF3view(dataset_name):
 
 @app.route('/download/<dataset_name>/<operation_name>')
 def download(dataset_name,operation_name):
-    #fatto con chatgpt, c'è da controllare un minimo la documentazione e capire
-    #la funzione make response e io.StringIO
-    #se è roba troppo complicata concelliamo tutto
+    #c'è da controllare un minimo la documentazione e capire la funzione make response
     global global_active_op
 
-    if operation_name == '':
+    if operation_name == 'None':
         df = datasets[dataset_name].get_df()
     else:
         df = global_active_op[operation_name]().get_df()
-    # Create a buffer
-    buffer = io.StringIO()
-    
-    # Write the DataFrame to the buffer
-    df.to_csv(buffer, index=False)
-    
-    # Get the value of the buffer
-    buffer.seek(0)
-    csv_data = buffer.getvalue()
-    
-    # Create a response object with the content-type and content-disposition headers
-    response = make_response(csv_data)
+
+    response = make_response(df.to_csv())
     response.headers["Content-Disposition"] = f"attachment; filename = {dataset_name} - {operation_name}.csv"
     response.headers["Content-type"] = "text/csv"
-    
     return response
 
 # running application
