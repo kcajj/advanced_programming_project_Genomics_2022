@@ -11,6 +11,10 @@ global global_active_op, fixed_active_op
 global_active_op = human_genome.get_active_operations()
 fixed_active_op = global_active_op
 
+datasets = {'human_genome': human_genome,
+            'get_chromosomes': human_genome.get_chromosomes(),
+            'ensembl_havana': human_genome.ensembl_havana()}
+
 # Setting up the application
 app = Flask(__name__, static_folder='static')
 
@@ -49,24 +53,14 @@ def about_us():
 
 @app.route('/GFF3view/<dataset_name>')
 def GFF3view(dataset_name):
-    if dataset_name == 'human_genome':
-        df = human_genome.get_df()
-    if dataset_name == 'get_chromosomes':
-        df = human_genome.get_chromosomes().get_df()
-    if dataset_name == 'ensembl_havana':
-        df = human_genome.ensembl_havana().get_df()
+    df = datasets[dataset_name].get_df()
     return render_template('GFF3view.html', dataset_name = dataset_name, dataset=df)
 
 @app.route('/download/<dataset_name>')
 def download(dataset_name): #fatto con chatgpt, c'è da controllare un minimo la documentazione e capire
                             #la funzione make response e io.StringIO
                             #se è roba troppo complicata concelliamo tutto
-    if dataset_name == 'human_genome':
-        df = human_genome.get_df()
-    elif dataset_name == 'get_chromosomes':
-        df = human_genome.get_chromosomes().get_df()
-    elif dataset_name == 'ensembl_havana':
-        df = human_genome.ensembl_havana().get_df()
+    df = datasets[dataset_name].get_df()
     # Create a buffer
     buffer = io.StringIO()
     
