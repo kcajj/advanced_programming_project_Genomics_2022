@@ -3,15 +3,22 @@
   
 <h1>result of {{ operation_name }}</h1>
 
-<p>
-    index, {{ df.columns[0] }}
-</p>
+<table>
+    <tr>
+        <th> index </th>
+        {% for column_name in df.columns %}
+            <th> {{ column_name }} </th>
+        {% endfor %}
+    </tr>
+    {% for index,row in df.iterrows() %}
+        <tr>
+            <td> {{ index }} </td>
+            {% for e in row %}
+                <td> {{ e }} </th>
+            {% endfor %}
+        </tr>
+    {% endfor %}
 
-
-{% for index,row in df.iterrows() %}
-    <p>
-        {{ index, row[0] }}
-    </p>
-{% endfor %}
+</table>
 
 {% endblock %}

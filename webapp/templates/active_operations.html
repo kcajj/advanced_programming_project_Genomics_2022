@@ -8,6 +8,22 @@
   one (human genome) or a filtered result coming from another operation
 </p>
 
+<table>
+  <tr>
+    {% for column_name in dataset.get_df().columns %}
+      <th> {{ column_name }} </th>
+    {% endfor %}
+  </tr>
+  <tr>
+    <td> initial rows</td>
+  </tr>
+  <tr>
+    <td> final rows</td>
+  </tr>
+</table>
+
+</br>
+</br>
 <p>
   we can show just a bunch of lines and then set two buttons, one to see the whole database
   on the browser (bad idea) and one to download the csv file of the database (also bad idea)
@@ -15,6 +31,9 @@
 
 <p>
   <a href="/download/{{dataset_name}}"> Download the csv file </a>
+</p>
+<p>
+  <a href="/GFF3view/{{dataset_name}}" target="_blank"> see the full dataset </a>
 </p>
 
 <h2>Active operations</h2>

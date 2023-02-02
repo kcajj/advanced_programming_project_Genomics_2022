@@ -23,7 +23,7 @@ def homepage():
 def active_operations():
     global global_active_op, fixed_active_op
     global_active_op = fixed_active_op
-    return render_template('active_operations.html', active_op = global_active_op, dataset = human_genome, dataset_name = 'human genome')
+    return render_template('active_operations.html', active_op = global_active_op, dataset = human_genome, dataset_name = 'human_genome')
 
 @app.route('/operation/<operation_name>')
 def operation(operation_name):
@@ -48,14 +48,18 @@ def about_us():
     return render_template('about_us.html')
 
 @app.route('/GFF3view/<dataset_name>')
-def GFF3view(dataset):
-    return render_template('GFF3view.html',dataset=dataset)
+def GFF3view(dataset_name):
+    if dataset_name == 'human_genome':
+        df = human_genome.get_df()
+    if dataset_name == 'get_chromosomes':
+        df = human_genome.get_chromosomes().get_df()
+    return render_template('GFF3view.html', dataset_name = dataset_name, dataset=df)
 
 @app.route('/download/<dataset_name>')
 def download(dataset_name): #fatto con chatgpt, c'è da controllare un minimo la documentazione e capire
                             #la funzione make response e io.StringIO
                             #se è roba troppo complicata concelliamo tutto
-    if dataset_name == "human genome":
+    if dataset_name == "human_genome":
         df = human_genome.get_df()
     # Create a buffer
     buffer = io.StringIO()
