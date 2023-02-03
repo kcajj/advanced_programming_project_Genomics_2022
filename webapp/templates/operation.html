@@ -11,7 +11,9 @@
 <table class="prova">
 
     <tr>
-        <th> index </th>
+        {% if isgff3 == 'False' %} <!-- if the dataset is gff3 there is no need to print the index -->
+            <th> index </th>
+        {% endif %}
         {% for column_name in df.columns %}
             <th> {{ column_name }} </th>
         {% endfor %}
@@ -19,7 +21,9 @@
     
     {% for index,row in df.iterrows() %}
         <tr>
+            {% if isgff3 == 'False' %}
             <td> {{ index }} </td>
+            {% endif %}
             {% for e in row %}
                 <td> {{ e }} </th>
             {% endfor %}

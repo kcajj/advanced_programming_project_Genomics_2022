@@ -37,15 +37,20 @@ def active_operations(dataset_name):
 @app.route('/operation/<dataset_name>/<operation_name>')
 def operation(dataset_name,operation_name):
     global global_active_op
-
-    output = global_active_op[operation_name]()
-
-    if type(output) == Dataset:
-        df = output.get_df()
-        return render_template('operation.html', operation_name = operation_name, df = df, dataset_name = dataset_name)
     
-    else:
-        return redirect(url_for('active_operations', dataset_name = operation_name))
+    if operation_name == 'show_gff3':   #the user wants to see a gff3 dataset in the browser
+        df = datasets[dataset_name].get_df()
+        return render_template('operation.html', operation_name = operation_name, df = df, dataset_name = dataset_name, isgff3 = 'True')
+    
+    else:   #an operation on the dataset has been selected
+        output = global_active_op[operation_name]()
+
+        if type(output) == Dataset: #a normal operation has been selected
+            df = output.get_df()
+            return render_template('operation.html', operation_name = operation_name, df = df, dataset_name = dataset_name, isgff3 = 'False')
+        
+        else:   #a filter operation has been selected
+            return redirect(url_for('active_operations', dataset_name = operation_name))
 
 @app.route('/documentation')
 def documentation():
@@ -54,11 +59,6 @@ def documentation():
 @app.route('/about_us')
 def about_us():
     return render_template('about_us.html')
-
-@app.route('/GFF3view/<dataset_name>')
-def GFF3view(dataset_name):
-    df = datasets[dataset_name].get_df()
-    return render_template('GFF3view.html', dataset_name = dataset_name, dataset = df)
 
 @app.route('/download/<dataset_name>/<operation_name>')
 def download(dataset_name,operation_name):

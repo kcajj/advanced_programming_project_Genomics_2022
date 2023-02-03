@@ -1,12 +1,12 @@
 {%extends "base.html" %}
 {%block content%}
 
-<h1>you are currently working on the {{ dataset_name }} dataset</h1>
+<h1>you are currently working on the {{ dataset_name.replace('_',' ') }} dataset</h1>
 
 <p>
   here we will display the dataset on which we are doing the operations, it can be the standard
   one (human genome) or a filtered result coming from another operation. We way also want to display
-  dimensions of the dataset on which the user is working
+  dimensions of the dataset on which the user is working. Also the dimensions of the output tables of the operations
 </p>
 
 <table>
@@ -36,24 +36,19 @@
   {% endfor %}
 </table>
 
-</br>
-</br>
-<p>
-  we can show just a bunch of lines and then set two buttons, one to see the whole database
-  on the browser (bad idea) and one to download the csv file of the database (also bad idea)
-</p>
+<br>
 
 <p>
   <a href="/download/{{dataset_name}}/None"> Download the csv file </a>
 </p>
 <p>
-  <a href="/GFF3view/{{dataset_name}}" target="_blank"> see the full dataset (not recommended)</a>
+  <a href="/operation/{{dataset_name}}/show_gff3" target="_blank"> see the full dataset (not recommended)</a>
 </p>
 
 <h2>Active operations</h2>
 
 <p>
-  these are the operations that can be executed on the {{ dataset_name }} dataset
+  these are the operations that can be executed on the <b> {{ dataset_name.replace('_', ' ') }} </b> dataset
   (<img src="{{ url_for('static', filename='execute_button.png') }}"; height = 20px> to execute,
   <img src="{{ url_for('static', filename='documentation_button.png') }}"; height = 20px> to see the documentation):
 </p>
@@ -62,7 +57,7 @@
   {% for operation_name in active_op %}
     <li>
       <h4>
-        {{ operation_name }}
+        {{ operation_name.replace('_', ' ') }}
         <a href="/operation/{{dataset_name}}/{{operation_name}}">
           <div class="square-button">
             <img src="{{ url_for('static', filename='execute_button.png') }}">
@@ -79,62 +74,62 @@
 </ul>
 
 <div class="panel-group" id="accordion">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h4 class="panel-title">
-          <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
-            Descriptive
-          </a>
-        </h4>
-      </div>
-      <div id="collapse1" class="panel-collapse collapse in">
-        <div class="panel-body">
-          description and links
-        </div>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
+          Descriptive
+        </a>
+      </h4>
+    </div>
+    <div id="collapse1" class="panel-collapse collapse in">
+      <div class="panel-body">
+        description and links
       </div>
     </div>
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h4 class="panel-title">
-          <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">
-            Selection
-          </a>
-        </h4>
-      </div>
-      <div id="collapse2" class="panel-collapse collapse">
-        <div class="panel-body">
-          description and links
-        </div>
-      </div>
-    </div>
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h4 class="panel-title">
-          <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">
-            Statistics
-          </a>
-        </h4>
-      </div>
-      <div id="collapse3" class="panel-collapse collapse">
-        <div class="panel-body">
-          description and links
-        </div>
-      </div>
-    </div>
-    <div class="panel panel-default">
-        <div class="panel-heading">
-          <h4 class="panel-title">
-            <a data-toggle="collapse" data-parent="#accordion" href="#collapse4">
-              Filtering
-            </a>
-          </h4>
-        </div>
-        <div id="collapse4" class="panel-collapse collapse">
-          <div class="panel-body">
-            description and links
-          </div>
-        </div>
-      </div>
   </div>
- 
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">
+          Selection
+        </a>
+      </h4>
+    </div>
+    <div id="collapse2" class="panel-collapse collapse">
+      <div class="panel-body">
+        description and links
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">
+          Statistics
+        </a>
+      </h4>
+    </div>
+    <div id="collapse3" class="panel-collapse collapse">
+      <div class="panel-body">
+        description and links
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" data-parent="#accordion" href="#collapse4">
+            Filtering
+          </a>
+        </h4>
+      </div>
+      <div id="collapse4" class="panel-collapse collapse">
+        <div class="panel-body">
+          description and links
+        </div>
+      </div>
+    </div>
+</div>
+
 {% endblock %}
