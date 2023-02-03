@@ -13,7 +13,7 @@
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       
-      <title>Human Genome App</title>
+      <title>Human Genome Features Web App</title>
     
     </head>
 
@@ -21,41 +21,54 @@
 
       <header>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-          <img src="{{ url_for('static', filename='image.jpeg') }}" alt="Logo" width="40" height="34" class="d-inline-block align-text-top">
-            <a class="navbar-brand" href="#">Human Genome App</a>
-            
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon">
-              </span>
-            </button>
+          
+          <a class="navbar-brand" href="{{ url_for('homepage')}}">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" width="40" height="34" class="d-inline-block align-text-top">
+            <span>Human Genome App</span>
+          </a>
+          
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon">
+            </span>
+          </button>
 
-            <div class="collapse navbar-collapse" id="navbarNav">
-              <ul class="navbar-nav">
-                <li class="nav-item active">
-                  <a class="nav-link" href="{{ url_for('homepage')}}"> Home <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="{{ url_for('active_operations', dataset_name = 'human_genome') }}"> Active operations </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="{{ url_for('documentation')}}"> Project documentation</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="{{ url_for('about_us')}}"> About us</a>
-                </li>
-              </ul>
-            </div>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+              <li class="nav-item active">
+                <a class="btn" href="{{ url_for('homepage')}}"> Home <span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="btn" href="{{ url_for('active_operations', dataset_name = 'human_genome') }}"> Active operations </a>
+              </li>
+              <li class="nav-item">
+                <a class="btn" href="{{ url_for('documentation')}}"> Project documentation</a>
+              </li>
+              <li class="nav-item">
+                <a class="btn" href="{{ url_for('about_us')}}"> About us</a>
+              </li>
+            </ul>
+          </div>
 
-          </nav>
+        </nav>
       </header>
 
-<!--        <h1> This heading is common in all webpages </h1> -->
       <div class="container">
         
         <!-- Your HTML content goes here -->
         {% block content %}
         {% endblock %}
       
+      </div>
+
+      <div id="bottom-bar">
+        <p>
+          <br>
+          <br>
+          this is an open access web application
+          <br>
+          if you want to know more about the developers
+          <a href="{{ url_for('about_us')}}">click here</a>
+        </p>
       </div>
 
     </body>

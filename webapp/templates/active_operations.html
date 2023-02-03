@@ -52,11 +52,31 @@
 
 <h2>Active operations</h2>
 
+<p>
+  these are the operations that can be executed on the {{ dataset_name }} dataset
+  (<img src="{{ url_for('static', filename='execute_button.png') }}"; height = 20px> to execute,
+  <img src="{{ url_for('static', filename='documentation_button.png') }}"; height = 20px> to see the documentation):
+</p>
+
+<ul>
   {% for operation_name in active_op %}
-    <h4>
-      <a href="/operation/{{dataset_name}}/{{operation_name}}">{{ operation_name }}</a>
-    </h4>
+    <li>
+      <h4>
+        {{ operation_name }}
+        <a href="/operation/{{dataset_name}}/{{operation_name}}">
+          <div class="square-button">
+            <img src="{{ url_for('static', filename='execute_button.png') }}">
+          </div>
+        </a>
+        <a href="">
+          <div class="square-button">
+            <img src="{{ url_for('static', filename='documentation_button.png') }}">
+          </div>
+        </a>
+      </h4>
+    </li>
   {% endfor %}
+</ul>
 
 <div class="panel-group" id="accordion">
     <div class="panel panel-default">

@@ -1,22 +1,40 @@
 {%extends "base.html" %}
 {%block content%}
 
-    <h1>Human genome</h1>
-    <img src="{{ url_for('static', filename='image.jpeg') }}" alt="test">
+    <h1>Human Genome Features Web App</h1>
 
     <p>
         this is an app created by genomics students
     </p>
+    <p>
+        spiegare perchè abbiamo fatto questa applicazione
+    </p>
+    <p>
+        spiegare il dataset da cui siamo partiti<br>
+        link alla documentazione del file gff3
+    </p>
 
-    <h2>you can:</h2>
+    <h2>Operations</h2>
+    <p>
+        this web application allows to access to a series of operations on the human genome<br>
+        the operation view shows the dataset on which the operations are executed and below the
+        series of operations that are active for the selected dataset<br>
+        <a href="{{ url_for('active_operations', dataset_name = 'human_genome')}}">go to the operations</a>
+        <br>
+        in order to change dataset you have to execute one of the filter operations
+    </p>
+    
+    <h2>Documentation</h2>
+    <p>
+        we extensively explain the software design, analysis and implementation<br>
+        <a href="{{ url_for('documentation')}}">go to the documentation</a>
+        <br>
+        this page shows the UML diagram of our software, the explanation of the relationships between
+        the classes is underneath the diagram <br>
+        underneath the software design explanation there is the software analysis.
+        If you want to see the documentation of a specific class you can directly click on the 
+        class square in the UML diagram and you will be redirected to the documentation of that specific class.
+    </p>
 
-    <ul>
-        <li>
-            <a href="{{ url_for('active_operations', dataset_name = 'human_genome')}}">view available operations</a>
-        </li>
-        <li>
-            <a href="{{ url_for('documentation')}}">view the documentation</a>
-        </li>
-    </ul>
     
 {% endblock %}
