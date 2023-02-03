@@ -1,5 +1,4 @@
 from flask import Flask, render_template, redirect, url_for, make_response
-import io
 from dataset_reader import GFF3DatasetReader
 from dataset import *
 
