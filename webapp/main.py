@@ -40,14 +40,14 @@ def operation(dataset_name,operation_name):
     
     if operation_name == 'show_gff3':   #the user wants to see a gff3 dataset in the browser
         df = datasets[dataset_name].get_df()
-        return render_template('operation.html', operation_name = operation_name, df = df, dataset_name = dataset_name, isgff3 = 'True')
+        return render_template('operation.html', operation_name = operation_name, df = df, dataset_name = dataset_name)
     
     else:   #an operation on the dataset has been selected
         output = global_active_op[operation_name]()
 
         if type(output) == Dataset: #a normal operation has been selected
             df = output.get_df()
-            return render_template('operation.html', operation_name = operation_name, df = df, dataset_name = dataset_name, isgff3 = 'False')
+            return render_template('operation.html', operation_name = operation_name, df = df, dataset_name = dataset_name)
         
         else:   #a filter operation has been selected
             return redirect(url_for('active_operations', dataset_name = operation_name))
@@ -61,7 +61,7 @@ def download(dataset_name,operation_name):
     #c'è da controllare un minimo la documentazione e capire la funzione make response
     global global_active_op
 
-    if operation_name == 'None':
+    if operation_name == 'dataset':
         df = datasets[dataset_name].get_df()
     else:
         df = global_active_op[operation_name]().get_df()

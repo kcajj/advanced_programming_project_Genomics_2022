@@ -1,17 +1,33 @@
 {%extends "base.html" %}
 {%block content%}
 
-
-<h1>result of {{ operation_name }}</h1>
-
-<p>
-    <a href="/download/{{dataset_name}}/{{operation_name}}"> Download the csv file </a>
-</p>
+{% if operation_name != "show_gff3" %}
+    <h1>result of {{ operation_name.replace('_',' ') }} executed on {{ dataset_name.replace('_',' ') }}</h1>
+{% else %}
+    <h1>{{ dataset_name.replace('_',' ') }}</h1>
+{% endif %}
+<table>
+    <tr>
+        <td>
+            <a class="btn" href="/active_operations/{{dataset_name}}">
+              <img src="{{ url_for('static', filename='back_buttonn.png') }}"; height = 30px>
+            </a>
+          </td>
+        <td>
+            Dimensions: {{ df.shape }}
+        </td>
+        <td>
+        <a class="btn" href="/download/{{dataset_name}}/{{operation_name}}">
+            <img src="{{ url_for('static', filename='download_button.png') }}"; height = 30px>
+        </a>
+        </td>
+    </tr>
+</table>
 
 <table class="prova">
 
     <tr>
-        {% if isgff3 == 'False' %} <!-- if the dataset is gff3 there is no need to print the index -->
+        {% if operation_name != "show_gff3" %} <!-- if the dataset is gff3 there is no need to print the index -->
             <th> index </th>
         {% endif %}
         {% for column_name in df.columns %}
@@ -21,7 +37,7 @@
     
     {% for index,row in df.iterrows() %}
         <tr>
-            {% if isgff3 == 'False' %}
+            {% if operation_name != "show_gff3" %}
             <td> {{ index }} </td>
             {% endif %}
             {% for e in row %}

@@ -15,7 +15,7 @@
       {{ dataset_name.replace('_',' ') }} dataset: {{ dataset.get_df().shape }}
     </td>
     <td>
-      <a class="btn" href="/download/{{dataset_name}}/None">
+      <a class="btn" href="/download/{{dataset_name}}/dataset">
         <img src="{{ url_for('static', filename='download_button.png') }}"; height = 30px>
         Download the csv file
       </a>
@@ -61,9 +61,7 @@
 <h2>Active operations</h2>
 
 <p>
-  these are the operations that can be executed on the <b> {{ dataset_name.replace('_', ' ') }} </b> dataset
-  (<img src="{{ url_for('static', filename='execute_button.png') }}"; height = 20px> to execute,
-  <img src="{{ url_for('static', filename='documentation_button.png') }}"; height = 20px> to see the documentation):
+  these are the operations that can be executed on the <b> {{ dataset_name.replace('_', ' ') }} </b> dataset:
 </p>
 
 <ul>
