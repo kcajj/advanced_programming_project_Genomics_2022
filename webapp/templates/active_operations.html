@@ -8,6 +8,11 @@
   one (human genome) or a filtered result coming from another operation. We way also want to display
   dimensions of the dataset on which the user is working. Also the dimensions of the output tables of the operations
 </p>
+{% if dataset_name != 'human_genome' %}
+  <p>
+    <a href="{{ url_for('active_operations', dataset_name = 'human_genome') }}""> &lt;&lt;go back to the human genome dataset </a>
+  </p>
+{% endif %}
 
 <table>
   <tr>

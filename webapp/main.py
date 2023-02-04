@@ -12,9 +12,8 @@ current_dataset_name = 'human_genome'
 
 #the filter operations are handled differently, we want to make the user able to perform operations
 #on a filtered dataset
-datasets = {'human_genome': human_genome,
-            'get_chromosomes': human_genome.get_chromosomes(),
-            'ensembl_havana': human_genome.ensembl_havana()}
+datasets = {'human_genome': human_genome}
+datasets.update(human_genome.get_subdatasets())
 
 # Setting up the application
 app = Flask(__name__, static_folder='static')
@@ -38,20 +37,20 @@ def active_operations(dataset_name):
 def operation(dataset_name,operation_name):
     global global_active_op
     
-    if operation_name == 'show_gff3':   #the user wants to see a gff3 dataset in the browser
-        df = datasets[dataset_name].get_df()
-        return render_template('operation.html', operation_name = operation_name, df = df, dataset_name = dataset_name)
-    
-    else:   #an operation on the dataset has been selected
+    if operation_name != 'show_gff3':   #an operation on the dataset has been selected
         output = global_active_op[operation_name]()
 
         if type(output) == Dataset: #a normal operation has been selected
             df = output.get_df()
             return render_template('operation.html', operation_name = operation_name, df = df, dataset_name = dataset_name)
         
-        else:   #a filter operation has been selected
+        else:   #a filter operation has been selected, the dataset is not shown completely
             return redirect(url_for('active_operations', dataset_name = operation_name))
-
+    
+    else:   #the user wants to see a gff3 dataset
+        df = datasets[dataset_name].get_df().reset_index(drop = True)
+        return render_template('operation.html', operation_name = operation_name, df = df, dataset_name = dataset_name)
+    
 @app.route('/documentation')
 def documentation():
     return render_template('documentation.html')

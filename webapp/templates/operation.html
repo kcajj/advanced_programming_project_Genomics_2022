@@ -6,6 +6,7 @@
 {% else %}
     <h1>{{ dataset_name.replace('_',' ') }}</h1>
 {% endif %}
+
 <table>
     <tr>
         <td>
@@ -27,9 +28,7 @@
 <table class="prova">
 
     <tr>
-        {% if operation_name != "show_gff3" %} <!-- if the dataset is gff3 there is no need to print the index -->
-            <th> index </th>
-        {% endif %}
+        <th> index </th>
         {% for column_name in df.columns %}
             <th> {{ column_name }} </th>
         {% endfor %}
@@ -37,9 +36,7 @@
     
     {% for index,row in df.iterrows() %}
         <tr>
-            {% if operation_name != "show_gff3" %}
             <td> {{ index }} </td>
-            {% endif %}
             {% for e in row %}
                 <td> {{ e }} </th>
             {% endfor %}
