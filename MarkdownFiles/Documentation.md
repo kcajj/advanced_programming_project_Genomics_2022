@@ -44,7 +44,7 @@ maybe some information about the code used to write the class?
 We start by importing two libraries:
 - **numpy** as *np*
 - **pandas** as *pd*
-Subsequently from the submodule **mock** of the module **unitteste** we import the variable **patch**. Lastly from the module **functions** we import two functions, **get_attributes** and **activate**.
+Subsequently from the submodule **mock** of the module **unittest** we import the variable **patch**. Lastly from the module **functions** we import two functions, **get_attributes** and **activate**.
 
 Again we find two classes:
 
