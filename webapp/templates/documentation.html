@@ -1,7 +1,10 @@
 {%extends "base.html" %}
 {%block content%}
   
-<h1> Project documentation </h1>
+<h1>
+    <img class="header_image" src="{{ url_for('static', filename='documentation_button.png') }}" height="100 px">
+    Project documentation
+</h1>
 
 <p>
     this is the documentation
@@ -15,8 +18,7 @@
 
 <p>
     UML diagram<br>
-    if we manage to do it, 
-    <a href="#Dataset_reader">this will be an image</a>
+    <a href="#Dataset_reader">this will be the image of the dataset_reader class</a>
 </p>
 
 <p>
@@ -29,13 +31,13 @@
     each class described deeply
 </p>
 
-<h3> Dataset Reader </h3>
+<a id="Dataset_reader">
+    <h3> Dataset Reader </h3>
+</a>
 
 <p>
     crc card<br><br>
-    <a id="Dataset_reader">This the landing crc card with following documentation,
-        we will use these links also to gro from the active operation page to the documentation of each operation
-    </a>
+
 </p>
 
 <h5>Documentation:</h5>
@@ -126,15 +128,15 @@
 
             <li><b>Methods:</b></li>
             <ul type = "none">
-                <li> - <b>get_information</b>: it returns basic information about the dataset: name and data type of each column;</li>
-                <li> - <b>unique_seq_IDs</b>: it returns a list of unique sequence IDs available in the dataset;</li>
-                <li> - <b>type_of_operations</b>: it returns a list of unique types of operations available in the dataset;</li>
-                <li> - <b>same_source</b>: it counts the number of <b>features</b> provided by the same source; </li>
-                <li> - <b>get_chromosomes</b>: it derives a new dataset containing only the information about entire chromosomes. Entries with entirechromosomes comes from source <b>GRCh38**</b>; </li>
-                <li> - <b>fraction_of_unassembled_seq</b>: it returns the fraction of unassembled sequences in the dataset;</li>
-                <li> - <b>essembl_havana</b>: it returns a new dataset containing only entries from source <b>ensembl</b>, <b>havana</b> and <b>esembl_havana</b>;</li>
-                <li> - <b>entries_for_each_type_of_operation_ensemblhavana</b>: it counts the number of entries for each type of operation for the dataset containing only entries from source <b>ensembl</b>, <b>havana</b> and <b>esembl_havana</b>;</li>
-                <li> - <b>get_gene_names</b>: it returns the gene names from the dataset containing containing only entries from source <b>ensembl</b>, <b>havana</b> and <b>esembl_havana</b>;</li>
+                <li> - <a id="get_information"></a><b>get_information</b>: it returns basic information about the dataset: name and data type of each column;</li>
+                <li> - <a id="unique_seq_IDs"></a><b>unique_seq_IDs</b>: it returns a list of unique sequence IDs available in the dataset;</li>
+                <li> - <a id="type_of_operations"></a><b>type_of_operations</b>: it returns a list of unique types of operations available in the dataset;</li>
+                <li> - <a id="same_source"></a><b>same_source</b>: it counts the number of <b>features</b> provided by the same source; </li>
+                <li> - <a id="get_chromosomes"></a><b>get_chromosomes</b>: it derives a new dataset containing only the information about entire chromosomes. Entries with entirechromosomes comes from source <b>GRCh38**</b>; </li>
+                <li> - <a id="fraction_of_unassembled_seq"></a><b>fraction_of_unassembled_seq</b>: it returns the fraction of unassembled sequences in the dataset;</li>
+                <li> - <a id="ensembl_havana"></a><b>ensembl_havana</b>: it returns a new dataset containing only entries from source <b>ensembl</b>, <b>havana</b> and <b>esembl_havana</b>;</li>
+                <li> - <a id="entries_for_each_type_of_operation_ensemblhavana"></a><b>entries_for_each_type_of_operation_ensemblhavana</b>: it counts the number of entries for each type of operation for the dataset containing only entries from source <b>ensembl</b>, <b>havana</b> and <b>esembl_havana</b>;</li>
+                <li> - <a id="get_gene_names"></a><b>get_gene_names</b>: it returns the gene names from the dataset containing containing only entries from source <b>ensembl</b>, <b>havana</b> and <b>esembl_havana</b>;</li>
             </ul>
         </ul>
     </ul>

@@ -13,6 +13,7 @@
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       
+      <link rel="icon" type="image/png" href="{{ url_for('static', filename='logo.png') }}"/>
       <title>Human Genome Features Web App</title>
     
     </head>
@@ -35,16 +36,22 @@
           <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
               <li class="nav-item active">
-                <a class="btn" href="{{ url_for('homepage')}}"> Home <span class="sr-only">(current)</span></a>
+                <a class="btn" href="{{ url_for('homepage')}}">
+                  <img src="{{ url_for('static', filename='home_button.png') }}", height="30 px">
+                  Home
+                </a>
               </li>
               <li class="nav-item">
-                <a class="btn" href="{{ url_for('active_operations', dataset_name = 'human_genome') }}"> Active operations </a>
+                <a class="btn" href="{{ url_for('active_operations', dataset_name = 'human_genome') }}">
+                  <img src="{{ url_for('static', filename='execute_button.png') }}", height="30 px">
+                  Active operations
+                </a>
               </li>
               <li class="nav-item">
-                <a class="btn" href="{{ url_for('documentation')}}"> Project documentation</a>
-              </li>
-              <li class="nav-item">
-                <a class="btn" href="{{ url_for('about_us')}}"> About us</a>
+                <a class="btn" href="{{ url_for('documentation')}}">
+                  <img src="{{ url_for('static', filename='documentation_button.png') }}", height="30 px">
+                  Project documentation
+                </a>
               </li>
             </ul>
           </div>
@@ -64,10 +71,38 @@
         <p>
           <br>
           <br>
-          this is an open access web application
+          This is an open access web application
           <br>
-          if you want to know more about the developers
-          <a href="{{ url_for('about_us')}}">click here</a>
+        </p>
+
+        <h5> About us: </h5>
+
+        <p>
+          We are 4 students of the
+          <a href="https://corsi.unibo.it/1cycle/Genomics">
+              Genomics
+          </a>
+          bachelor degree <br>
+
+          Giacomo Castagnetti
+          <a href="https://github.com/kcajj">
+              <img src="{{ url_for('static', filename='github.png') }}"; height="20px">
+          </a>
+          <br>
+          Giulia Cocchi
+          <a href="https://github.com/">
+              <img src="{{ url_for('static', filename='github.png') }}"; height="20px">
+          </a>
+          <br>
+          Martina Padovani
+          <a href="https://github.com/">
+              <img src="{{ url_for('static', filename='github.png') }}"; height="20px">
+          </a>
+          <br>
+          Samuele Raffaello Zoboli
+          <a href="https://github.com/">
+              <img src="{{ url_for('static', filename='github.png') }}"; height="20px">
+          </a>
         </p>
       </div>
 

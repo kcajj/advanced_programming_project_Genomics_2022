@@ -56,10 +56,6 @@ def operation(dataset_name,operation_name):
 def documentation():
     return render_template('documentation.html')
 
-@app.route('/about_us')
-def about_us():
-    return render_template('about_us.html')
-
 @app.route('/download/<dataset_name>/<operation_name>')
 def download(dataset_name,operation_name):
     #c'è da controllare un minimo la documentazione e capire la funzione make response

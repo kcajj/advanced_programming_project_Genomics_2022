@@ -11,6 +11,26 @@
 
 <table>
   <tr>
+    <td>
+      {{ dataset_name.replace('_',' ') }} dataset: {{ dataset.get_df().shape }}
+    </td>
+    <td>
+      <a class="btn" href="/download/{{dataset_name}}/None">
+        <img src="{{ url_for('static', filename='download_button.png') }}"; height = 30px>
+        Download the csv file
+      </a>
+    </td>
+    <td>
+      <a class="btn" href="/operation/{{dataset_name}}/show_gff3" target="_blank">
+        <img src="{{ url_for('static', filename='open_in_new_tab.png') }}"; height = 30px>
+        see the full dataset (not recommended)
+      </a>
+    </td>
+  </tr>
+</table>
+
+<table>
+  <tr>
     {% for column_name in dataset.get_df().columns %}
       <th> {{ column_name }} </th>
     {% endfor %}
@@ -38,13 +58,6 @@
 
 <br>
 
-<p>
-  <a href="/download/{{dataset_name}}/None"> Download the csv file </a>
-</p>
-<p>
-  <a href="/operation/{{dataset_name}}/show_gff3" target="_blank"> see the full dataset (not recommended)</a>
-</p>
-
 <h2>Active operations</h2>
 
 <p>
@@ -63,7 +76,7 @@
             <img src="{{ url_for('static', filename='execute_button.png') }}">
           </div>
         </a>
-        <a href="">
+        <a href="/documentation#{{ operation_name }}">
           <div class="square-button">
             <img src="{{ url_for('static', filename='documentation_button.png') }}">
           </div>
