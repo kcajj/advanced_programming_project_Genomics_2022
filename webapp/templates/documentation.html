@@ -50,6 +50,28 @@
 
     Lastly we import the class <b>DataSet</b> from the module <b>dataset</b>.
 </p>
+<p>
+    We also find a total of two classes:
+    <ul type = "none">
+        <li><b>DatasetReader</b>: is an abstract class that defines the interface for reading dataset files.</li>
+        <ul>
+            <li><b>Methods:</b></li>
+            <ul type = "none">
+                <li> - <b>read</b>: is an abstract method that must be implemented by subclasses to define how to read a dataset file. </li>
+            </ul>
+        </ul>
+        <li><br></li>
+        <li><b>GFF3DatasetReader</b>: is a subclass of <i>DatasetReader</i> that is specifically designed to read GFF3 files, it should be compliant with a general abstract interface. It returns a dataset object as output that is a wrapper around a Pandas DataFrame. </li>
+        <ul>
+            <li><b>Methods:</b></li>
+            <ul type = "none">
+                <li> - <b>read</b>: it reads a GFF3 file and returns a <i>Dataset*</i> object.
+                    The method first checks if the file has the <b>.gff3.gz</b> extension. If it does not, a <i>ValueError</i> is raised with the message <b>"Invalid file type. Expected .gff3.gz file."</b>
+                    The method then uses the <i>pd.read_csv</i> function from the Pandas library to read the GFF3 file.</li>
+            </ul>
+        </ul>
+    </ul>
+</p>
 
 <h4> Implementation </h4>
 <p>
@@ -62,8 +84,60 @@
     crc card
 </p>
 
+<h5>Documentation:</h5>
+
+<p> 
+    We start by importing two libraries:
+    <ul>
+        <li><b>numbpy</b> as <i>np</i>;</li>
+        <li><b>pandas</b> as <i>pd</i>;</li>
+    </ul>
+
+    Subsequently from the submodule <b>mock</b> of the module <b>unittest</b> we import the variable <b>patch</b>. Lastly from the module <b>functions</b> we import two functions, <b>get_attribute</b> and <b>activate</b>
+</p>
 <p>
-    documentation of the class Datset
+    Again we find a total of two classes:
+    <ul type = "none">
+        <li><b>Dataset</b>: a class that provides a view over the data. It is used to distinguish between a generic tabular data and GFF3 data, which is a special case.</li>
+        <ul>
+            <li><b>Properties:</b></li>
+            <ul type = "none">
+                <li> - <b>df</b>: the data representation in the form of a Pandas dataframe;</li>
+                <li> - <b>active_operations</b>: a dictionary of <b>active</b> operations;</li>
+                <li> - <b>operations</b>: a dictionary of <b>avaible</b> operations;</li>
+            </ul>
+
+            <li><b>Methods:</b></li>
+            <ul type = "none">
+                <li> - <b>create</b>: it returns a new instance of <i>GFF3Dataset</i> if the data frame's columns match the format ('Seqid','Source','Type','Start','End','Score','Strand','Phase','Attribute'), otherwise returns self;</li>
+                <li> - <b>get_df</b>: it returns the internal data frame;</li>
+                <li> - <b>get_active_operations</b>: it returns  alla active operations. It is used to show the user the operation that they can use;</li>
+            </ul>
+        </ul>
+        <li><br></li>
+        <li><b>GFF3DatasetReader</b>: is a subclass of <i>Dataset</i>. It provides several operations that can be performed on GFF3 data.</li>
+        <ul>
+            <li><b>Properties:</b></li>
+            <ul type = "none">
+                <li> - <b>df</b>: the data representation in the form of a Pandas dataframe;</li>
+                <li> - <b>active_operations</b>: a dictionary of <b>active</b> operations;</li>
+                <li> - <b>operations</b>: a dictionary of <b>avaible</b> operations;</li>
+            </ul>
+
+            <li><b>Methods:</b></li>
+            <ul type = "none">
+                <li> - <b>get_information</b>: it returns basic information about the dataset: name and data type of each column;</li>
+                <li> - <b>unique_seq_IDs</b>: it returns a list of unique sequence IDs available in the dataset;</li>
+                <li> - <b>type_of_operations</b>: it returns a list of unique types of operations available in the dataset;</li>
+                <li> - <b>same_source</b>: it counts the number of <b>features</b> provided by the same source; </li>
+                <li> - <b>get_chromosomes</b>: it derives a new dataset containing only the information about entire chromosomes. Entries with entirechromosomes comes from source <b>GRCh38**</b>; </li>
+                <li> - <b>fraction_of_unassembled_seq</b>: it returns the fraction of unassembled sequences in the dataset;</li>
+                <li> - <b>essembl_havana</b>: it returns a new dataset containing only entries from source <b>ensembl</b>, <b>havana</b> and <b>esembl_havana</b>;</li>
+                <li> - <b>entries_for_each_type_of_operation_ensemblhavana</b>: it counts the number of entries for each type of operation for the dataset containing only entries from source <b>ensembl</b>, <b>havana</b> and <b>esembl_havana</b>;</li>
+                <li> - <b>get_gene_names</b>: it returns the gene names from the dataset containing containing only entries from source <b>ensembl</b>, <b>havana</b> and <b>esembl_havana</b>;</li>
+            </ul>
+        </ul>
+    </ul>
 </p>
 
 <h4> Implementation </h4>
