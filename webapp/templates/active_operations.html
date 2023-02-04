@@ -66,81 +66,27 @@
 
 <ul>
   {% for operation_name in active_op %}
-    <li>
-      <h4>
-        {{ operation_name.replace('_', ' ') }}
-        <a href="/operation/{{dataset_name}}/{{operation_name}}">
+    <li class="parent-element">
+
+      <h4> {{ operation_name.replace('_', ' ') }} </h4>
+
+      <div class="child-element">
+        
+        <a class="btn" href="/operation/{{dataset_name}}/{{operation_name}}">
           <div class="square-button">
             <img src="{{ url_for('static', filename='execute_button.png') }}">
           </div>
         </a>
-        <a href="/documentation#{{ operation_name }}">
+        <a class="btn" href="/documentation#{{ operation_name }}">
           <div class="square-button">
             <img src="{{ url_for('static', filename='documentation_button.png') }}">
           </div>
         </a>
-      </h4>
+
+      </div>
+      
     </li>
   {% endfor %}
 </ul>
-
-<div class="panel-group" id="accordion">
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h4 class="panel-title">
-        <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
-          Descriptive
-        </a>
-      </h4>
-    </div>
-    <div id="collapse1" class="panel-collapse collapse in">
-      <div class="panel-body">
-        description and links
-      </div>
-    </div>
-  </div>
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h4 class="panel-title">
-        <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">
-          Selection
-        </a>
-      </h4>
-    </div>
-    <div id="collapse2" class="panel-collapse collapse">
-      <div class="panel-body">
-        description and links
-      </div>
-    </div>
-  </div>
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h4 class="panel-title">
-        <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">
-          Statistics
-        </a>
-      </h4>
-    </div>
-    <div id="collapse3" class="panel-collapse collapse">
-      <div class="panel-body">
-        description and links
-      </div>
-    </div>
-  </div>
-  <div class="panel panel-default">
-      <div class="panel-heading">
-        <h4 class="panel-title">
-          <a data-toggle="collapse" data-parent="#accordion" href="#collapse4">
-            Filtering
-          </a>
-        </h4>
-      </div>
-      <div id="collapse4" class="panel-collapse collapse">
-        <div class="panel-body">
-          description and links
-        </div>
-      </div>
-    </div>
-</div>
 
 {% endblock %}

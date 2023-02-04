@@ -78,3 +78,27 @@ th {
     max-height: 100%;
     margin: 25% auto;
     }
+
+.parent-element {
+    padding: 10px;
+    }
+
+.child-element {
+    display: none;
+    }
+
+.parent-element:hover .child-element {
+    display: block;
+    animation: slideDown 0.5s ease-in-out;
+    }
+
+@keyframes slideDown {
+    0% {
+    transform: translateY(-10px);
+    opacity: 0;
+        }
+    100% {
+    transform: translateY(0);
+    opacity: 1;
+        }
+    }
