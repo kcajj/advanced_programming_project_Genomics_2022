@@ -11,8 +11,7 @@ UML diagram
 each class described deeply
 
 ### Dataset Reader
-
-This is the documentation of the module dataset_reader.py
+#### This is the documentation of the module dataset_reader.py
 
 We start by importing from the module **abc** the class **ABC** and the method **abstractmethod**. Subsequently we import two libraries:
 - **numpy** as *np*
@@ -40,8 +39,7 @@ The **GFF3DatasetReader** class is is a subclass of *DatasetReader* that is spec
 maybe some information about the code used to write the class?
 
 ### Dataset
-
-documentation of the module dataset.py
+#### This is the documentation of the module dataset.py
 
 We start by importing two libraries:
 - **numpy** as *np*
