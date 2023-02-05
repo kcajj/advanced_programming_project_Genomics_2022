@@ -23,7 +23,7 @@ class Dataset():
     def get_df(self) -> pd.DataFrame:#from the other modules, this has to be the only way to access the pandas dataframe that is inside the dataset class
         return self._df
 
-    def update_operations(self):
+    def __update_operations(self):
         '''
         returns all the active operations; it is used to show the user the operation that he can use
         '''
@@ -35,14 +35,13 @@ class Dataset():
             with patch('builtins.print'):
                 if type(operation()) == GFF3Dataset:
                     self._subdatasets[name] = operation()
+
+    def get_active_operations(self) -> dict:
+        self.__update_operations() #update active operations
         return self._active_operations
 
-    def get_active_operations(self):
-        self.update_operations()
-        return self._active_operations
-
-    def get_subdatasets(self):
-        self.update_operations() #update active operations
+    def get_subdatasets(self) -> dict:
+        self.__update_operations() #update active operations
         return self._subdatasets
 
 class GFF3Dataset(Dataset):
@@ -66,7 +65,7 @@ class GFF3Dataset(Dataset):
 
     #operations down here
     @activate
-    def information(self):
+    def information(self) -> Dataset:
         '''
         getting some basic information about the dataset. The basic information are the name and data type ofeach column
         '''
@@ -79,7 +78,7 @@ class GFF3Dataset(Dataset):
         return Dataset(pd.DataFrame({'data_type':information.values()}, index = information.keys())).create()
 
     @activate
-    def unique_sequence_IDs(self) -> 'Dataset':
+    def unique_sequence_IDs(self) -> Dataset:
         '''
         obtaining the list of unique sequence IDs available in the dataset
         '''
@@ -87,35 +86,35 @@ class GFF3Dataset(Dataset):
         #self._df['Seqid']
 
     @activate
-    def unique_types(self) -> 'Dataset':
+    def unique_types(self) -> Dataset:
         '''
         obtaining the list of unique type of operations available in the dataset
         '''
         return Dataset(pd.DataFrame({'unique_types':self._df.Type.unique()})).create()
 
     @activate
-    def same_source(self) -> 'Dataset':
+    def same_source(self) -> Dataset:
         '''
         counting the number of features provided by the same source
         '''
         return Dataset(self._df.Source.value_counts().to_frame()).create()
 
     @activate
-    def entries_for_each_type(self):
+    def entries_for_each_type(self) -> Dataset:
         '''
         counting the number of entries for each type of operation
         '''
         return Dataset(self._df.Type.value_counts().to_frame()).create()
 
     @activate
-    def chromosomes(self) -> 'Dataset':
+    def chromosomes(self) -> Dataset:
         '''
         deriving a new dataset containing only the information about entire chromosomes. Entries with entirechromosomes comes from source GRCh38
         '''
         return Dataset(self._df[self._df.Source == 'GRCh38']).create()
 
     @activate
-    def fraction_of_unassembled_sequences(self) -> 'Dataset':
+    def fraction_of_unassembled_sequences(self) -> Dataset:
         '''
         calculating the fraction of unassembled sequences from source GRCh38. Hint: unassembled sequences are of type supercontig while the others are of type chromosome
         '''
@@ -124,21 +123,21 @@ class GFF3Dataset(Dataset):
         return Dataset(pd.DataFrame({'fraction of unassembled sequences': fraction},index=[0])).create()
 
     @activate
-    def ensembl_havana(self) -> 'Dataset':
+    def ensembl_havana(self) -> Dataset:
         '''
         obtaining a new dataset containing only entries from source ensembl, havana and ensembl_havana
         '''
         return Dataset(self._df[(self._df.Source == 'ensembl') | (self._df.Source == 'havana') | (self._df.Source == 'ensembl_havana')]).create()
 
     @activate
-    def entries_for_each_type_ensemblhavana(self):
+    def entries_for_each_type_ensemblhavana(self) -> Dataset:
         '''
         counting the number of entries for each type of operation for the dataset containing only entries from source ensembl, havana and ensembl_havana
         '''
         return self.ensembl_havana().entries_for_each_type()
 
     @activate
-    def gene_names(self) -> 'Dataset':
+    def gene_names(self) -> Dataset:
         '''
         returning the gene names from the dataset containing containing only entries from source ensembl, havana and ensembl_havana
         '''
