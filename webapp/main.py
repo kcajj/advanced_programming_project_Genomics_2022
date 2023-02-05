@@ -2,7 +2,7 @@ from flask import Flask, render_template, redirect, url_for, make_response
 from dataset_reader import GFF3DatasetReader
 from dataset import *
 
-filepath='webapp/Homo_sapiens.GRCh38.85.gff3.gz'
+filepath='Homo_sapiens.GRCh38.85.gff3.gz'
 reader = GFF3DatasetReader()
 human_genome = reader.read(filepath)
 
