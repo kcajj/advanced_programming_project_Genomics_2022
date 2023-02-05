@@ -1,34 +1,29 @@
 {%extends "base.html" %}
 {%block content%}
 
-<h1>you are currently working on the {{ dataset_name.replace('_',' ') }} dataset</h1>
+<h1>You are currently working on the <b>{{ dataset_name.replace('_',' ') }}</b> dataset</h1>
 
-<p>
-  here we will display the dataset on which we are doing the operations, it can be the standard
-  one (human genome) or a filtered result coming from another operation. We way also want to display
-  dimensions of the dataset on which the user is working. Also the dimensions of the output tables of the operations
-</p>
 {% if dataset_name != 'human_genome' %}
   <p>
     <a href="{{ url_for('active_operations', dataset_name = 'human_genome') }}""> &lt;&lt;go back to the human genome dataset </a>
   </p>
 {% endif %}
 
-<table>
+<table class="table-information">
   <tr>
-    <td>
+    <td class="table-information-content" width="50%">
       {{ dataset_name.replace('_',' ') }} dataset: {{ dataset.get_df().shape }}
     </td>
-    <td>
+    <td class="table-information-content">
       <a class="btn" href="/download/{{dataset_name}}/dataset">
-        <img src="{{ url_for('static', filename='download_button.png') }}"; height = 30px>
+        <img class='img-button' src="{{ url_for('static', filename='download_button.png') }}">
         Download the csv file
       </a>
     </td>
-    <td>
+    <td class="table-information-content">
       <a class="btn" href="/operation/{{dataset_name}}/show_gff3" target="_blank">
-        <img src="{{ url_for('static', filename='open_in_new_tab.png') }}"; height = 30px>
-        see the full dataset (not recommended)
+        <img class='img-button' src="{{ url_for('static', filename='open_in_new_tab.png') }}">
+        See the full dataset (not recommended)
       </a>
     </td>
   </tr>
@@ -48,9 +43,11 @@
     </tr>
   {% endfor %}
   <tr>
-    <td>
-      ---
-    </td>
+    {% for i in range(9) %}
+      <td>
+        ...
+      </td>
+    {% endfor %}
   </tr>
   {% for index,row in dataset.get_df().tail().iterrows() %}
     <tr>
@@ -76,17 +73,22 @@
       <h4> {{ operation_name.replace('_', ' ') }} </h4>
 
       <div class="child-element">
-        
-        <a class="btn" href="/operation/{{dataset_name}}/{{operation_name}}">
-          <div class="square-button">
-            <img src="{{ url_for('static', filename='execute_button.png') }}">
-          </div>
-        </a>
-        <a class="btn" href="/documentation#{{ operation_name }}">
-          <div class="square-button">
-            <img src="{{ url_for('static', filename='documentation_button.png') }}">
-          </div>
-        </a>
+        <table class="table-operation">
+          <tr>
+            <td class="table-information-content">
+              <a class="btn" href="/operation/{{dataset_name}}/{{operation_name}}">
+                <img class='img-button' src="{{ url_for('static', filename='execute_button.png') }}">
+                Execute
+              </a>
+            </td>
+            <td class="table-information-content">
+              <a class="btn" href="/documentation#{{ operation_name }}">
+                <img class='img-button' src="{{ url_for('static', filename='documentation_button.png') }}">
+                Learn more about this operation
+              </a>
+            </td>
+          </tr>
+        </table>
 
       </div>
       
