@@ -73,25 +73,25 @@ The **GFF3Dataset** class is a subclass of *Dataset*. It provides several operat
 - **operations** a dictionary of **avaible** operations
 
 ###### Methods:
-- **get_information**: it returns basic information about the dataset: name and data type of each column.
+- **information**: it returns basic information about the dataset: name and data type of each column.
 
-- **unique_seq_IDs**: it returns a list of unique sequence IDs available in the dataset.
+- **unique_sequence_IDs**: it returns a list of unique sequence IDs available in the dataset.
 
-- **type_of_operations**: it returns a list of unique types of operations available in the dataset.
+- **unique_types**: it returns a list of unique types of operations available in the dataset.
 
 - **same_source**: it counts the number of **features** provided by the same source.
 
-- **entries_for_each_type_of_operation**: it counts the number of **entries** for each type of operation.
+- **entries_for_each_type**: it counts the number of **entries** for each type of operation.
 
-- **get_chromosomes**: it derives a new dataset containing only the information about entire chromosomes. Entries with entirechromosomes comes from source **GRCh38**.
+- **chromosomes**: it derives a new dataset containing only the information about entire chromosomes. Entries with entirechromosomes comes from source **GRCh38**.
 
-- **fraction_of_unassembled_seq**: it returns the fraction of unassembled sequences in the dataset.
+- **fraction_of_unassembled_sequences**: it returns the fraction of unassembled sequences in the dataset.
 
 - **ensembl_havana**: it returns a new dataset containing only entries from source **ensembl**, **havana** and **esembl_havana**.
 
-- **entries_for_each_type_of_operation_ensemblhavana**: it counts the number of entries for each type of operation for the dataset containing only entries from source **ensembl**, **havana** and **ensembl_havana**
+- **entries_for_each_type_ensemblhavana**: it counts the number of entries for each type of operation for the dataset containing only entries from source **ensembl**, **havana** and **ensembl_havana**
 
-- **get_gene_names**: it returns the gene names from the dataset containing containing only entries from source **ensembl**, **havana** and **ensembl_havana**.
+- **gene_names**: it returns the gene names from the dataset containing containing only entries from source **ensembl**, **havana** and **ensembl_havana**.
 
 
 #### implementation

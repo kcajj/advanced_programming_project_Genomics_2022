@@ -6,30 +6,36 @@
 {% else %}
     <h1>{{ dataset_name.replace('_',' ') }}</h1>
 {% endif %}
-<table>
+
+<table class="table-operation">
     <tr>
-        <td>
+        <td class="table-information-content">
             <a class="btn" href="/active_operations/{{dataset_name}}">
-              <img src="{{ url_for('static', filename='back_buttonn.png') }}"; height = 30px>
+              <img class='img-button' src="{{ url_for('static', filename='back_button.png') }}">
             </a>
           </td>
-        <td>
+        <td class="table-information-content">
             Dimensions: {{ df.shape }}
         </td>
-        <td>
-        <a class="btn" href="/download/{{dataset_name}}/{{operation_name}}">
-            <img src="{{ url_for('static', filename='download_button.png') }}"; height = 30px>
-        </a>
+        <td class="table-information-content">
+            <a class="btn" href="/download/{{dataset_name}}/{{operation_name}}">
+                <img class='img-button' src="{{ url_for('static', filename='download_button.png') }}">
+                Download
+            </a>
+        </td>
+        <td class="table-information-content">
+            <a class="btn" href="/documentation#{{ operation_name }}">
+                <img class='img-button' src="{{ url_for('static', filename='documentation_button.png') }}">
+                Learn more about the result
+            </a>
         </td>
     </tr>
 </table>
 
-<table class="prova">
+<table class="table-operation">
 
     <tr>
-        {% if operation_name != "show_gff3" %} <!-- if the dataset is gff3 there is no need to print the index -->
-            <th> index </th>
-        {% endif %}
+        <th> index </th>
         {% for column_name in df.columns %}
             <th> {{ column_name }} </th>
         {% endfor %}
@@ -37,9 +43,7 @@
     
     {% for index,row in df.iterrows() %}
         <tr>
-            {% if operation_name != "show_gff3" %}
             <td> {{ index }} </td>
-            {% endif %}
             {% for e in row %}
                 <td> {{ e }} </th>
             {% endfor %}

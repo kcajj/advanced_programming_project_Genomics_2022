@@ -3,25 +3,25 @@
   <head>
 
       <!-- CSS -->
-      <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-      
+      <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       
       <link rel="icon" type="image/png" href="{{ url_for('static', filename='logo.png') }}"/>
-      <title>HGF webapp</title>
+      <title>HGF web app</title>
     
     </head>
 
     <body>
 
       <header>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
           
           <a class="navbar-brand" href="{{ url_for('homepage')}}">
-            <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" width="40" height="34" class="d-inline-block align-text-top">
-            <span>Human Genome App</span>
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" height="50">
+            Human Genome App
           </a>
           
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -57,49 +57,48 @@
 
       <div class="container">
         
-        <!-- Your HTML content goes here -->
         {% block content %}
         {% endblock %}
       
       </div>
 
       <div id="bottom-bar">
-        <p>
-          <br>
-          <br>
-          This is an open access web application
-          <br>
-        </p>
-
-        <h5> About us: </h5>
-
-        <p>
-          We are 4 students of the
-          <a href="https://corsi.unibo.it/1cycle/Genomics">
+        <div id="information">
+          <p>
+            This is an open access web application
+          </p>
+        </div>
+        <div id="about-us">
+          <h5> About us: </h5>
+          <p>
+            We are 4 students of the
+            <a href="https://corsi.unibo.it/1cycle/Genomics" target="_blank">
               Genomics
-          </a>
-          bachelor degree <br>
-
-          Giacomo Castagnetti
-          <a href="https://github.com/kcajj" target="_blank">
-              <img src="{{ url_for('static', filename='github.png') }}"; height="20px">
-          </a>
-          <br>
-          Giulia Cocchi
-          <a href="https://github.com/giuliacocchi" target="_blank">
-              <img src="{{ url_for('static', filename='github.png') }}"; height="20px">
-          </a>
-          <br>
-          Martina Padovani
-          <a href="https://github.com/MartyPado" target="_blank">
-              <img src="{{ url_for('static', filename='github.png') }}"; height="20px">
-          </a>
-          <br>
-          Samuele Raffaello Zoboli
-          <a href="https://github.com/samzoboli" target="_blank">
-              <img src="{{ url_for('static', filename='github.png') }}"; height="20px">
-          </a>
-        </p>
+            </a>
+            bachelor degree <br>
+  
+            Giacomo Castagnetti
+            <a href="https://github.com/kcajj" target="_blank">
+                <img src="{{ url_for('static', filename='github.png') }}"; height="20px">
+            </a>
+            <br>
+            Giulia Cocchi
+            <a href="https://github.com/giuliacocchi" target="_blank">
+                <img src="{{ url_for('static', filename='github.png') }}"; height="20px">
+            </a>
+            <br>
+            Martina Padovani
+            <a href="https://github.com/MartyPado" target="_blank">
+                <img src="{{ url_for('static', filename='github.png') }}"; height="20px">
+            </a>
+            <br>
+            Samuele Raffaello Zoboli
+            <a href="https://github.com/samzoboli" target="_blank">
+                <img src="{{ url_for('static', filename='github.png') }}"; height="20px">
+            </a>
+          </p>
+        </div>
+        
       </div>
 
     </body>
