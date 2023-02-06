@@ -9,7 +9,7 @@
   </p>
 {% endif %}
 
-<table class="table-information">
+<table class="large-table">
   <tr>
     <td class="table-information-content" width="50%">
       {{ dataset_name.replace('_',' ') }} dataset: {{ dataset.get_df().shape }}
@@ -29,7 +29,7 @@
   </tr>
 </table>
 
-<table>
+<table class="large-table">
   <tr>
     {% for column_name in dataset.get_df().columns %}
       <th> {{ column_name }} </th>
@@ -73,7 +73,7 @@
       <h4> {{ operation_name.replace('_', ' ') }} </h4>
 
       <div class="child-element">
-        <table class="table-operation">
+        <table>
           <tr>
             <td class="table-information-content">
               <a class="btn" href="/operation/{{dataset_name}}/{{operation_name}}">

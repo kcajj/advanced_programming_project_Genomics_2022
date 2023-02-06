@@ -31,21 +31,15 @@ a {
 }
 
 table {
-    font-family: Arial, sans-serif;
     color: white;
     background-color: #333;
-    text-align: left;
-    width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     }
-.table-information{
+.large-table{
     width: 100%;
-    }
-    
-.table-operation{
-    width: 10%;
+    max-width: 100%;
 }
 
 th, td {
@@ -64,6 +58,14 @@ th {
     background-color: #555;
     }
 
+.crc th{
+        font-weight: normal;
+    }
+.crc td{
+        line-height: 1.5;
+        vertical-align: top;
+    }
+
 .table-information-content{
     color: black;
     background-color: rgb(95, 186, 255);
@@ -77,10 +79,7 @@ th {
     padding-top: 30px;
     display:flex;
     }
-#information {
-    flex:1;
-}
-#about-us{
+#half {
     flex:1;
 }
     
