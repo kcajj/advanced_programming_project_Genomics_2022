@@ -1,24 +1,12 @@
 # Advanced programming project - Genomics 2023
-This is the final project of the advanced programming course of Genomics bachelor degree - UniBo.
+This is the final project of the advanced programming course of the [Genomics](https://corsi.unibo.it/1cycle/Genomics) bachelor degree - UniBo.
 
-[go to the webapp!](https://human-genome-features-webapp.onrender.com)
+The project consists in a web application that is able to manipulate a GFF3 dataset ('Homo_sapiens.GRCh38.85.gff3.gz') that contains all of the features of the human genome.
 
-you can find the project specification [here](MarkdownFiles/Project_specification.md)
+We followed the instructions provided by the Professor, you can find them [here](MarkdownFiles/Project_specification.md).
 
-you can find the documentation [here](webapp/templates/documentation.html)
-
-problems of main branch:
-specificity for gff3 files is not so evident (with the gff3 subclass this is solved)
-activation of operations is not so pretty
-
-problems with GFF3 branch:
-same as above but there is a specific subclass for the gff3 datasets.
-each time a dataset object is created the crate() method is needed
+You can find the project documentation [here](MarkdownFiles/Documentation.md)
 
 todo:
-- PyPI upload
-- uml (giulia) crc cards
 - documentation
 - graphics
-- html
-- css

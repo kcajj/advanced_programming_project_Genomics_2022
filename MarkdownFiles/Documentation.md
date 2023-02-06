@@ -1,6 +1,9 @@
 # Documentation
 
-this is the documentation
+The project consists in a web application that is able to manipulate a GFF3 dataset ('Homo_sapiens.GRCh38.85.gff3.gz') that contains all of the features of the human genome.
+
+The backend script is written in python, 3 different modules interact together to allow the correct reading and handling of the dataset.
+The user interface is implemented through flask, it allows to use all of the functionalities of the application and to have a deep view of software design.
 
 ## software design
 broad view fo the software, with interaction between classes

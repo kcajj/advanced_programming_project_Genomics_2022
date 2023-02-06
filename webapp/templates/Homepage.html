@@ -6,24 +6,75 @@
     </h1>
 
     <p>
-        this is an app created by genomics students
+        This is the final project of the advanced programming course of the 
+        <a href='https://corsi.unibo.it/1cycle/Genomics'>Genomics</a> bachelor degree - UniBo.
     </p>
     <p>
-        spiegare perchè abbiamo fatto questa applicazione
+        The project consists in a web application that is able to manipulate a GFF3 Dataset (
+        <a href='https://github.com/kcajj/human_genome_webapp/blob/GFF3-subclass/Homo_sapiens.GRCh38.85.gff3.gz'>
+        Homo_sapiens.GRCh38.85.gff3.gz</a>) that contains all of the features of the human genome.
+        We followed the instructions provided by the Professor, you can find them 
+        <a href='https://github.com/kcajj/human_genome_webapp/blob/GFF3-subclass/MarkdownFiles/Project_specification.md'>here</a>.
+    </p>
+
+    <p>
+        A GFF3 file is a tabular dataset, organised in 9 columns:
+        <ol>
+            <li>Seqid: chromosome number</li>
+            <li>Source: algorithm or operating procedure that generated the feature</li>
+            <li>Type: type of the DNA sequence</li>
+            <li>Start: starting point of the sequence (in bp)</li>
+            <li>End: end point of the sequence (in bp)</li>
+            <li>Score: quality score of the feature</li>
+            <li>Strand: DNA strand on which the feature is placed</li>
+            <li>Phase: reading frame of the feature</li>
+            <li>Attribute: additional information about the feature</li>
+        </ol>
+        The dataset that we used was published in 2013 and it has 2601849 rows.
+        If you want to know more about GFF3 datasets click 
+        <a href="https://github.com/kcajj/human_genome_webapp/blob/GFF3-subclass/MarkdownFiles/input_file_README.txt">
+        here</a>.
     </p>
     <p>
-        spiegare il dataset da cui siamo partiti<br>
-        link alla documentazione del file gff3
+        This web interface allows the user to use all of the functionalities of the application,
+        and it describes deeply the software analysis, design and implementation.
     </p>
     
     <h2>Operations</h2>
     <p>
-        this web application allows to access to a series of operations on the human genome<br>
-        the operation view shows the dataset on which the operations are executed and below the
-        series of operations that are active for the selected dataset<br>
+        In the operations page you will find all of the operations that we implemented on the dataset
+    </p>
+    <p>
+        Only the operations whose execution is allowed on the active dataset are shown. The active 
+        dataset is shown at the beginning of the page, the starting dataset is the whole human genome 
+        and, through filtering operations, the dataset can be restricted.<br>
+        The GFF3 dataset is never shown on its whole on the browser, in this way long waiting times and 
+        crashes are avoided.<br>
+        Just above the GFF3 table some action buttons are present:
+        <ul>
+            <li>Dimensions of the active dataset</li>
+            <li>Download button: this button allows to download a .csv raw file of the dataset</li>
+            <li>Open in a new tab button: this button allows to show the whole GFF3 dataset in a browser tab
+                (note that this could cause huge loading times or crashes of the browser session)</li>
+        </ul>
+    </p>
+    <p>
+        The active operations are shown in a list, each operation allows two actions:
+        <ul>
+            <li>Execution: the result of the operation is shown to the user in another view.
+                if the operation is a filter, the active operations view is re-proposed, with a restricted
+                dataset to work on.
+                The 'operation-result' view will just display the table with the outcome of the execution
+                and some action buttons at the top (back button, dimensions of the table and download button)
+            </li>
+            <li>Documentation: this button redirects to the specific part of the documentation
+                in which the behaviour of the operation is described in depth.
+            </li>
+        </ul>
+        
+        If everything is clear, you can 
         <a href="{{ url_for('active_operations', dataset_name = 'human_genome')}}">go to the operations>></a>
         <br>
-        in order to change dataset you have to execute one of the filter operations
     </p>
     
     <h2>Documentation</h2>
