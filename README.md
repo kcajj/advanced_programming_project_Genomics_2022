@@ -7,6 +7,9 @@ We followed the instructions provided by the Professor, you can find them [here]
 
 You can find the project documentation [here](MarkdownFiles/Documentation.md)
 
-todo:
-- documentation
-- graphics
+To run the application:
+1. clone the repository on your GitHub desktop
+2. be sure to satisfy all of the library requirements: python3, pandas and flask
+3. Run the "main.py" file
+4. go to your [local host](http://127.0.0.1:5000/) (by default port 5000)
+5. enjoy

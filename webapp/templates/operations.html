@@ -3,15 +3,17 @@
 
 <h1>You are currently working on the <b>{{ dataset_name.replace('_',' ') }}</b> dataset</h1>
 
+<br>
+
 {% if dataset_name != 'human_genome' %}
   <p>
-    <a href="{{ url_for('active_operations', dataset_name = 'human_genome') }}""> &lt;&lt;go back to the human genome dataset </a>
+    <a href="{{ url_for('operations', dataset_name = 'human_genome') }}""> &lt;&lt;go back to the human genome dataset </a>
   </p>
 {% endif %}
 
 <table class="large-table">
   <tr>
-    <td class="table-information-content" width="50%">
+    <td class="table-information-content" width="70%">
       {{ dataset_name.replace('_',' ') }} dataset: {{ dataset.get_df().shape }}
     </td>
     <td class="table-information-content">
@@ -21,9 +23,9 @@
       </a>
     </td>
     <td class="table-information-content">
-      <a class="btn" href="/operation/{{dataset_name}}/show_gff3" target="_blank">
+      <a class="btn" href="/operation_result/{{dataset_name}}/show_gff3" target="_blank">
         <img class='img-button' src="{{ url_for('static', filename='open_in_new_tab.png') }}">
-        See the full dataset (not recommended)
+        See the full dataset
       </a>
     </td>
   </tr>
@@ -76,7 +78,7 @@
         <table>
           <tr>
             <td class="table-information-content">
-              <a class="btn" href="/operation/{{dataset_name}}/{{operation_name}}">
+              <a class="btn" href="/operation_result/{{dataset_name}}/{{operation_name}}">
                 <img class='img-button' src="{{ url_for('static', filename='execute_button.png') }}">
                 Execute
               </a>

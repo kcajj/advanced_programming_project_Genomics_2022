@@ -7,14 +7,14 @@
 
     <p>
         This is the final project of the advanced programming course of the 
-        <a href='https://corsi.unibo.it/1cycle/Genomics'>Genomics</a> bachelor degree - UniBo.
+        <a href='https://corsi.unibo.it/1cycle/Genomics' target="_blank">Genomics</a> bachelor degree - UniBo.
     </p>
     <p>
         The project consists in a web application that is able to manipulate a GFF3 Dataset (
-        <a href='https://github.com/kcajj/human_genome_webapp/blob/GFF3-subclass/Homo_sapiens.GRCh38.85.gff3.gz'>
+        <a href='https://github.com/kcajj/human_genome_webapp/blob/GFF3-subclass/Homo_sapiens.GRCh38.85.gff3.gz' target="_blank">
         Homo_sapiens.GRCh38.85.gff3.gz</a>) that contains all of the features of the human genome.
         We followed the instructions provided by the Professor, you can find them 
-        <a href='https://github.com/kcajj/human_genome_webapp/blob/GFF3-subclass/MarkdownFiles/Project_specification.md'>here</a>.
+        <a href='https://github.com/kcajj/human_genome_webapp/blob/GFF3-subclass/MarkdownFiles/Project_specification.md' target="_blank">here</a>.
     </p>
 
     <p>
@@ -32,7 +32,7 @@
         </ol>
         The dataset that we used was published in 2013 and it has 2601849 rows.
         If you want to know more about GFF3 datasets click 
-        <a href="https://github.com/kcajj/human_genome_webapp/blob/GFF3-subclass/MarkdownFiles/input_file_README.txt">
+        <a href="https://github.com/kcajj/human_genome_webapp/blob/GFF3-subclass/MarkdownFiles/input_file_README.txt" target="_blank">
         here</a>.
     </p>
     <p>
@@ -42,14 +42,16 @@
     
     <h2>Operations</h2>
     <p>
-        In the operations page you will find all of the operations that we implemented on the dataset
+        In the operations page you will find all of the operations that we implemented on the dataset.
     </p>
     <p>
-        Only the operations whose execution is allowed on the active dataset are shown. The active 
-        dataset is shown at the beginning of the page, the starting dataset is the whole human genome 
+        Only the operations whose execution is allowed on the active dataset are shown (active operations).
+        The active dataset is shown at the beginning of the page, the starting dataset is the whole human genome 
         and, through filtering operations, the dataset can be restricted.<br>
         The GFF3 dataset is never shown on its whole on the browser, in this way long waiting times and 
         crashes are avoided.<br>
+    </p>
+    <p>
         Just above the GFF3 table some action buttons are present:
         <ul>
             <li>Dimensions of the active dataset</li>
@@ -57,15 +59,21 @@
             <li>Open in a new tab button: this button allows to show the whole GFF3 dataset in a browser tab
                 (note that this could cause huge loading times or crashes of the browser session)</li>
         </ul>
+        If a filter operation was executed, in this area will show up a button that will allow you to 
+        go back to the human genome dataset.
     </p>
     <p>
         The active operations are shown in a list, each operation allows two actions:
         <ul>
-            <li>Execution: the result of the operation is shown to the user in another view.
-                if the operation is a filter, the active operations view is re-proposed, with a restricted
-                dataset to work on.
+            <li>Execution: the result of the operation is shown to the user in another page (operation-result view).
+                If the operation which is executed is a filter operation, the active operations view 
+                is re-proposed, with a restricted dataset to work on (note that each time you will 
+                click on the "operations" button in the navigation bar, you will reload the default
+                dataset).
+                <br>
                 The 'operation-result' view will just display the table with the outcome of the execution
-                and some action buttons at the top (back button, dimensions of the table and download button)
+                and some action buttons at the top (back button, dimensions of the table, download button
+                and documentation button)
             </li>
             <li>Documentation: this button redirects to the specific part of the documentation
                 in which the behaviour of the operation is described in depth.
@@ -73,21 +81,26 @@
         </ul>
         
         If everything is clear, you can 
-        <a href="{{ url_for('active_operations', dataset_name = 'human_genome')}}">go to the operations>></a>
+        <a href="{{ url_for('operations', dataset_name = 'human_genome')}}">go to the operations>></a>
         <br>
     </p>
     
     <h2>Documentation</h2>
     <p>
-        we extensively explain the software design, analysis and implementation<br>
-        <a href="{{ url_for('documentation')}}">go to the documentation>></a>
+        In the documentation page the software design and analysis take up the larger portions, some 
+        interesting implementations of some functionalities in the python script are presented.
+        The page contains the UML diagram of the software, where the interactions between the different
+        classes are dispayed.
         <br>
-        this page shows the UML diagram of our software, the explanation of the relationships between
-        the classes is underneath the diagram <br>
-        underneath the software design explanation there is the software analysis.
-        If you want to see the documentation of a specific class you can directly click on the 
-        class square in the UML diagram and you will be redirected to the documentation of that specific class.
+        By clicking on a class in the UML diagram, you will be redirected to the detailed description
+        of the class in the software analysis portion.
+        Each class is represented with a CRC card and then is described deeply in every part.
+    </p>
+    <p>
+        To know more about the project <a href="{{ url_for('documentation')}}">go to the documentation>></a>
     </p>
 
+    <br>
+    <br>
     
 {% endblock %}

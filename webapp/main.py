@@ -23,18 +23,18 @@ app = Flask(__name__, static_folder='static')
 def homepage():
     return render_template('homepage.html')
 
-@app.route('/active_operations/<dataset_name>')
-def active_operations(dataset_name):
+@app.route('/operations/<dataset_name>')
+def operations(dataset_name):
     global global_active_op, current_dataset_name
 
     if current_dataset_name != dataset_name:
         global_active_op = datasets[dataset_name].get_active_operations()
         current_dataset_name = dataset_name
 
-    return render_template('active_operations.html', active_op = global_active_op, dataset = datasets[dataset_name], dataset_name = dataset_name)
+    return render_template('operations.html', active_op = global_active_op, dataset = datasets[dataset_name], dataset_name = dataset_name)
 
-@app.route('/operation/<dataset_name>/<operation_name>')
-def operation(dataset_name,operation_name):
+@app.route('/operation_result/<dataset_name>/<operation_name>')
+def operation_result(dataset_name,operation_name):
     global global_active_op
     
     if operation_name != 'show_gff3':   #an operation on the dataset has been selected
@@ -42,14 +42,14 @@ def operation(dataset_name,operation_name):
 
         if type(output) == Dataset: #a normal operation has been selected
             df = output.get_df()
-            return render_template('operation.html', operation_name = operation_name, df = df, dataset_name = dataset_name)
+            return render_template('operation_result.html', operation_name = operation_name, df = df, dataset_name = dataset_name)
         
         else:   #a filter operation has been selected, the dataset is not shown completely
-            return redirect(url_for('active_operations', dataset_name = operation_name))
+            return redirect(url_for('operations', dataset_name = operation_name))
     
     else:   #the user wants to see a gff3 dataset
         df = datasets[dataset_name].get_df().reset_index(drop = True)
-        return render_template('operation.html', operation_name = operation_name, df = df, dataset_name = dataset_name)
+        return render_template('operation_result.html', operation_name = operation_name, df = df, dataset_name = dataset_name)
     
 @app.route('/documentation')
 def documentation():
