@@ -2,7 +2,7 @@
 {%block content%}
   
 <h1>
-    <img class="header_image" src="{{ url_for('static', filename='documentation_button.png') }}" height="100 px">
+    <img src="{{ url_for('static', filename='documentation_button.png') }}" height="100px">
     Project documentation
 </h1>
 
@@ -13,16 +13,17 @@
 <h2> Software design </h2>
 
 <p>
-    broad view of the software, with interaction between classes
+    broad view of the software, with interaction between classes.<br>
+    click on the class to explore the detailed documentation.
 </p>
 
-<p>
-    UML diagram<br>
-    <a href="#DatasetReader">this will be the image of the dataset reader class</a><br>
-    <a href="#GFF3DatasetReader">this will be the image of the gff3 dataset reader class</a><br>
-    <a href="#Dataset">this will be the image of the dataset class</a><br>
-    <a href="#GFF3Dataset">this will be the image of the gff3 dataset class</a><br>
-</p>
+<div class="UML">
+    <img src="{{ url_for('static', filename='UML_image.png') }}" height="800px">
+    <a href="#DatasetReader"><button class="DatasetReader"></button></a>
+    <a href="#GFF3DatasetReader"><button class="GFF3DatasetReader"></button></a>
+    <a href="#Dataset"><button class="Dataset"></button></a>
+    <a href="#GFF3Dataset"><button class="GFF3Dataset"></button></a>
+</div>
 
 <p>
     the software is organised into 4 modules

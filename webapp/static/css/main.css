@@ -88,6 +88,36 @@ th {
     width: 30px; 
     }
 
+.UML{
+    position: relative
+}
+.UML button{
+    position: absolute;
+    background-color: transparent;
+    /*border: 2px solid black;*/
+    border:none;
+    opacity: 0.5;
+    z-index: 1;
+    left: 3px;
+    width:407px;
+}
+.DatasetReader {
+    top: 3px;
+    height:72px;
+}
+.GFF3DatasetReader {
+    top: 143px;
+    height:87px;
+}
+.Dataset {
+    top: 322px;
+    height:190px;
+}
+.GFF3Dataset {
+    top: 557px;
+    height:242px;
+}
+
 .parent-element {
     padding: 10px;
     }
