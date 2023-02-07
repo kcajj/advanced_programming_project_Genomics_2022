@@ -7,11 +7,15 @@
 </h1>
 
 <p>
-    this is the documentation
+    In this page we will go thorugh 
+    <a href="#software_analysis">software analysis</a>
+    and 
+    <a href="#software_design">software design</a>.
 </p>
 
-
-<h2> Software analysis </h2>
+<a id="software_analysis">
+    <h2> Software analysis </h2>
+</a>
 
 <p>
     the sfotware analysis is based on the 
@@ -24,9 +28,7 @@
     We identified 4 classes to build:
 </p>
 
-<a id="DatasetReader">
-    <h4> DatasetReader </h4>
-</a>
+<h4> DatasetReader </h4>
 
 <table class="crc">
     <tr >
@@ -44,7 +46,7 @@
         <td colspan="2">
             <b>Responsibilities</b>
             <ul>
-                <li>Provide an abstract interface for the subclass</li>
+                <li>Provide an abstract interface for <br>the subclass</li>
             </ul>
         </td>
         <td>
@@ -57,13 +59,12 @@
 </table>
 
 <p>
+    <br>
     The DatasetReader class should be an abstract class, it should provide the abstract methods that 
     will be implemented in the subclass.
 </p>
 
-<a id="GFF3DatasetReader">
-    <h4> GFF3DatasetReader </h4>
-</a>
+<h4> GFF3DatasetReader </h4>
 
 <table class="crc">
     <tr >
@@ -95,13 +96,12 @@
 </table>
 
 <p>
+    <br>
     The GFF3DatasetReader class should be specific for GFF3 files, it should check if the input file is a 
     .gff3 file and then read it correctly, returning a pandas Dataframe inside a Dataset object.
 </p>
 
-<a id="Dataset">
-    <h4> Dataset </h4>
-</a>
+<h4> Dataset </h4>
 
 <table class="crc">
     <tr >
@@ -134,6 +134,7 @@
 </table>
 
 <p>
+    <br>
     The Dataset class should have two main functions:
     <ul>
         <li>It is a class that wraps a generic pandas dataframes 
@@ -146,9 +147,7 @@
     </ul>
 </p>
 
-<a id="GFF3Dataset">
-    <h4> GFF3Dataset </h4>
-</a>
+<h4> GFF3Dataset </h4>
 
 <table class="crc">
     <tr >
@@ -183,6 +182,7 @@
 </table>
 
 <p>
+    <br>
     The GFF3Dataset class should be specific for GFF3 files, it just wraps a pandas dataframe and 
     provides several operations that retrieve some characteristics of the dataframe or that 
     filter the dataframe on the basis of a condition.
@@ -210,15 +210,18 @@
     meaningful for the specifc dataset under consideration.
 </p>
 
-<h2> Software design </h2>
+<a id="software_design">
+    <h2> Software design </h2>
+</a>
 
 <p>
-    broad view of the software, with interaction between classes.<br>
-    click on the class to explore the detailed documentation.
+    Now we will present a detailed view over the software. This UML diagram shows all of the components of 
+    each class and the interactions between the classes.<br>
+    Click on a class to explore the detailed documentation.
 </p>
 
 <div class="UML">
-    <img src="{{ url_for('static', filename='UML_image_new.png') }}" width="100%">
+    <img src="{{ url_for('static', filename='UML_image.png') }}" width="100%">
     <a href="#DatasetReader"><button class="DatasetReader"></button></a>
     <a href="#GFF3DatasetReader"><button class="GFF3DatasetReader"></button></a>
     <a href="#Dataset"><button class="Dataset"></button></a>
@@ -228,45 +231,83 @@
 </div>
 
 <p>
-    the software is organised into 4 modules
+    <br>
+    The software is organised into 4 python modules:
+    <a href="#dataset_reader">dataset_reader</a>, 
+    <a href="#dataset">dataset</a>, 
+    <a href="#functions">functions</a>, 
+    <a href="#main">main</a>.
 </p>
 
-<h2> dataset_reader </h2>
-<p> 
-    We start by importing from the module <b>abc</b> the class <b>ABC</b> and the method <b>abstractmethod</b>.
-    Subsequently we import two libraries:
-    <ul>
-        <li><b>numbpy</b> as <i>np</i>;</li>
-        <li><b>pandas</b> as <i>pd</i>;</li>
-    </ul>
-
-    Lastly we import the class <b>DataSet</b> from the module <b>dataset</b>.
+<a id="dataset_reader">
+    <h2><b>dataset_reader</b></h2>
+</a>
+<p>
+    The dataset_reader module performs the decodification of the GFF3 file, it contains a specific class that is able 
+    to read a .gff3 file and that returns a Dataset object.
 </p>
 <p>
-    We also find a total of two classes:
-    <ul type = "none">
-        <li><b>DatasetReader</b>: is an abstract class that defines the interface for reading dataset files.</li>
-            <ul>
-                <li><b>Methods:</b></li>
-                <ul type = "none">
-                    <li> - <b>read</b>: is an abstract method that must be implemented by subclasses to define how to read a dataset file. </li>
-                </ul>
-            </ul>
-        <li><b>GFF3DatasetReader</b>: is a subclass of <i>DatasetReader</i> that is specifically designed to read GFF3 files, it should be 
-            compliant with a general abstract interface. It returns a dataset object as output that is a wrapper around a Pandas DataFrame.
-            <ul>
-                <li><b>Methods:</b></li>
-                <ul type = "none">
-                    <li> - <b>read</b>: it reads a GFF3 file and returns a <i>Dataset*</i> object.
-                        The method first checks if the file has the <b>.gff3.gz</b> extension. If it does not, a <i>ValueError</i> is raised with the message <b>"Invalid file type. Expected .gff3.gz file."</b>
-                        The method then uses the <i>pd.read_csv</i> function from the Pandas library to read the GFF3 file.</li>
-                </ul>
-            </ul>
+    The module requires:
+    <ul>
+        <li>abc library: it is used to define the Dataset reader class, which is an abstract class</li>
+        <li>pandas library: the reading operation is performed thorugh pandas.read_csv(), 
+            the resulting pandas DataFrame is wrapped in a Dataset object
         </li>
+        <li>Dataset module</li>
+    </ul>
+</p>
+<p>
+    this module contains two classes:
+</p>
+<a id="DatasetReader">
+    <h3>DatasetReader</h3>
+</a>
+<p>
+    The DatasetReader class is an abstract class, it defines the interface for reading files.
+    The only requirement in a dataset reading class is a read method and a filepath attribute, 
+    The read method can be concretised by a subclass that is specific for a file type (.gff3)
+</p>
+<h4>Implementation</h4>
+<img class='code' src="{{ url_for('static', filename='code/1.png') }}">
+<p>
+    To define an abstract class the "ABC" superclass is needed and to define an abstract method the 
+    "@abstractmethod" decorator is needed.
+</p>
+<a id="GFF3DatasetReader">
+    <h3>GFF3DatasetReader</h3>
+</a>
+<p>
+    The GFF3DatasetReader class is specific for .gff3 files; it provides an implementation of the abstract 
+    read method and it has just one attribute: filepath.
+    <br>
+    As soon as the reader instance is created and the read method is executed, the program checks if the 
+    filepath corresponds to a GFF3 object.
+    <br>
+    In case the inserted path doesn't lead to a .gff3 file, an exception is raised. Exceptions are raised 
+    also in the case that the file is not found or if any other error occurs.
+    <br>
+    If the filepath is suitable for the reader the pandas.read_csv() function is executed.
+</p>
+<h4>Implementation</h4>
+<img class='code' src="{{ url_for('static', filename='code/2.png') }}">
+<p>
+    We set several important attributes to ensure a correct and efficient reading of the file:
+    <ul>
+        <li>sep='\t': the GFF3 files use as separator the tab.</li>
+        <li>compression='gzip': the dataset that we are using has a gzip compression, this allows to reduce 
+            the file dimensions.
+        </li>
+        <li>names: we inserted the standard GFF3 header</li>
+        <li>comment = '#': accordingly to the project specification, we considered all the lines starting 
+            with "#" as comments.
+        </li>
+        <li>na_values = '.': in GFF3 files, the null values are labeled with a dot.</li>
     </ul>
 </p>
 
-<h2> dataset </h2>
+<a id="dataset">
+    <h2><b>dataset</b></h2>
+</a>
 <p> 
     We start by importing two libraries:
     <ul>
@@ -277,7 +318,21 @@
     Subsequently from the submodule <b>mock</b> of the module <b>unittest</b> we import the variable <b>patch</b>. Lastly from the module <b>functions</b> we import two functions, <b>get_attribute</b> and <b>activate</b>
 </p>
 <p>
-    Again we find a total of two classes:
+    Classes:
+</p>
+<a id="Dataset">
+    <h3>Dataset</h3>
+</a>
+<p>
+
+</p>
+<a id="GFF3Dataset">
+    <h3>GFF3Dataset</h3>
+</a>
+<p>
+
+</p>
+<p>
     <ul type = "none">
         <li><b>Dataset</b>: a class that provides a view over the data. It is used to distinguish between a generic tabular data and GFF3 data, which is a special case.
             <ul>
@@ -323,7 +378,9 @@
         </li>
     </ul>
 </p>
-<h2> functions </h2>
+<a id="functions">
+    <h2><b>functions</b></h2>
+</a>
 <p>
     this module is useful to keep the dataset module cleaner <br>
     it has two functions:
@@ -336,7 +393,9 @@
         </li>
     </ul>
 </p>
-<h2> main </h2>
+<a id="main">
+    <h2><b>main</b></h2>
+</a>
 <p>
     this module is the one that runs the web app, by putting together all the other modules.
     it uses the GFF3 reader to read the dataset of interest, and then it will automatically

@@ -83,6 +83,9 @@ th {
     height: 30px;
     width: 30px; 
     }
+.code{
+    width: 50%;
+}
 
 .UML{
     position: relative
