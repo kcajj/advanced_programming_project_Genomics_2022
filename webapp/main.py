@@ -57,7 +57,6 @@ def documentation():
 
 @app.route('/download/<dataset_name>/<operation_name>')
 def download(dataset_name,operation_name):
-    #c'è da controllare un minimo la documentazione e capire la funzione make response
     global global_active_op
 
     if operation_name == 'dataset':

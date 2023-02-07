@@ -231,7 +231,9 @@
 </div>
 
 <p>
-    <br>
+    explanation of the uml diagram
+</p>
+<p>
     The software is organised into 4 python modules:
     <a href="#dataset_reader">dataset_reader</a>, 
     <a href="#dataset">dataset</a>, 
@@ -389,47 +391,48 @@
 <p>
     this module is useful to keep the dataset module cleaner. <br>
     It has two functions:
-    <a id="decorator">
-        <h3>activate</h3>
-    </a>
-    <p>
-        The activate function is the decorator responsible for the activation of the operations in the 
-        GFF3Dataset class. The decorator is a core component of our software, it is the function that 
-        allows to activate a different set of functions for each GFF3Dataset object, in this way, the same 
-        operations (given that they are activated) can be executed on different datasets (namely, the 
-        starting dataset and the filtered ones).
-    </p>
-    <p>
-        This function decorates all of the operations and, each time an operation is executed, it examins the 
-        output and decides whether the operation should be activated or not.
-        <br>
-        The behaviours that trigger the inactivation of an operation are two:
-        <ul>
-            <li>the operation produces an error during execution</li>
-            <li>the operation produces an empty Dataset as output</li>
-        </ul>
-    </p>
-    <p>
-        Once an operation has been activated, for all the subsequent executions, its output will not be checked, 
-        in this way, some computational memory is saved.
-    </p>
-    <h4>Implementation</h4>
-    <img class='code' src="{{ url_for('static', filename='code/6.png') }}">
-
-    <h3>get_attributes</h3>
-    <p>
-        This function simply takes in input a row of the "attribute" column of a GFF3 file and returns as 
-        output a dictionary, in which the keys are the names of all the attributes of the row and the 
-        values are the values of those attributes.<br>
-        <i>
-            Example:<br>
-            Attribute line: "ID=gene:ENSG00000223972;Name=DDX11L1;"<br>
-            Output object: "{'ID':'gene:ENSG00000223972','Name':'DDX11L1'}"<br>
-        </i>
-        The get_attribute function is used by the 
-        <a href="#gene_names">gene_names</a> operation
-    </p>
 </p>
+<a id="decorator">
+    <h3>activate</h3>
+</a>
+<p>
+    The activate function is the decorator responsible for the activation of the operations in the 
+    GFF3Dataset class. The decorator is a core component of our software, it is the function that 
+    allows to activate a different set of functions for each GFF3Dataset object, in this way, the same 
+    operations (given that they are activated) can be executed on different datasets (namely, the 
+    starting dataset and the filtered ones).
+</p>
+<p>
+    This function decorates all of the operations and, each time an operation is executed, it examins the 
+    output and decides whether the operation should be activated or not.
+    <br>
+    The behaviours that trigger the inactivation of an operation are two:
+    <ul>
+        <li>the operation produces an error during execution</li>
+        <li>the operation produces an empty Dataset as output</li>
+    </ul>
+</p>
+<p>
+    Once an operation has been activated, for all the subsequent executions, its output will not be checked, 
+    in this way, some computational memory is saved.
+</p>
+<h4>Implementation</h4>
+<img class='code' src="{{ url_for('static', filename='code/6.png') }}">
+
+<h3>get_attributes</h3>
+<p>
+    This function simply takes in input a row of the "attribute" column of a GFF3 file and returns as 
+    output a dictionary, in which the keys are the names of all the attributes of the row and the 
+    values are the values of those attributes.<br>
+    <i>
+        Example:<br>
+        Attribute line: "ID=gene:ENSG00000223972;Name=DDX11L1;"<br>
+        Output object: "{'ID':'gene:ENSG00000223972','Name':'DDX11L1'}"<br>
+    </i>
+    The get_attribute function is used by the 
+    <a href="#gene_names">gene_names</a> operation
+</p>
+
 <a id="main">
     <h2><b>main</b></h2>
 </a>

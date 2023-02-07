@@ -1,7 +1,10 @@
 {%extends "base.html" %}
 {%block content%}
 
-<h1>You are currently working on the <b>{{ dataset_name.replace('_',' ') }}</b> dataset</h1>
+<h1>
+  <img src="{{ url_for('static', filename='database_logo.png') }}" height="100px">
+  You are currently working on the <b>{{ dataset_name.replace('_',' ') }}</b> dataset
+</h1>
 
 <br>
 
@@ -62,7 +65,10 @@
 
 <br>
 
-<h2>Active operations</h2>
+<h1>
+  <img src="{{ url_for('static', filename='operations_logo.png') }}" height="100px">
+  Active operations
+</h1>
 
 <p>
   these are the operations that can be executed on the <b> {{ dataset_name.replace('_', ' ') }} </b> dataset:
