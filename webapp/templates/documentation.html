@@ -309,29 +309,22 @@
     <h2><b>dataset</b></h2>
 </a>
 <p> 
-    We start by importing two libraries:
-    <ul>
-        <li><b>numbpy</b> as <i>np</i>;</li>
-        <li><b>pandas</b> as <i>pd</i>;</li>
-    </ul>
-
-    Subsequently from the submodule <b>mock</b> of the module <b>unittest</b> we import the variable <b>patch</b>. Lastly from the module <b>functions</b> we import two functions, <b>get_attribute</b> and <b>activate</b>
+    The dataset module performs the majority of the logic operations of the software, it stores and 
+    handles all the input data.
+    <br>
+    This module requires the pandas library, because all of the data is stored in pandas dataframes, 
+    and it interacts with the "functions" module. The "functions" module provides the decorator function and 
+    another useful function to dataset.py, it is a module used to keep the dataset class more clean.
+    <br>
+    The patch function (from the built-in "unittest" python module) is imported in this module, it will be 
+    used in the "get_active_operations()" method.
 </p>
 <p>
-    Classes:
+    this module contains two classes:
 </p>
 <a id="Dataset">
     <h3>Dataset</h3>
 </a>
-<p>
-
-</p>
-<a id="GFF3Dataset">
-    <h3>GFF3Dataset</h3>
-</a>
-<p>
-
-</p>
 <p>
     <ul type = "none">
         <li><b>Dataset</b>: a class that provides a view over the data. It is used to distinguish between a generic tabular data and GFF3 data, which is a special case.
@@ -351,7 +344,13 @@
                 </ul>
             </ul>
         </li>
-        <li><br></li>
+    </ul>
+</p>
+<a id="GFF3Dataset">
+    <h3>GFF3Dataset</h3>
+</a>
+<p>
+    <ul>
         <li><b>GFF3DatasetReader</b>: is a subclass of <i>Dataset</i>. It provides several operations that can be performed on GFF3 data.
             <ul>
                 <li><b>Properties:</b></li>
@@ -397,10 +396,65 @@
     <h2><b>main</b></h2>
 </a>
 <p>
-    this module is the one that runs the web app, by putting together all the other modules.
-    it uses the GFF3 reader to read the dataset of interest, and then it will automatically
-    create the dataset instances. the main will be able to deal with all the methods of dataset
-    since the dataset_reader module already imports the dataset class
+    The main module is responsible for putting together the webapp, it uses the tools defined in 
+    the other modules and in provides the structure of the flask app.
+</p>
+<h4>Preliminary operations</h4>
+<p>
+    <br>
+    The preliminary instructions of this module consist in the loading of the starting dataset (Homo_sapiens.GRCh38.85.gff3.gz), 
+    by creating a GFF3DatasetReader instance and by running the read() method. The Dataset instance resulting 
+    from the read is stored in the "human_genome".
+    <br>
+    <img src="{{ url_for('static', filename='code/3.png') }}" width="30%">
+</p>
+<p>
+    Subsequently some useful variables are initiated: The app is provided with two global variables 
+    that will be read and modified by all over the program. The "global_active_op" variable stores 
+    the active operations for the dataset that is under analysis in the program, while "current_dataset_name" 
+    stores the name of the dataset under analysis in the program. Since the starting dataset is the human genome, 
+    all of the operations will be active and the dataset name will be "human_genome".
+    <br>
+    <img src="{{ url_for('static', filename='code/4.png') }}" width="30%">
+</p>
+<p>
+    Another important preliminary component fo the main.py module is the datasets dictionary. This dictionary 
+    exploits the "get_subdatasets()" method of the Dataset object to get all the results of the filter operations, 
+    then it stores these results in a dictionary together with the full dataset.
+    <br>
+    This dictionary will allow us to change the active dataset from allover the program.
+    <br>
+    <img src="{{ url_for('static', filename='code/5.png') }}" width="30%">
+</p>
+<h4>Flask application</h4>
+<p>
+    In order to run a flask webapp all the routes of the site have to be defined in the python file. 
+    Our application has 5 routes, each is characterised by the "@app.route" decorator, and each route 
+    (except "download") shows a different HTML file. The function that links a route to an HTML file 
+    is "render_template()".
+    <br>
+</p>
+<p>
+    The routes are:
+    <ul>
+        <li>
+            <b>homepage</b>: loads the "homepage.html" template, this page explain the purposes of the we application 
+            and describes the role of the other pages
+        </li>
+        <li>
+            <b>operations</b>: 
+        </li>
+        <li>
+            <b>operation_result</b>: 
+        </li>
+        <li>
+            <b>documentation</b>: loads the "documentation.html" template, the one you're reading right now
+        </li>
+        <li>
+            <b>download</b>: gives the possibility to download a .csv file, created from a pandas dataframe, in the 
+            computer of the user.
+        </li>
+    </ul>
 </p>
 
 {% endblock %}
