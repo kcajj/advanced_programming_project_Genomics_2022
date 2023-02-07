@@ -55,7 +55,7 @@ class GFF3Dataset(Dataset):
                             'fraction_of_unassembled_sequences': self.fraction_of_unassembled_sequences,
                             'ensembl_havana': self.ensembl_havana,
                             'entries_for_each_type_ensemblhavana': self.entries_for_each_type_ensemblhavana,
-                            'gene_names': self.gene_names,}
+                            'gene_names': self.gene_names}
 
     '''
     By means of a dataset object a number of insights over data can be obtained; each insight
