@@ -5,9 +5,9 @@ The project consists in a web application that is able to manipulate a GFF3 data
 
 We followed the instructions provided by the Professor, you can find them [here](MarkdownFiles/Project_specification.md).
 
-You can find the project documentation [here](MarkdownFiles/Documentation.md)
+You can find the full project documentation in the "Documentation" page of the web application[here](MarkdownFiles/Documentation.md)
 
-To run the application:
+To run the web application on your browser:
 1. clone the repository on your GitHub desktop
 2. be sure to satisfy all of the library requirements: python3, pandas and flask
 3. Run the "main.py" file

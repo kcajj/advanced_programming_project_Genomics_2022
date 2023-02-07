@@ -328,61 +328,71 @@
     <h3>Dataset</h3>
 </a>
 <p>
-    <ul type = "none">
-        <li><b>Dataset</b>: a class that provides a view over the data. It is used to distinguish between a generic tabular data and GFF3 data, which is a special case.
+    The Dataset class provides a view over the data. It is used to distinguish between a 
+    generic tabular data and GFF3 data, which is a special case.
+    <ul>
+        <li><b>Attributes:</b>
             <ul>
-                <li><b>Properties:</b></li>
-                <ul type = "none">
-                    <li> - <b>df</b>: the data representation in the form of a Pandas dataframe;</li>
-                    <li> - <b>active_operations</b>: a dictionary of <b>active</b> operations;</li>
-                    <li> - <b>operations</b>: a dictionary of <b>avaible</b> operations;</li>
-                </ul>
+                <li><b>_df</b>: the data representation in the form of a Pandas dataframe;</li>
+                <li><b>_operations</b>: </li>
+                <li><b>_active_operations</b>: a dictionary of <b>active</b> operations;</li>
+                <li><b>get_subdatasets</b>: a dictionary of <b>avaible</b> operations;</li>
+            </ul>
+        </li>
         
-                <li><b>Methods:</b></li>
-                <ul type = "none">
-                    <li> - <b>create</b>: it returns a new instance of <i>GFF3Dataset</i> if the data frame's columns match the format ('Seqid','Source','Type','Start','End','Score','Strand','Phase','Attribute'), otherwise returns self;</li>
-                    <li> - <b>get_df</b>: it returns the internal data frame;</li>
-                    <li> - <b>get_active_operations</b>: it returns  alla active operations. It is used to show the user the operation that they can use;</li>
-                </ul>
+        <li>
+            <b>Methods:</b>
+            <ul>
+                <li>
+                    <b>create</b>: it returns a new instance of <i>GFF3Dataset</i> if the data frame's 
+                    columns match the format ('Seqid','Source','Type','Start','End','Score','Strand','Phase','Attribute'), otherwise returns self;
+                </li>
+                <li>
+                    <b>get_df</b>: it returns the internal data frame;
+                </li>
+                <li>
+                    <b>__update_operations</b>: 
+                </li>
+                <li>
+                    <b>get_active_operations</b>: it returns  alla active operations. It is used to show 
+                    the user the operation that they can use;
+                </li>
+                <li>
+                    <b>get_subdatasets</b>: 
+                </li>
             </ul>
         </li>
     </ul>
 </p>
 <h4>Implementation</h4>
-<img class='code' src="{{ url_for('static', filename='code/1.png') }}">
+<img class='code' src="{{ url_for('static', filename='code/.png') }}">
 <p>
-    To define an abstract class the "ABC" superclass is needed and to define an abstract method the 
-    "@abstractmethod" decorator is needed.
+    
 </p>
 <a id="GFF3Dataset">
     <h3>GFF3Dataset</h3>
 </a>
 <p>
+    is a subclass of <i>Dataset</i>. It provides several operations that can 
+    be performed on GFF3 data.
     <ul>
-        <li><b>GFF3DatasetReader</b>: is a subclass of <i>Dataset</i>. It provides several operations that can be performed on GFF3 data.
-            <ul>
-                <li><b>Properties:</b></li>
-                <ul type = "none">
-                    <li> - <b>df</b>: the data representation in the form of a Pandas dataframe;</li>
-                    <li> - <b>active_operations</b>: a dictionary of <b>active</b> operations;</li>
-                    <li> - <b>operations</b>: a dictionary of <b>avaible</b> operations;</li>
-                </ul>
-        
-                <li><b>Methods:</b></li>
-                <ul type = "none">
-                    <li> - <a id="information"></a><b>information</b>: it returns basic information about the dataset: name and data type of each column;</li>
-                    <li> - <a id="unique_sequence_IDs"></a><b>unique_sequence_IDs</b>: it returns a list of unique sequence IDs available in the dataset;</li>
-                    <li> - <a id="unique_types"></a><b>unique_types</b>: it returns a list of unique types of operations available in the dataset;</li>
-                    <li> - <a id="same_source"></a><b>same_source</b>: it counts the number of <b>features</b> provided by the same source; </li>
-                    <li> - <a id="entries_for_each_type"></a><b>entries_for_each_type</b>: 
-                    <li> - <a id="chromosomes"></a><b>chromosomes</b>: it derives a new dataset containing only the information about entire chromosomes. Entries with entirechromosomes comes from source <b>GRCh38**</b>; </li>
-                    <li> - <a id="fraction_of_unassembled_sequences"></a><b>fraction_of_unassembled_sequences</b>: it returns the fraction of unassembled sequences in the dataset;</li>
-                    <li> - <a id="ensembl_havana"></a><b>ensembl_havana</b>: it returns a new dataset containing only entries from source <b>ensembl</b>, <b>havana</b> and <b>esembl_havana</b>;</li>
-                    <li> - <a id="entries_for_each_type_ensemblhavana"></a><b>entries_for_each_type_ensemblhavana</b>: it counts the number of entries for each type of operation for the dataset containing only entries from source <b>ensembl</b>, <b>havana</b> and <b>esembl_havana</b>;</li>
-                    <li> - <a id="gene_names"></a><b>gene_names</b>: it returns the gene names from the dataset containing containing only entries from source <b>ensembl</b>, <b>havana</b> and <b>esembl_havana</b>;</li>
-                </ul>
-            </ul>
+        <li>
+            <b>Attributes</b>
         </li>
+
+        <li><b>Methods:</b></li>
+        <ul>
+            <li><a id="information"></a><b>information</b>: it returns basic information about the dataset: name and data type of each column;</li>
+            <li><a id="unique_sequence_IDs"></a><b>unique_sequence_IDs</b>: it returns a list of unique sequence IDs available in the dataset;</li>
+            <li><a id="unique_types"></a><b>unique_types</b>: it returns a list of unique types of operations available in the dataset;</li>
+            <li><a id="same_source"></a><b>same_source</b>: it counts the number of <b>features</b> provided by the same source; </li>
+            <li><a id="entries_for_each_type"></a><b>entries_for_each_type</b>: 
+            <li><a id="chromosomes"></a><b>chromosomes</b>: it derives a new dataset containing only the information about entire chromosomes. Entries with entirechromosomes comes from source <b>GRCh38**</b>; </li>
+            <li><a id="fraction_of_unassembled_sequences"></a><b>fraction_of_unassembled_sequences</b>: it returns the fraction of unassembled sequences in the dataset;</li>
+            <li><a id="ensembl_havana"></a><b>ensembl_havana</b>: it returns a new dataset containing only entries from source <b>ensembl</b>, <b>havana</b> and <b>esembl_havana</b>;</li>
+            <li><a id="entries_for_each_type_ensemblhavana"></a><b>entries_for_each_type_ensemblhavana</b>: it counts the number of entries for each type of operation for the dataset containing only entries from source <b>ensembl</b>, <b>havana</b> and <b>esembl_havana</b>;</li>
+            <li><a id="gene_names"></a><b>gene_names</b>: it returns the gene names from the dataset containing containing only entries from source <b>ensembl</b>, <b>havana</b> and <b>esembl_havana</b>;</li>
+        </ul>
     </ul>
 </p>
 <a id="functions">
