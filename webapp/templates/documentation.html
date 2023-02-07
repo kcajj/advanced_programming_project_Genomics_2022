@@ -57,11 +57,12 @@
 </table>
 
 <p>
-    
+    The DatasetReader class should be an abstract class, it should provide the abstract methods that 
+    will be implemented in the subclass.
 </p>
 
 <a id="GFF3DatasetReader">
-    <h3> GFF3DatasetReader </h3>
+    <h4> GFF3DatasetReader </h4>
 </a>
 
 <table class="crc">
@@ -80,7 +81,7 @@
         <td colspan="2">
             <b>Responsibilities</b>
             <ul>
-                <li>Read a GFF3 file</li>
+                <li>Reads specifically a GFF3 file</li>
                 <li>Return a dataset object</li>
             </ul>
         </td>
@@ -94,11 +95,12 @@
 </table>
 
 <p>
-    
+    The GFF3DatasetReader class should be specific for GFF3 files, it should check if the input file is a 
+    .gff3 file and then read it correctly, returning a pandas Dataframe inside a Dataset object.
 </p>
 
 <a id="Dataset">
-    <h3> Dataset </h3>
+    <h4> Dataset </h4>
 </a>
 
 <table class="crc">
@@ -132,11 +134,20 @@
 </table>
 
 <p>
-    
+    The Dataset class should have two main functions:
+    <ul>
+        <li>It is a class that wraps a generic pandas dataframes 
+            and allows the other parts of the software to access it;
+        </li>
+        <li>
+            It checks if the dataframe that it is wrapping is a gff3 dataset and, if so, it 
+            wraps it in another class, specific for gff3 files.
+        </li>
+    </ul>
 </p>
 
 <a id="GFF3Dataset">
-    <h3> GFF3Dataset </h3>
+    <h4> GFF3Dataset </h4>
 </a>
 
 <table class="crc">
@@ -172,7 +183,31 @@
 </table>
 
 <p>
-    
+    The GFF3Dataset class should be specific for GFF3 files, it just wraps a pandas dataframe and 
+    provides several operations that retrieve some characteristics of the dataframe or that 
+    filter the dataframe on the basis of a condition.
+</p>
+<p>
+    The operations are:
+    <ul>
+        <li>General information</li>
+        <li>Unique sequence IDs:</li>
+        <li>Unique types of features</li>
+        <li>Features with the same source</li>
+        <li>Entries for each type of feature</li>
+        <li>Data of entire chromosomes</li>
+        <li>Fraction of unassembled sequences</li>
+        <li>Features with source ensembl, havana, and ensembl_havana</li>
+        <li>Entries for each type of feature, on the database with ensembl, havana and ensembl_havana sources</li>
+        <li>All gene names</li>
+    </ul>
+</p>
+<p>
+    This class should also automatically handle the activation of the operations. The activation
+    should be performed through a decorator.<br>
+    For each GFF3Dataset object that is created in the program, a customised list of active operations 
+    is created; in this way, even on filtered dataset, we will be able to perform some active operation,
+    meaningful for the specifc dataset under consideration.
 </p>
 
 <h2> Software design </h2>
@@ -196,7 +231,7 @@
     the software is organised into 4 modules
 </p>
 
-<h3> dataset_reader </h3>
+<h2> dataset_reader </h2>
 <p> 
     We start by importing from the module <b>abc</b> the class <b>ABC</b> and the method <b>abstractmethod</b>.
     Subsequently we import two libraries:
@@ -231,7 +266,7 @@
     </ul>
 </p>
 
-<h3> dataset </h3>
+<h2> dataset </h2>
 <p> 
     We start by importing two libraries:
     <ul>
@@ -288,7 +323,7 @@
         </li>
     </ul>
 </p>
-<h3> functions </h3>
+<h2> functions </h2>
 <p>
     this module is useful to keep the dataset module cleaner <br>
     it has two functions:
@@ -301,7 +336,7 @@
         </li>
     </ul>
 </p>
-<h3> main </h3>
+<h2> main </h2>
 <p>
     this module is the one that runs the web app, by putting together all the other modules.
     it uses the GFF3 reader to read the dataset of interest, and then it will automatically
