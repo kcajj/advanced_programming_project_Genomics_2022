@@ -17,7 +17,6 @@ def activate(operation):
             except:
                 #if the function creates a problem we do not add it to the active operations
                 print(f'The operation {operation.__name__} operation is not active on this object')
-                #we could also add the operation to an inactive register but maybe it is useless
         else:
             #if the operation is active we just execute it
             output = operation(self,*args,**kwargs)
