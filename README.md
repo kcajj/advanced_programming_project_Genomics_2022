@@ -8,8 +8,8 @@ We followed the instructions provided by the Professor, you can find them [here]
 You can find the full project documentation in the "Documentation" page of the web application.
 
 To run the web application on your browser:
-1. clone the repository on your GitHub desktop
-2. be sure to satisfy all of the library requirements: python3, pandas and flask
+1. Download the lastest release
+2. Be sure to satisfy all of the library requirements: python3, pandas and flask
 3. Run the "main.py" file
-4. go to your [local host](http://127.0.0.1:5000/) (by default port 5000)
-5. enjoy
+4. Go to your [local host](http://127.0.0.1:5000/) (by default port 5000)
+5. Enjoy
