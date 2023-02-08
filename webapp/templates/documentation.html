@@ -234,14 +234,31 @@
     Each box in the diagram represents one of the classes used in the implementation; in particular its name (in the upper part),
     its attributes (in the middle), and its methods (in the lower part). This helps understanding the type of the input each method
     or attribute requires, and also of the output that specific operation will return; also, the visibility of the method is shown:
-    those introduced by an hashtag (#) are protected, by a plus sign (+) are public and by a minus (-) are private. The main object, however,
-    is to show the relationships that allow all those classes to interact.
-    - GFF3DatasetReader is a realization of DatasetReader: it implements the abstract operations defined in the DatasetReader interface.
-    - GFF3DatasetReader is also unidirectionally associated to Dataset: they communicate, and the first one has some references to the second.
-      Also, in this case, one GFF3DatasetReader, the reader, can return zero or more Datasets.
-    - pandas_DataFrame and pandas_Series are associated: they communicate one with the other. 
-    - GFF3Dataset depends on pandas_DataFrame and pandas_Series: it contains and uses some of their methods, and a change in their implementations
-        would have consequences on GFF3Dataset
+    those introduced by an hashtag (#) are protected, by a plus sign (+) are public and by a minus (-) are private. 
+    <br>
+    We will go through each class deeply, for now, let's explore the relationships that allow all of these classes to interact:
+    <ul>
+        <li>
+            GFF3DatasetReader is a realization of DatasetReader: it implements the abstract operations defined in the DatasetReader interface.
+        </li>
+        <li>
+            GFF3DatasetReader is unidirectionally associated to Dataset: the first one is aware of the second one, as the output of 
+            the reader is a Dataset object, but the second one is not aware of the first one.
+            Furthermore, in the software should exist just one GFF3Dataset reader, as it can read different files by executing 
+            multiple times the read method, on the other hand the software can store many Datasets.
+        </li>
+        <li>
+            GFF3Dataset inherits from Dataset: Dataset class provides the general structure for storing data in the software, 
+            the GFF3Dataset implements specific operations for GFF3 datasets.
+        </li>
+        <li>
+            GFF3Dataset uses pandas_DataFrame and pandas_Series: all the Datasets of the program are based on pandas data structure, so 
+            they depend on their methods.
+        </li>
+        <li>
+            pandas_DataFrame and pandas_Series are associated
+        </li>
+    </ul>
 </p>
 <p>
     The software is organised into 4 python modules:
