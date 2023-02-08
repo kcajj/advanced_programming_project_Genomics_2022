@@ -27,7 +27,7 @@ class Dataset():
         returns all the active operations; it is used to show the user the operation that he can use
         '''
         # the active operations can be called by other python files (but not by out UI) even if they are
-        # inactive, so i added the prints in the decorator to show possible errors or empty output
+        # inactive, so we added the prints in the decorator to show possible errors or empty output
         # to not show those prints after the activation of this function i used this patch method 
         # found it randomly online
         for name, operation in self._operations.items():

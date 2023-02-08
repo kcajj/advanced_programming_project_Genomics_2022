@@ -26,6 +26,10 @@ a {
     color: rgb(0, 8, 255);
 }
 
+mark.red{
+    background-color: red;
+}
+
 table {
     color: white;
     background-color: #333;

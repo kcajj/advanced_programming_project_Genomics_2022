@@ -5,7 +5,7 @@ The project consists in a web application that is able to manipulate a GFF3 data
 
 We followed the instructions provided by the Professor, you can find them [here](MarkdownFiles/Project_specification.md).
 
-You can find the full project documentation in the "Documentation" page of the web application[here](MarkdownFiles/Documentation.md)
+You can find the full project documentation in the "Documentation" page of the web application.
 
 To run the web application on your browser:
 1. clone the repository on your GitHub desktop

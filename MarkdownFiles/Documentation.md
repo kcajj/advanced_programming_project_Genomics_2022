@@ -5,12 +5,15 @@ The project consists in a web application that is able to manipulate a GFF3 data
 The backend script is written in python, 4 different modules interact together to allow the correct reading and handling of the dataset.
 The user interface is implemented through flask, it allows to use all of the functionalities of the application and to have a deep view of software design.
 
+## software analysis
+
+
+
 ## software design
 broad view fo the software, with interaction between classes
 
 UML diagram
 
-## software analysis
 each class described deeply
 
 ### Dataset Reader

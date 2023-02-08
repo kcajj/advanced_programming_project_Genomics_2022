@@ -315,7 +315,8 @@
     handles all the input data.
     <br>
     This module requires the pandas library, because all of the data is stored in pandas dataframes, 
-    and it interacts with the "functions" module. The "functions" module provides the decorator function and 
+    and it interacts with the "functions" module. The "functions" module provides the 
+    <a href="#decorator">decorator</a> function and 
     another useful function to dataset.py, it is a module used to keep the dataset class more clean.
     <br>
     The patch function (from the built-in "unittest" python module) is imported in this module, it will be 
@@ -328,78 +329,226 @@
     <h3>Dataset</h3>
 </a>
 <p>
-    The Dataset class provides a view over the data. It is used to distinguish between a 
-    generic tabular data and GFF3 data, which is a special case.
+    The Dataset class provides the basic structure and functionalities for all the data of the 
+    program. At the base of the class there is a pandas dataframe, the class is just a wrapper around it. 
+    The Dataset stores the dataframe and provides the elements to implement operations on it.
+    <br>
+    Each time a dataset object is created, together with the input dataframe, also the "create()" 
+    method has to be called. This method allows to distinguish a generic tabular data from a GFF3 dataset. 
+    The GFF3 objects will be directly transformed to instances of the GFF3Dataset class, which provides a 
+    wide range of operations specific for the GFF3 structure.
+</p>
+<p>
+    The Dataset class objects istantiated in the program will be only general tabular data, they are not provided 
+    with any operation, they are just stored in a wrapper.
+    <br>
+    Despite this, they are still provided with all the attributes and basic methods of the GFF3Dataset class, this is because, 
+    in principle, some generic operations could be implemented also in the Dataset class. We avoided to implement 
+    such operations as the project inscructions specified that the operations should be executed only by means 
+    of a GFF3Dataset object.
+    <br>
+    With this kind of design, also other Dataset types could be implemented, and the new classes 
+    should just be provided with the specific operations.
+</p>
+<p>
+    Here you find the detailed list of attributes and methods of the class
     <ul>
         <li><b>Attributes:</b>
             <ul>
-                <li><b>_df</b>: the data representation in the form of a Pandas dataframe;</li>
-                <li><b>_operations</b>: </li>
-                <li><b>_active_operations</b>: a dictionary of <b>active</b> operations;</li>
-                <li><b>get_subdatasets</b>: a dictionary of <b>avaible</b> operations;</li>
+                <li>
+                    <b>self._df</b>: the data in the form of a Pandas dataframe.
+                </li>
+                <li>
+                    <b>self._operations</b>: dictionary of all the available operations for the dataset, 
+                    in the case of the generic dataset, the list is empty.
+                </li>
+                <li>
+                    <b>self._active_operations</b>: dictionary of all the active operations, it is filled as 
+                    each operation is executed.
+                </li>
+                <li>
+                    <b>self._subdatasets</b>: dictionary of all the results of filter operations (i.e. operations 
+                    that return as output a GFF3Dataset object). The keys of the dictionary correspond to the 
+                    name of the operation while the values to the GFF3 dataset (the output of the operation).
+                </li>
             </ul>
         </li>
-        
+        All of the attributes are protected as they are common to the subclasses of dataset, to access the attributes 
+        the user should rely on the respective methods.
         <li>
-            <b>Methods:</b>
+            <b>Methods:</b> 
             <ul>
                 <li>
-                    <b>create</b>: it returns a new instance of <i>GFF3Dataset</i> if the data frame's 
-                    columns match the format ('Seqid','Source','Type','Start','End','Score','Strand','Phase','Attribute'), otherwise returns self;
+                    <b>create()</b>: this method has to be always called when a Dataset object is created, it is able to 
+                    return an instance of the GFF3Dataset class if the dataset of the object that has just been created 
+                    is consistent with the GFF3 structure.
+                    <br>
+                    If the dataset is not a GFF3 object, it is just wrapped in the dataset class, no other funcitonality is 
+                    provided to "normal" Dataset objects.
+                    <img src="{{ url_for('static', filename='code/7.png') }}" width="70%">
                 </li>
                 <li>
-                    <b>get_df</b>: it returns the internal data frame;
+                    <b>get_df()</b>: returns the internal data frame.
                 </li>
                 <li>
-                    <b>__update_operations</b>: 
+                    <b>__update_operations()</b>: iterates through the self._operations list of the object, by doing so, 
+                    the operations that return a valid result are added to the dictionary of active operations. 
+                    Futhermore the result of the operations that return a GFF3Dataset object (filter operations) 
+                    is added to the subdatasets dictionary.
+                    This method is private because it is just used by other methods of the Dataset class.
                 </li>
                 <li>
-                    <b>get_active_operations</b>: it returns  alla active operations. It is used to show 
-                    the user the operation that they can use;
+                    <b>get_active_operations()</b>: this method first runs the __update_operations method, 
+                    in this way the _active_operations dictionary is filled, then returns the dictionary.
                 </li>
                 <li>
-                    <b>get_subdatasets</b>: 
+                    <b>get_subdatasets()</b>: this method first runs the __update_operations method, 
+                    in this way the _active_operations dictionary is filled, then returns the dictionary.
                 </li>
             </ul>
         </li>
     </ul>
+    more detailed informations about the attributes and methods regarding the operations are given 
+    in the GFF3Dataset class documentation below.
 </p>
-<h4>Implementation</h4>
-<img class='code' src="{{ url_for('static', filename='code/.png') }}">
-<p>
-    
-</p>
+
 <a id="GFF3Dataset">
     <h3>GFF3Dataset</h3>
 </a>
 <p>
-    is a subclass of <i>Dataset</i>. It provides several operations that can 
-    be performed on GFF3 data.
+    The GFF3Dataset class is a subclass of Dataset, it implements several operations that can be 
+    performed specifically on GFF3 data.
+    <br>
+    The GFF3Dataset objects inherit all of the attributes and methods of the Dataset class, only 
+    the list of operations (self._operations) is overridden and a series of additional methods 
+    (the operations) are added.
+    <br>
+    The GFF3Dataset instances should be created only as output of the Dataset.create() method; only if a 
+    Dataset object with the right characteristics is created. An hyphotetic user that uses our class modules 
+    is discouraged to directly create a GFF3Dataset object.
     <ul>
         <li>
             <b>Attributes</b>
+            <ul>
+                <li>All the attributes of Dataset class</li>
+                <li>
+                    <b>self._operations</b>: each operation method that is added to the GFF3Dataset 
+                    class has to be also added to this dictionary, following a specific synthax.
+                    The keys of the dictonary have to correspond to the name of the method, and the values 
+                    are the direct references to the methods, by means of the self object.
+                    <br>
+                    <img src="{{ url_for('static', filename='code/8.png') }}" width="70%">
+                    <br>
+                    by storing the operations in this way, when accessing the active operations dictionary, 
+                    it will be enough to iterate through the values of the dictionary to reference the specific 
+                    operation, linked to the specific object.
+                </li>
+            </ul>
         </li>
-
-        <li><b>Methods:</b></li>
-        <ul>
-            <li><a id="information"></a><b>information</b>: it returns basic information about the dataset: name and data type of each column;</li>
-            <li><a id="unique_sequence_IDs"></a><b>unique_sequence_IDs</b>: it returns a list of unique sequence IDs available in the dataset;</li>
-            <li><a id="unique_types"></a><b>unique_types</b>: it returns a list of unique types of operations available in the dataset;</li>
-            <li><a id="same_source"></a><b>same_source</b>: it counts the number of <b>features</b> provided by the same source; </li>
-            <li><a id="entries_for_each_type"></a><b>entries_for_each_type</b>: 
-            <li><a id="chromosomes"></a><b>chromosomes</b>: it derives a new dataset containing only the information about entire chromosomes. Entries with entirechromosomes comes from source <b>GRCh38**</b>; </li>
-            <li><a id="fraction_of_unassembled_sequences"></a><b>fraction_of_unassembled_sequences</b>: it returns the fraction of unassembled sequences in the dataset;</li>
-            <li><a id="ensembl_havana"></a><b>ensembl_havana</b>: it returns a new dataset containing only entries from source <b>ensembl</b>, <b>havana</b> and <b>esembl_havana</b>;</li>
-            <li><a id="entries_for_each_type_ensemblhavana"></a><b>entries_for_each_type_ensemblhavana</b>: it counts the number of entries for each type of operation for the dataset containing only entries from source <b>ensembl</b>, <b>havana</b> and <b>esembl_havana</b>;</li>
-            <li><a id="gene_names"></a><b>gene_names</b>: it returns the gene names from the dataset containing containing only entries from source <b>ensembl</b>, <b>havana</b> and <b>esembl_havana</b>;</li>
-        </ul>
+        <li>
+            <b>Methods:</b>
+            <ul>
+                <li>All the methods of Dataset class</li>
+                <li>
+                    <b>__update_operations()</b>: now that you know how operations are stored in the dictionary 
+                    you can understand how we implemented the update operation method.
+                    <br>
+                    <img src="{{ url_for('static', filename='code/9.png') }}" width="40%">
+                    <br>
+                    We iterate through the keys and values of the dictionary. Each operation is executed, 
+                    just by executing the value of the dictionary, in this way the suitable operations are 
+                    activated.
+                    <br>
+                    The operations are added to the active operations dictionary automatically when they are 
+                    executed (only if they have a correct output), thanks to the <a href="#decorator">"activate" decorator</a>.
+                    <br>
+                    In addidion, the output of each operation is checked, if it is a GFF3 object, the output 
+                    is added to the self._subdataset dictionary.
+                    Any eventual exception during the execution of the operation is handled inside the 
+                    <a href="#decorator">decorator</a>.
+                    <br>
+                    Finally, the execution of the operation is performed with the patch('builtins.print'), this function 
+                    inhibits every print statement attempt of the instructions executed within it. 
+                    We added this type of function because, if the execution of an operation raises an error, 
+                    the decorator is designed to return a print statement with the type of error (obviously the operation won't be activated).
+                    <br>
+                    The print statement could be read by users that are trying to use our classes from an external python 
+                    module; if they accidentally execute an operation without relying on the list of active operations, they may 
+                    retrive no output, so the decorator warns them (this kind of error is not possible in our web 
+                    interface because we show an operation to the user only if it is activated).
+                    We inhibit the print during the execution of __update_operations because this method is executed only internally 
+                    to the class, by other methods, it cannot be accessed direcly by the user.
+                </li>
+            </ul>
+        </li>
+        <li><b>Operations:</b> (methods specific for the GFF3Dataset class)
+            <ul>
+                <li>
+                    <a id="information"></a><b>information</b>: 
+                    it returns basic information about the dataset: name and data type of each column.
+                </li>
+                <li>
+                    <a id="unique_sequence_IDs"></a><b>unique_sequence_IDs</b>: 
+                    it returns a list of unique sequence IDs available in the dataset.
+                    <br>
+                    <img class="code" src="{{ url_for('static', filename='code/10.png') }}">
+                    <br>
+                    We consider the column "Seqid" (the first column of the GFF3 dataset) and we take its list of unique values
+                </li>
+                <li>
+                    <a id="unique_types"></a><b>unique_types</b>: 
+                    it returns a list of unique types of operations available in the dataset. 
+                    We consider the column "Type" and we take its list of unique values
+                </li>
+                <li>
+                    <a id="same_source"></a><b>same_source</b>: 
+                    it counts the number of features provided by the same source.
+                    <br>
+                    <img class="code" src="{{ url_for('static', filename='code/11.png') }}">
+                    <br>
+                    We consider the column "Source" and we execute the value_counts() method (see pandas documentation), the output of the 
+                    function is a pandas series, which is converted in dataframe and wrapped in a Dataset object.
+                </li>
+                <li>
+                    <a id="entries_for_each_type"></a><b>entries_for_each_type</b>: 
+                    it counts the number of features with the same Type.
+                </li>
+                <li>
+                    <a id="chromosomes"></a><b>chromosomes</b>: 
+                    it derives a new dataset containing only the information about entire chromosomes. 
+                    This type of data is charactersised by having as Source <b>GRCh38</b>.
+                    <br>
+                    <mark class="red"><b>This is a filter operation!</b></mark>
+                </li>
+                <li><a id="fraction_of_unassembled_sequences"></a><b>fraction_of_unassembled_sequences</b>: 
+                    it returns the fraction of unassembled sequences in the dataset. 
+                    i.e. the fraction of Chromosomes data, that consists in non-assembled chromosomes 
+                    (marked as of Type "supercontig")
+                </li>
+                <li><a id="ensembl_havana"></a><b>ensembl_havana</b>: 
+                    it returns a new dataset containing only entries from Source <b>ensembl</b>, <b>havana</b> and <b>esembl_havana</b>.
+                    <br>
+                    <mark class="red"><b>This is a filter operation!</b></mark>
+                </li>
+                <li>
+                    <a id="entries_for_each_type_ensemblhavana"></a><b>entries_for_each_type_ensemblhavana</b>: 
+                    it counts the number of features with the same Type, for the dataset containing only entries from source <b>ensembl</b>, <b>havana</b> and <b>esembl_havana</b>.
+                    This operation is just the combination of ensembl_havana operation and entries_for_each_type operation.
+                </li>
+                <li><a id="gene_names"></a><b>gene_names</b>: 
+                    it returns the gene names from the dataset containing containing only entries from source <b>ensembl</b>, <b>havana</b> and <b>esembl_havana</b>.
+                    The gene names are contained in a specific value of the Attribute column, they are accessed thanks to the 
+                    "get_attributes" function of the "functions" module.
+                </li>
+            </ul>
+        </li>
     </ul>
 </p>
 <a id="functions">
     <h2><b>functions</b></h2>
 </a>
 <p>
-    this module is useful to keep the dataset module cleaner. <br>
+    this module is useful to keep the dataset module more clean. <br>
     It has two functions:
 </p>
 <a id="decorator">
@@ -423,11 +572,21 @@
     </ul>
 </p>
 <p>
-    Once an operation has been activated, for all the subsequent executions, its output will not be checked, 
+    If an operation is activated, it is added to the self._active_operations dictionary, following the 
+    same sintax of the _operations dictionary (described above).
+    Once an operation has been activated (added to the active operations dictionary), for all the subsequent executions, its output will not be checked, 
     in this way, some computational memory is saved.
 </p>
 <h4>Implementation</h4>
-<img class='code' src="{{ url_for('static', filename='code/6.png') }}">
+<p>
+    <img class='code' src="{{ url_for('static', filename='code/6.png') }}">
+    <br>
+    The operation is accessed through the operations dictionary, as key of the dictionary we used the name of 
+    the method which is decorated. For this reason is important that in the operations dictionary, the 
+    key of the stored operations is equal to the name of the method.
+    <br>
+    The Decorator returns a specific message for each misexecuted operation.
+</p>
 
 <h3>get_attributes</h3>
 <p>
