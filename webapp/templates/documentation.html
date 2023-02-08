@@ -18,7 +18,7 @@
 </a>
 
 <p>
-    the sfotware analysis is based on the 
+    The software analysis is based on the 
     <a href='https://github.com/kcajj/human_genome_webapp/blob/GFF3-subclass/MarkdownFiles/Project_specification.md' target="_blank">
     project specification</a>.
     <br>
@@ -36,7 +36,7 @@
             <b>Class name:</b><br>DatasetReader
         </th>
         <th>
-            <b>Supeclass:</b><br>None
+            <b>Superclass:</b><br>None
         </th>
         <th>
             <b>Subclasses:</b><br>GFF3DatasetReader
@@ -72,7 +72,7 @@
             <b>Class name:</b><br>GFF3DatasetReader
         </th>
         <th>
-            <b>Supeclass:</b><br>DatasetReader
+            <b>Superclass:</b><br>DatasetReader
         </th>
         <th>
             <b>Subclasses:</b><br>None
@@ -109,7 +109,7 @@
             <b>Class name:</b><br>Dataset
         </th>
         <th>
-            <b>Supeclass:</b><br>None
+            <b>Superclass:</b><br>None
         </th>
         <th>
             <b>Subclasses:</b><br>GFF3Dataset
@@ -137,7 +137,7 @@
     <br>
     The Dataset class should have two main functions:
     <ul>
-        <li>It is a class that wraps a generic pandas dataframes 
+        <li>It is a class that wraps a generic pandas dataframe 
             and allows the other parts of the software to access it;
         </li>
         <li>
@@ -155,7 +155,7 @@
             <b>Class name:</b><br>GFF3Dataset
         </th>
         <th>
-            <b>Supeclass:</b><br>Dataset
+            <b>Superclass:</b><br>Dataset
         </th>
         <th>
             <b>Subclasses:</b><br>None
@@ -183,7 +183,7 @@
 
 <p>
     <br>
-    The GFF3Dataset class should be specific for GFF3 files, it just wraps a pandas dataframe and 
+    The GFF3Dataset class should be specific for GFF3 files, it wraps a pandas dataframe and 
     provides several operations that retrieve some characteristics of the dataframe or that 
     filter the dataframe on the basis of a condition.
 </p>
@@ -191,7 +191,7 @@
     The operations are:
     <ul>
         <li>General information</li>
-        <li>Unique sequence IDs:</li>
+        <li>Unique sequence IDs</li>
         <li>Unique types of features</li>
         <li>Features with the same source</li>
         <li>Entries for each type of feature</li>
@@ -206,7 +206,7 @@
     This class should also automatically handle the activation of the operations. The activation
     should be performed through a decorator.<br>
     For each GFF3Dataset object that is created in the program, a customised list of active operations 
-    is created; in this way, even on filtered dataset, we will be able to perform some active operation,
+    is created; in this way, even on filtered datasets, we will be able to perform some active operation,
     meaningful for the specifc dataset under consideration.
 </p>
 
@@ -286,15 +286,15 @@
     </ul>
 </p>
 <p>
-    this module contains two classes:
+    This module contains two classes:
 </p>
 <a id="DatasetReader">
     <h3>DatasetReader</h3>
 </a>
 <p>
     The DatasetReader class is an abstract class, it defines the interface for reading files.
-    The only requirement in a dataset reading class is a read method and a filepath attribute, 
-    The read method can be concretised by a subclass that is specific for a file type (.gff3)
+    The only requirement in a dataset reading class is a reading method and a filepath attribute, 
+    the read method can be concretized by a subclass that is specific for a file type (.gff3).
 </p>
 <h4>Implementation</h4>
 <img class='code' src="{{ url_for('static', filename='code/1.png') }}">
@@ -315,7 +315,7 @@
     In case the inserted path doesn't lead to a .gff3 file, an exception is raised. Exceptions are raised 
     also in the case that the file is not found or if any other error occurs.
     <br>
-    If the filepath is suitable for the reader the pandas.read_csv() function is executed.
+    If the filepath is suitable for the reader, the pandas.read_csv() function is executed.
 </p>
 <h4>Implementation</h4>
 <img class='code' src="{{ url_for('static', filename='code/2.png') }}">
@@ -326,7 +326,7 @@
         <li>compression='gzip': the dataset that we are using has a gzip compression, this allows to reduce 
             the file dimensions.
         </li>
-        <li>names: we inserted the standard GFF3 header</li>
+        <li>names: we inserted the standard GFF3 header.</li>
         <li>comment = '#': accordingly to the project specification, we considered all the lines starting 
             with "#" as comments.
         </li>
@@ -350,7 +350,7 @@
     used in the "get_active_operations()" method.
 </p>
 <p>
-    this module contains two classes:
+    This module contains two classes:
 </p>
 <a id="Dataset">
     <h3>Dataset</h3>
@@ -420,7 +420,7 @@
                 <li>
                     <b>__update_operations()</b>: iterates through the self._operations list of the object, by doing so, 
                     the operations that return a valid result are added to the dictionary of active operations. 
-                    Futhermore the result of the operations that return a GFF3Dataset object (filter operations) 
+                    Furthermore, the result of the operations that return a GFF3Dataset object (filter operations) 
                     is added to the subdatasets dictionary.
                     This method is private because it is just used by other methods of the Dataset class.
                 </li>
@@ -430,12 +430,12 @@
                 </li>
                 <li>
                     <b>get_subdatasets()</b>: this method first runs the __update_operations method, 
-                    in this way the _active_operations dictionary is filled, then returns the dictionary.
+                    in this way the _subdatasets dictionary is filled, then returns the dictionary.
                 </li>
             </ul>
         </li>
     </ul>
-    more detailed informations about the attributes and methods regarding the operations are given 
+    More detailed informations about the attributes and methods regarding the operations are given 
     in the GFF3Dataset class documentation below.
 </p>
 
@@ -460,13 +460,13 @@
                 <li>All the attributes of Dataset class</li>
                 <li>
                     <b>self._operations</b>: each operation method that is added to the GFF3Dataset 
-                    class has to be also added to this dictionary, following a specific synthax.
+                    class has to be also added to this dictionary, following a specific syntax.
                     The keys of the dictonary have to correspond to the name of the method, and the values 
                     are the direct references to the methods, by means of the self object.
                     <br>
                     <img src="{{ url_for('static', filename='code/8.png') }}" width="70%">
                     <br>
-                    by storing the operations in this way, when accessing the active operations dictionary, 
+                    By storing the operations in this way, when accessing the active operations dictionary, 
                     it will be enough to iterate through the values of the dictionary to reference the specific 
                     operation, linked to the specific object.
                 </li>
@@ -494,7 +494,7 @@
                     Any eventual exception during the execution of the operation is handled inside the 
                     <a href="#decorator">decorator</a>.
                     <br>
-                    Finally, the execution of the operation is performed with the patch('builtins.print'), this function 
+                    Finally, the execution of the operation is performed with the patch ('builtins.print'), this function 
                     inhibits every print statement attempt of the instructions executed within it. 
                     We added this type of function because, if the execution of an operation raises an error, 
                     the decorator is designed to return a print statement with the type of error (obviously the operation won't be activated).
@@ -520,12 +520,12 @@
                     <br>
                     <img class="code" src="{{ url_for('static', filename='code/10.png') }}">
                     <br>
-                    We consider the column "Seqid" (the first column of the GFF3 dataset) and we take its list of unique values
+                    We consider the column "Seqid" (the first column of the GFF3 dataset) and we take its list of unique values.
                 </li>
                 <li>
                     <a id="unique_types"></a><b>unique_types</b>: 
                     it returns a list of unique types of operations available in the dataset. 
-                    We consider the column "Type" and we take its list of unique values
+                    We consider the column "Type" and we take its list of unique values.
                 </li>
                 <li>
                     <a id="same_source"></a><b>same_source</b>: 
@@ -543,7 +543,7 @@
                 <li>
                     <a id="chromosomes"></a><b>chromosomes</b>: 
                     it derives a new dataset containing only the information about entire chromosomes. 
-                    This type of data is charactersised by having as Source <b>GRCh38</b>.
+                    This type of data is characterised by having as Source <b>GRCh38</b>.
                     <br>
                     <mark class="red"><b>This is a filter operation!</b></mark>
                 </li>
@@ -563,7 +563,7 @@
                     This operation is just the combination of ensembl_havana operation and entries_for_each_type operation.
                 </li>
                 <li><a id="gene_names"></a><b>gene_names</b>: 
-                    it returns the gene names from the dataset containing containing only entries from source <b>ensembl</b>, <b>havana</b> and <b>esembl_havana</b>.
+                    it returns the gene names from the dataset containing only entries from source <b>ensembl</b>, <b>havana</b> and <b>esembl_havana</b>.
                     The gene names are contained in a specific value of the Attribute column, they are accessed thanks to the 
                     "get_attributes" function of the "functions" module.
                 </li>
@@ -575,7 +575,7 @@
     <h2><b>functions</b></h2>
 </a>
 <p>
-    this module is useful to keep the dataset module more clean. <br>
+    This module is useful to keep the dataset module more clean. <br>
     It has two functions:
 </p>
 <a id="decorator">
@@ -600,7 +600,7 @@
 </p>
 <p>
     If an operation is activated, it is added to the self._active_operations dictionary, following the 
-    same sintax of the _operations dictionary (described above).
+    same syntax of the _operations dictionary (described above).
     Once an operation has been activated (added to the active operations dictionary), for all the subsequent executions, its output will not be checked, 
     in this way, some computational memory is saved.
 </p>
@@ -609,7 +609,7 @@
     <img class='code' src="{{ url_for('static', filename='code/6.png') }}">
     <br>
     The operation is accessed through the operations dictionary, as key of the dictionary we used the name of 
-    the method which is decorated. For this reason is important that in the operations dictionary, the 
+    the method which is decorated. For this reason it is important that in the operations dictionary, the 
     key of the stored operations is equal to the name of the method.
     <br>
     The Decorator returns a specific message for each misexecuted operation.
@@ -617,7 +617,7 @@
 
 <h3>get_attributes</h3>
 <p>
-    This function simply takes in input a row of the "attribute" column of a GFF3 file and returns as 
+    This function simply takes as input a row of the "attribute" column of a GFF3 file and returns as 
     output a dictionary, in which the keys are the names of all the attributes of the row and the 
     values are the values of those attributes.<br>
     <i>
@@ -634,7 +634,7 @@
 </a>
 <p>
     The main module is responsible for putting together the webapp, it uses the tools defined in 
-    the other modules and in provides the structure of the flask app.
+    the other modules and it provides the structure of the flask app.
 </p>
 <h4>Preliminary operations</h4>
 <p>
@@ -646,7 +646,7 @@
     <img src="{{ url_for('static', filename='code/3.png') }}" width="30%">
 </p>
 <p>
-    Subsequently some useful variables are initiated: The app is provided with two global variables 
+    Subsequently some useful variables are initiated: the app is provided with two global variables 
     that will be read and modified by all over the program. The "global_active_op" variable stores 
     the active operations for the dataset that is under analysis in the program, while "current_dataset_name" 
     stores the name of the dataset under analysis in the program. Since the starting dataset is the human genome, 
@@ -659,13 +659,13 @@
     exploits the "get_subdatasets()" method of the Dataset object to get all the results of the filter operations, 
     then it stores these results in a dictionary together with the full dataset.
     <br>
-    This dictionary will allow us to change the active dataset from allover the program.
+    This dictionary will allow us to change the active dataset from all over the program.
     <br>
     <img src="{{ url_for('static', filename='code/5.png') }}" width="30%">
 </p>
 <h4>Flask application</h4>
 <p>
-    In order to run a flask webapp all the routes of the site have to be defined in the python file. 
+    In order to run a flask webapp, all the routes of the site have to be defined in the python file. 
     Our application has 5 routes, each is characterised by the "@app.route" decorator, and each route 
     (except "download") shows a different HTML file. The function that links a route to an HTML file 
     is "render_template()".
@@ -675,8 +675,8 @@
     The routes are:
     <ul>
         <li>
-            <b>homepage</b>: loads the "homepage.html" template, this page explain the purposes of the we application 
-            and describes the role of the other pages
+            <b>homepage</b>: loads the "homepage.html" template, this page explains the purposes of the web application 
+            and describes the role of the other pages.
         </li>
         <li>
             <b>operations</b>: this page shows the list of active operations, it takes the dataset name as input, 
@@ -697,11 +697,11 @@
                 <li>If it was called from a filter operation, the "operations" view will be re-proposed, with a 
                     restricted dataset to work on.
                 </li>
-                <li>If it was called from the "open in another tab" button, the page will show a whole GFF3 dataset</li>
+                <li>If it was called from the "open in another tab" button, the page will show a whole GFF3 dataset.</li>
             </ul>
         </li>
         <li>
-            <b>documentation</b>: loads the "documentation.html" template, the one you're reading right now
+            <b>documentation</b>: loads the "documentation.html" template, the one you're reading right now.
         </li>
         <li>
             <b>download</b>: gives the possibility to download a .csv file, created from a pandas dataframe, in the 
