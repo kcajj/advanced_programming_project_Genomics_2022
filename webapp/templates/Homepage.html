@@ -25,7 +25,7 @@
             <li>Source: algorithm or operating procedure that generated the feature</li>
             <li>Type: type of the DNA sequence</li>
             <li>Start: starting point of the sequence (in bp)</li>
-            <li>End: end point of the sequence (in bp)</li>
+            <li>End: ending point of the sequence (in bp)</li>
             <li>Score: quality score of the feature</li>
             <li>Strand: DNA strand on which the feature is placed</li>
             <li>Phase: reading frame of the feature</li>
@@ -60,7 +60,7 @@
             <li>Open in a new tab button: this button allows to show the whole GFF3 dataset in a browser tab
                 (note that this could cause huge loading times or crashes of the browser session)</li>
         </ul>
-        If a filter operation was executed, in this area will show up a button that will allow you to 
+        If a filtering operation was executed, in this area a button will show up, allowing you to 
         go back to the human genome dataset.
     </p>
     <p>
@@ -82,23 +82,23 @@
         </ul>
         
         If everything is clear, you can 
-        <a href="{{ url_for('operations', dataset_name = 'human_genome')}}">go to the operations>></a>
+        <a href="{{ url_for('operations', dataset_name = 'human_genome')}}">go to the operations >></a>
         <br>
     </p>
     
     <h2>Documentation</h2>
     <p>
-        In the documentation page the software analysis and design take up the larger portions, some 
+        In the documentation page the software analysis and design take up the larger portions, and some 
         interesting implementations of some functionalities in the python script are presented.
         The page contains the CRC cards of the classes and a broad software analysis, after which 
         the UML diagram of the software is described, together with the interactions between the
         different modules and classes of the software.
         <br>
         By clicking on a class in the UML diagram, you will be redirected to the detailed description
-        of the class in the software analysis portion.
+        of that class in the software analysis portion.
     </p>
     <p>
-        To know more about the project <a href="{{ url_for('documentation')}}">go to the documentation>></a>
+        To know more about the project <a href="{{ url_for('documentation')}}">go to the documentation >></a>
     </p>
 
     <br>
