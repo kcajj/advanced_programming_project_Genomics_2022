@@ -9,7 +9,7 @@ You can find the full project documentation in the "Documentation" page of the w
 
 To run the web application on your browser:
 1. Download the lastest release
-2. Be sure to satisfy all of the library requirements: python3, pandas and flask
+2. Be sure to satisfy all of the requirements: python3, pandas library (1.4.2) and flask library (2.2.2)
 3. Run the "main.py" file
 4. Go to your [local host](http://127.0.0.1:5000/) (by default port 5000)
 5. Enjoy

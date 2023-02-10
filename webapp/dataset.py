@@ -146,7 +146,7 @@ class GFF3Dataset(Dataset):
             try:
                 if 'gene' in attributes['ID']:
                     names.append(attributes['Name'])
-            except:
+            except: 
                 if KeyError:
                     continue
         return Dataset(pd.DataFrame({'Name':names})).create()
