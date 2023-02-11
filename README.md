@@ -3,7 +3,7 @@ This is the final project of the advanced programming course of the [Genomics](h
 
 The project consists in a web application that is able to manipulate a GFF3 dataset ('Homo_sapiens.GRCh38.85.gff3.gz') that contains all of the features of the human genome.
 
-We followed the instructions provided by the Professor, you can find them [here](MarkdownFiles/Project_specification.md).
+We followed the instructions provided by the Professor, you can find them [here](Project_specification.md).
 
 You can find the full project documentation in the "Documentation" page of the web application.
 
